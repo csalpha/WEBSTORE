@@ -1,0 +1,221 @@
+/* ======================================================= */
+/*app.css*/
+@import url("https://fonts.googleapis.com/css?family=Kaushan+Script");
+
+	:root 
+	{
+	  --mainPink: #ef7998;
+	  --mainYellow: rgb(249, 228, 148);
+	  --mainWhite: #fff;
+	  --mainBlack: #000;
+	  --yellowTrans: rgba(249, 228, 148, 0.5);
+	  --mainGrey: rgb(238, 238, 238);
+	}
+
+	body 
+	{
+	  font-family: "Kaushan Script", cursive;
+	  background: var(--mainWhite);
+	  color: var(--mainBlack);
+	}
+
+	.btn-pink
+	{
+		color: var(--mainPink)!important;
+		border-color: var(--mainPink)!important;
+	}
+
+	.btn-black
+	{
+		color: var(--mainBlack)!important;
+		border-color: var(--mainBlack)!important;
+	}
+
+	.btn-black:hover
+	{
+		color: var(--mainPink)!important;
+		background: var(--mainBlack)!important;
+	}
+
+	.btn-pink:hover
+	{
+		color: var(--mainBlack)!important;
+		background: var(--mainPink)!important;
+	}
+
+	.nav-item-inv
+	{
+		text-decoration: none;
+		color: white;
+		/*color: var(--mainPink);*/
+		color: var(--mainPink);
+		transition: all 1s ease-in-out;
+		font-size: 1.5rem;
+	}
+
+	.nav-item-inv:hover
+	{
+		color: var(--mainBlack);
+	}
+
+	.nav-item
+	{
+		text-decoration: none;
+		color: white;
+		/*color: var(--mainPink);*/
+		color: var(--mainBlack);
+		transition: all 1s ease-in-out;
+		font-size: 1.5rem;
+	}
+
+	.nav-item:hover
+	{
+		color: var(--mainPink);
+	}
+
+	.nav-it
+	{
+		/*text-decoration: none;*/
+		color: white;
+		color: var(--mainPink);
+		transition: all 1s ease-in-out;
+		font-size: 1rem; 
+	}
+
+	.nav-it:hover
+	{
+		color: var(--mainBlack);
+	}	
+
+
+	.espaco-background
+	{
+		margin-bottom: 80px;
+	}
+/* ======================================================= */	
+
+/* ======================================================= */
+/* store */
+	.store
+	{
+		background: var(mainGray);
+	}
+
+	.single-item
+	{
+		transition: all 0.3 linear;
+	}
+
+	.single-item:hover
+	{
+		box-shadow:0 10px 15px rgb(0, 0, 0);
+	}
+
+	.img-container
+	{
+		position: relative;
+		overflow: hidden;
+		cursor: pointer;
+	}
+
+	.store-img
+	{
+		transition: all 1s ease-in-out;
+	}
+
+	.img-container:hover .store-img
+	{
+		transform: scale(1.2);
+	}
+
+	.store-item-icon
+	{
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		padding:0.75rem;
+		background: var(--mainYellow);
+		border-top-left-radius: 1rem;
+		transition: all 1s ease-in-out;
+		transform:  translate(100%, 100%);
+	}
+
+	.img-container:hover .store-item-icon
+	{
+		transform: translate(0,0);
+	}
+
+	.store-item-icon:hover
+	{
+		color: var(--mainWhite);
+	}
+
+	.banner
+	{
+		color: var(--mainWhite);
+		margin-top: -4rem;
+	}
+
+	.banner-title
+	{
+		color: var(--mainPink);
+		font-size: 4rem;
+	}
+
+	.banner-link
+	{
+		font-size: 1.5rem;
+		color: var(--mainBlack);
+		border: 0.2rem solid var(--mainBlack);  
+	}
+/* ======================================================= */
+
+/* ======================================================= */
+/* footer */
+	.footer-title
+	{
+		background: var(--mainBlack);
+	}
+
+	.footer-contact
+	{
+		background: var(--mainGray);
+	}
+
+	.footer-icon
+	{
+		font-size: 1.5rem;
+		color: var(--mainWhite);
+		transition: all 0.4 ease-in-out;
+	}
+
+	.footer-icon:hover
+	{
+		color: var(--mainPink);
+	}
+
+	.footer-ic
+	{
+		font-size: 1.5rem;
+		color: var(--mainBlack);
+		transition: all 0.4 ease-in-out;
+	}
+
+	.footer-ic:hover
+	{
+		color: var(--mainPink);
+	}
+/* ======================================================= */	
+
+	/* Important part */
+	.modal-dialog{
+		overflow-y: initial !important
+	}
+	.modal-body{
+		height: 300px;
+		overflow-y: auto;
+	}
+/* ======================================================= */	
+
+
+
