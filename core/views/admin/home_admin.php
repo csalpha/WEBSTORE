@@ -478,6 +478,109 @@
             </div>
         <!-- ===================================================================================================== -->  
 
+        <!-- modal - add admin -->
+        <!-- ===================================================================================================== -->
+        <div id="productModal" name="userModal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+            <div class="modal-dialog modal-dialog-centered">
+
+                <form method="post"  id="user_form" enctype="multipart/form-data">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Adicionar Admin</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body" id="corpo_modal">
+
+                            <!-- Email -->
+                            <!-- ===================================================================================================== -->				
+                                <label>Email</label>
+                                    <input type="email" class="form-control" name="text_email_admin_add" id="text_email_admin_add" placeholder="Email" required>
+                                    <br/>
+                            <!-- ===================================================================================================== -->					
+                            
+                            <!-- pass_1 -->
+                            <!-- ===================================================================================================== -->					
+                                <label>Pass</label>
+                                <input type="password" class="form-control" name="text_pass_1_admin_add" id="text_pass_1_admin_add" placeholder="Pass" required>
+                                <br/>
+                            <!-- ===================================================================================================== -->					
+                            <!-- pass_2 -->
+                            <!-- ===================================================================================================== -->					
+                                <label>Repetir Pass</label>
+                                <input type="password" class="form-control" name="text_pass_2_admin_add" id="text_pass_2_admin_add"  placeholder="Repetir Pass" required>
+                                <br/>
+                            <!-- ===================================================================================================== -->					
+                            <!-- Full Name -->
+                            <!-- ===================================================================================================== -->					
+                                <label>Full Name</label>
+                                <input type="text" class="form-control" name="text_full_name_admin_add"  id="text_full_name_admin_add"  placeholder="Full Name" required>
+                                <br/>
+                            <!-- ===================================================================================================== -->					
+                            <!-- address -->
+                            <!-- ===================================================================================================== -->					
+                                <label>address</label>
+                                <input type="text" class="form-control" name="text_address_admin_add" id="text_address_admin_add" placeholder="address" required>
+                                <br/>
+                            <!-- ===================================================================================================== -->					
+                            <!-- city -->
+                            <!-- ===================================================================================================== -->					
+                                <label>city</label>
+                                <input type="text" class="form-control" name="text_city_admin_add" id="text_city_admin_add"  placeholder="city" required>
+                                <br/>
+                            <!-- ===================================================================================================== -->					
+                            <!-- telephone -->
+                            <!-- ===================================================================================================== -->					
+                                <label>telephone</label>
+                                <input type="text" class="form-control" name="text_telephone_admin_add" id="text_telephone_admin_add" placeholder="telephone">
+                                <br/>
+                            <!-- ===================================================================================================== -->	
+                            
+                            <!-- Estado -->
+                            <!-- ===================================================================================================== -->					
+                                <label>Estado:</label>
+                                <select id="text_activo_admin_add" name="text_activo_admin_add"  class="form-control" onchange="">
+                                                    <option value="" <?= $f == '' ? 'selected' : '' ?> class="nav-it"></option>
+                                                    <option value="1" <?= $f == 'activo' ? 'selected' : '' ?> class="nav-it">Activo</option>
+                                                    <option value="0" <?= $f == 'inactivo' ? 'selected' : '' ?> class="nav-it">Inactivo</option>
+                                </select>	
+                                <br/>
+                            <!-- ===================================================================================================== -->									
+                            <!-- Género -->
+                            <!-- ===================================================================================================== -->					
+                                <label>Gender</label>
+                                <select id="text_gender_admin_add" name="text_gender_admin_add" class="form-control" onchange=""> 
+                                                                <option value="" <?= $f == '' ? 'selected' : '' ?> class="nav-it"></option>
+                                                                <option value="M" <?= $f == 'masculino' ? 'selected' : '' ?> class="nav-it">Masculino</option>
+                                                                <option value="F" <?= $f == 'feminino' ? 'selected' : '' ?> class="nav-it">Feminino</option>
+                                </select>
+                                <br/>
+                            <!-- ===================================================================================================== -->	
+                            <!-- Picture -->
+                            <!-- ===================================================================================================== -->					
+                                <input type="file" name="user_image_add" id="user_image_add" />
+                                <span id="user_uploaded_image"></span>
+                            <!-- ===================================================================================================== -->		                        
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <input type="hidden" name="user_id" id="user_id" />
+                            <input type="hidden" name="operation" id="operation" />
+                            <input type="submit" name="action" id="action" class="btn btn-success " value="Adicionar" />
+                            <button type="button"  onclick="" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+<!-- ===================================================================================================== -->         
+
     <!-- ===================================================================================================== -->    
 
     <script>
@@ -1123,7 +1226,21 @@
                        }
                 });
             }     
-        // =============================================================================================         
+        // =============================================================================================  
+        
+        // Apresenta Modal - adiconar produto
+        // =============================================================================================
+            $(document).on('click', '#botao_adicionar_produto', function(event)
+            {
+                //alert('Adicionar cliente');
+                $('#product_form')[0].reset();
+                $('.modal-title').text("Adicionar Produto");
+                $('#action').val("Add");
+                $('#operation').val("Add");
+                //  $('#user_uploaded_image').html('');
+                $('#productModal').modal('show');
+            });
+        // =============================================================================================        
     
         // apagar dados - product
         // =================================================================================================
