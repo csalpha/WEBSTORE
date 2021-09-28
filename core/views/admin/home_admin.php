@@ -1102,33 +1102,31 @@
         // PRODUCT
         // =================================================================================================
 
-            // Apresentar Modal - ver produto
-            // =============================================================================================
-                function apresentarModalVerProduto(id_product) 
+        // Apresentar Modal - ver produto
+        // =============================================================================================
+            function apresentarModalVerProduto(id_product) 
+            {
+                $.ajax(
                 {
-                        $.ajax(
+                       url:"?a=create_modal_ver_product",
+                       method:"POST",
+                       data:{id_product:id_product},
+                        success:function(data)
                         {
-                               url:"?a=create_modal_ver_product",
-                               method:"POST",
-                               data:{id_product:id_product},
-                                success:function(data)
-                                {
-                                    alert(data);
-                                    const obj = JSON.parse(data);
-                                    var modalVerProduct = new bootstrap.Modal(document.getElementById('modalVerProduct'));
-                                    modalVerProduct.show();
-                                    document.getElementById("corpo_modal_ver_product").innerHTML = obj;
-                               },
-                               error:function(data)
-                               {
-
-                               }
-                        });
-                }     
-            // =============================================================================================         
-        
-            // apagar dados - product
-            // =================================================================================================
+                            const obj = JSON.parse(data);
+                            var modalVerProduct = new bootstrap.Modal(document.getElementById('modalVerProduct'));
+                            modalVerProduct.show();
+                            document.getElementById("corpo_modal_ver_product").innerHTML = obj;
+                       },
+                       error:function(data)
+                       {
+                       }
+                });
+            }     
+        // =============================================================================================         
+    
+        // apagar dados - product
+        // =================================================================================================
                 function product_delete(id_product)
                 {
                         var id_product = id_product;
@@ -1150,7 +1148,7 @@
                             return false;	
                         }
                 };
-	        // =================================================================================================  
+	    // =================================================================================================  
 
         // =================================================================================================
 
