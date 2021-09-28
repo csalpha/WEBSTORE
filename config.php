@@ -45,7 +45,7 @@
     //Mail
         define('EMAIL_HOST',       'smtp.gmail.com');
         define('EMAIL_FROM',       'carlosserodio1986@gmail.com');
-        define('EMAIL_PASS',       'Slb4ever');
+        define('EMAIL_PASS',       '123456');
         define('EMAIL_PORT',       587);
     // ============================================================
 
