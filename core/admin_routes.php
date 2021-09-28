@@ -119,6 +119,7 @@
                         'products_details' => 'admin@products_details', 
                         'change_product_data' => 'admin@change_product_data',
                         'change_product_data_submit' => 'admin@change_product_data_submit',
+                        'create_modal_ver_product' => 'admin@create_modal_ver_product',
                         'delete_product' => 'admin@delete_product',
                     // ============================================================        
                 ];

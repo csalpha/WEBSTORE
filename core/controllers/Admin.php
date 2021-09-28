@@ -198,34 +198,7 @@
                                         $sub_array[] = '<button id="botao_update" onclick="apresentarModalUpdateCustomer('. $customer->id_customer .')" value="'. $customer->id_customer .'"  class="btn btn-warning btn-xs update"><i class="fa fa-edit"></i></button>';
                                         $sub_array[] = '<button id="botao_delete" onclick="customer_delete('. $customer->id_customer .')" class="btn btn-danger btn-xs delete" name="delete"><i class="fa fa-trash"></i></button>';
 
-                                                                                                                                                                
-
                                         $data[] = $sub_array;                           
-                                    /* $sub_array = array();
-                                        $sub_array[] = '<img src="../assets/images/customers/'. $admin->image .'" class="img-fluid" width="50px">';
-                                        $sub_array[] = '<a onclick="apresentarModalVerAdmin('. $admin->id_admin .')" class="nav-it">'. $admin->user .'</a>';
-                                        $sub_array[] = $admin->pass;
-                                        $sub_array[] = $admin->created_at;
-                                        $sub_array[] = $admin->updated_at;
-                                        if ($admin->active == 1) : 
-                                            $sub_array[] ='<i class="text-success fas fa-check-circle"></i></span>';
-                                        else : 
-                                            $sub_array[] ='<i class="text-danger fas fa-times-circle"></i></span>';
-                                        endif;                                                
-                                    
-                                    if ($admin->deleted_at == null) : 
-                                            $sub_array[] ='<i class="text-danger fas fa-times-circle"></i></span>';
-                                        else : 
-                                            $sub_array[] ='<i class="text-success fas fa-check-circle"></i></span>';
-                                        endif;                                                
-                                        
-                                        $sub_array[] = '<button onclick="apresentarModalVerAdmin('. $admin->id_admin .')" name="ver" class="btn btn-primary btn-xs ver"><i class="fa fa-eye"></i></button>
-                                        ';
-                                        $sub_array[] = '<button id="botao_update" onclick="apresentarModalUpdateAdmin('. $admin->id_admin .')"  class="btn btn-warning btn-xs update"><i class="fa fa-edit"></i></button>';
-                                        //$sub_array[] = '<button id="botao_update" value="'. $admin->id_admin .'"  class="btn btn-warning btn-xs update"><i class="fa fa-edit"></i></button>';
-                                        $sub_array[] = '<a href="?a=delete_admin&id_admin='. Store::aes_encrypt($admin->id_admin) .'" 
-                                        class="btn btn-danger btn-xs delete" name="delete" id="'. $admin->id_admin .'"><i class="fa fa-trash"></i></a>';
-                                        $data[] = $sub_array;*/
                                 endforeach; 
 
                                     $output = array(
@@ -233,8 +206,6 @@
                                     );
 
                                 echo json_encode($output);
-                            
-                            
                         
                     }
                 // ===========================================================              
@@ -611,91 +582,71 @@
                 
                 // ===========================================================
                 // update / atualizar customer
-                public function update_customer()
-                {   
-                    // ===========================================================
-                    // verifica se existe um utilizador logado
-                    if(!Store::is_admin_logged_in()) {
-                        Store::redirect();
-                        return;
-                    }
-                    // ===========================================================
-
-                    // ===========================================================
-                    // validar data
-                        $id_customer = trim(strtolower($_POST['text_id_customer']));
-                        $email_customer = trim(strtolower($_POST['text_email_customer']));
-                        $pass_1_customer = trim(strtolower($_POST['text_pass_1_customer']));
-                        $pass_2_customer = trim(strtolower($_POST['text_pass_2_customer']));
-                        $full_name_customer = trim($_POST['text_full_name_customer']);
-                        $address_customer = trim($_POST['text_address_customer']);
-                        $city_customer = trim($_POST['text_city_customer']);
-                        $telephone_customer = trim($_POST['text_telephone_customer']);
-                        $activo_customer = trim($_POST['text_activo_customer']);
-                        $gender_customer = trim($_POST['text_gender_customer']);
-                        $image_customer = trim($_GET['c']);   
-                    // ===========================================================
-
-                    //Store::printData($image_customer);
-
-
-                    // ===========================================================
-                    // Carregar model
-                        $customer = new Customers(); 
-                        $existe_noutra_conta = $customer->check_if_email_exists_in_another_account($id_customer, $email_customer);
-                    // ===========================================================
-                    
-                    // ===========================================================
-                    // validar se é email válido
-                        if(!filter_var($email_customer, FILTER_VALIDATE_EMAIL))
-                        {
-
-                            // ===========================================================
-                            // Construir msg modal                                
-                                $msg = '';
-                                $msg.= '<div class="alert alert-danger text-center p-2">
-                                <p>Endereço de email inválido.</p>
-                                </div>';
-                                
-                            // ===========================================================
-
-                            // ===========================================================
-                            // Mostrar msg modal
-                                echo json_encode($msg);
-                                return;
-                            // ===========================================================
-                        }
-                    // ===========================================================
-
-                                            // ===========================================================
-                    // validar os restantes campos
-                    else if($pass_1_customer != $pass_2_customer)
-                    {
+                    public function update_customer()
+                    {   
                         // ===========================================================
-                        // Construir msg modal                                
-                            $msg = '';
-                            $msg.= '<div class="alert alert-danger text-center p-2">
-                            <p>A palavra pass e a sua repetição tem de ser iguais.</p>
-                            </div>';
-                        // ===========================================================
-
-                        // ===========================================================
-                        // Mostrar msg modal
-                            echo json_encode($msg);
+                        // verifica se existe um utilizador logado
+                        if(!Store::is_admin_logged_in()) {
+                            Store::redirect();
                             return;
-                        // ===========================================================                                
-                    }
-                    // ===========================================================
+                        }
+                        // ===========================================================
 
-                    // ===========================================================
-                    // validar os restantes campos
-                        else if(empty($full_name_customer) || empty($address_customer) || empty($city_customer))
+                        // ===========================================================
+                        // validar data
+                            $id_customer = trim(strtolower($_POST['text_id_customer']));
+                            $email_customer = trim(strtolower($_POST['text_email_customer']));
+                            $pass_1_customer = trim(strtolower($_POST['text_pass_1_customer']));
+                            $pass_2_customer = trim(strtolower($_POST['text_pass_2_customer']));
+                            $full_name_customer = trim($_POST['text_full_name_customer']);
+                            $address_customer = trim($_POST['text_address_customer']);
+                            $city_customer = trim($_POST['text_city_customer']);
+                            $telephone_customer = trim($_POST['text_telephone_customer']);
+                            $activo_customer = trim($_POST['text_activo_customer']);
+                            $gender_customer = trim($_POST['text_gender_customer']);
+                            $image_customer = trim($_GET['c']);   
+                        // ===========================================================
+
+                        //Store::printData($image_customer);
+
+
+                        // ===========================================================
+                        // Carregar model
+                            $customer = new Customers(); 
+                            $existe_noutra_conta = $customer->check_if_email_exists_in_another_account($id_customer, $email_customer);
+                        // ===========================================================
+                        
+                        // ===========================================================
+                        // validar se é email válido
+                            if(!filter_var($email_customer, FILTER_VALIDATE_EMAIL))
+                            {
+
+                                // ===========================================================
+                                // Construir msg modal                                
+                                    $msg = '';
+                                    $msg.= '<div class="alert alert-danger text-center p-2">
+                                    <p>Endereço de email inválido.</p>
+                                    </div>';
+                                    
+                                // ===========================================================
+
+                                // ===========================================================
+                                // Mostrar msg modal
+                                    echo json_encode($msg);
+                                    return;
+                                // ===========================================================
+                            }
+                        // ===========================================================
+
+                                                // ===========================================================
+                        // validar os restantes campos
+                        else if($pass_1_customer != $pass_2_customer)
                         {
                             // ===========================================================
                             // Construir msg modal                                
                                 $msg = '';
                                 $msg.= '<div class="alert alert-danger text-center p-2">
-                                <p>Preencha corretamente o formulário.</p>
+                                <p>A palavra pass e a sua repetição tem de ser iguais.</p>
                                 </div>';
                             // ===========================================================
 
@@ -705,54 +656,74 @@
                                 return;
                             // ===========================================================                                
                         }
-                    // ===========================================================
+                        // ===========================================================
 
-                    // ===========================================================
-                    // validar se este email já existe noutra conta de customer
-                        else if($existe_noutra_conta)
-                        {
-                            // ===================================================
-                            // Construir msg modal                                
-                                $msg = '';
-                                $msg.= '<div class="alert alert-danger text-center p-2">
-                                <p>O email já pertence a outro customer.</p>
-                                </div>';
-                            // ===================================================
+                        // ===========================================================
+                        // validar os restantes campos
+                            else if(empty($full_name_customer) || empty($address_customer) || empty($city_customer))
+                            {
+                                // ===========================================================
+                                // Construir msg modal                                
+                                    $msg = '';
+                                    $msg.= '<div class="alert alert-danger text-center p-2">
+                                    <p>Preencha corretamente o formulário.</p>
+                                    </div>';
+                                // ===========================================================
 
-                            // ===================================================
-                            // Mostrar msg modal
-                                echo json_encode($msg);
-                                return;
-                            // ===================================================                                   
-                        }
-                    // ===========================================================
-                        else
-                        {
-                            // // ===========================================================
-                            // // atualizar os data do customer na base de data
-                                    $customer->update_customer_alfa(
-                                    $id_customer, $email_customer, $pass_1_customer, 
-                                    $full_name_customer, $address_customer, $city_customer, 
-                                    $telephone_customer, $activo_customer, $gender_customer,  $image_customer);
-                            // // ===========================================================
+                                // ===========================================================
+                                // Mostrar msg modal
+                                    echo json_encode($msg);
+                                    return;
+                                // ===========================================================                                
+                            }
+                        // ===========================================================
 
-                            // ===========================================================
-                            // Construir msg modal                                
-                                $msg = '';
-    
-                                $msg .='
-                                <div class="alert alert-success text-center p-2">
-                                <p>Dados actualizados com sucesso!</p>
-                                </div>';
-                            // ===========================================================
+                        // ===========================================================
+                        // validar se este email já existe noutra conta de customer
+                            else if($existe_noutra_conta)
+                            {
+                                // ===================================================
+                                // Construir msg modal                                
+                                    $msg = '';
+                                    $msg.= '<div class="alert alert-danger text-center p-2">
+                                    <p>O email já pertence a outro customer.</p>
+                                    </div>';
+                                // ===================================================
 
-                            // ===========================================================
-                            // Mostrar msg modal                                  
-                                echo json_encode($msg);
-                            // ===========================================================
-                        }
-                }
-            // ===========================================================                   
+                                // ===================================================
+                                // Mostrar msg modal
+                                    echo json_encode($msg);
+                                    return;
+                                // ===================================================                                   
+                            }
+                        // ===========================================================
+                            else
+                            {
+                                // // ===========================================================
+                                // // atualizar os data do customer na base de data
+                                        $customer->update_customer_alfa(
+                                        $id_customer, $email_customer, $pass_1_customer, 
+                                        $full_name_customer, $address_customer, $city_customer, 
+                                        $telephone_customer, $activo_customer, $gender_customer,  $image_customer);
+                                // // ===========================================================
+
+                                // ===========================================================
+                                // Construir msg modal                                
+                                    $msg = '';
+        
+                                    $msg .='
+                                    <div class="alert alert-success text-center p-2">
+                                    <p>Dados actualizados com sucesso!</p>
+                                    </div>';
+                                // ===========================================================
+
+                                // ===========================================================
+                                // Mostrar msg modal                                  
+                                    echo json_encode($msg);
+                                // ===========================================================
+                            }
+                    }
+                // ===========================================================                   
 
                 // ===========================================================
                 // apagar customer / delete customer   
@@ -1363,8 +1334,8 @@
             // ===============================================================
             // CRUD PRODUTOS
 
-                // =========================================================== 
-                // Criar tabela produtos 
+            // =========================================================== 
+            // Criar tabela produtos 
                     public function criar_tabela_products()
                     {
                             //// ===========================================================
@@ -1449,7 +1420,7 @@
                                     endif;  
                                     
                                     $sub_array[] = $product->updated_at;
-                                    $sub_array[] = '<button onclick="apresentarModalVerAdmin('. $product->id_product .')" name="ver" class="btn btn-primary btn-xs ver"><i class="fa fa-eye"></i></button>
+                                    $sub_array[] = '<button onclick="apresentarModalVerProduto('. $product->id_product .')" name="ver" class="btn btn-primary btn-xs ver"><i class="fa fa-eye"></i></button>
                                     ';
                                     $sub_array[] = '<button id="botao_update" onclick="apresentarModalUpdateAdmin('. $product->id_product .')"  class="btn btn-warning btn-xs update"><i class="fa fa-edit"></i></button>';
                                     $sub_array[] = '<button id="botao_delete" onclick="product_delete('. $product->id_product .')"  class="btn btn-danger btn-xs delete"><i class="fa fa-trash"></i></button>';                                    
@@ -1465,13 +1436,13 @@
                             echo json_encode($output);
                         
                     }
-                // ===========================================================                
+            // ===========================================================                
 
-                // ===========================================================
-                // lista products / products list
-                    public function products_list()
-                    {
-                                            //     // ===========================================================
+            // ===========================================================
+            // lista products / products list
+                public function products_list()
+                {
+                        // ===========================================================
                         // verifica se existe um admin logado
                             if (!Store::is_admin_logged_in()) 
                             {
@@ -1547,21 +1518,6 @@
                                 }
                             
                                 $msg .= '<div class="mb-3 row">';
-                                    // <label for="inputPassword" class="col-sm-4 text-end col-form-label">Escolher estado:</label>
-                                    // <div class="col-sm-8">
-
-                                    // $msg .= '<select id="combo-status" class="form-control" onchange="definir_filtro()">';
-
-                                    // $msg .= '<option value=" "'; 
-                                    // $msg .= $f == " " ? "selected" : " ";
-                                    // $msg .= 'class="nav-it"></option>
-                                    //         <option value="activo"'; 
-                                    // $msg .= $f == "activo" ? "selected" : " ";
-                                    // $msg .= 'class="nav-it">Activo</option>
-                                    //         <option value="inactivo"';
-                                    // $msg .= $f == "inactivo" ? "selected" : " "; 
-                                    // $msg .= 'class="nav-it">Inactivo</option>
-                                    //     </select>
                                     $msg .= '</div>
                                 </div>
                                 </div>
@@ -1648,18 +1604,88 @@
                         
 
                         echo json_encode($msg);
-                    }
-                // =========================================================== 
-                
-                // ===========================================================
-                // apagar product / delete product   
-                    public function delete_product()
-                    {   
+                }
+            // =========================================================== 
+
+            // ===========================================================
+            // cria conteúdo - modal ver products
+                public function create_modal_ver_product()
+                {
+                    // ===========================================================
+                    // id vem por POST
                         $id_product = $_POST['id_product'];
-                        $adminModel = new AdminModel();
-                        $adminModel->delete_product($id_product);                
-                    }
-                // ===========================================================                   
+                    // ===========================================================
+                    
+                    // // ===========================================================
+                    // // vai buscar os data pessoais do Admin
+                         $ADMIN = new AdminModel();
+                         $data = [
+                             $ADMIN->search_product($id_product)
+                         ];
+
+                        $data_product =
+                        [
+                            'id_product' => $data[0]->id_product,
+                            'category' => $data[0]->category,
+                            'product_name' => $data[0]->product_name,
+                            'description' => $data[0]->description,
+                            'price' => $data[0]->price,
+                            'stock' => $data[0]->stock,
+                            'visible' => $data[0]->visible,
+                            'active' => $data[0]->active,
+                            'price_without_VAT' => $data[0]->price_without_VAT,
+                            'VAT' => $data[0]->VAT,
+                        ];
+
+                        // Store::printData($data_customer);
+                        // ===========================================================  
+                         // Construir msg modal 
+                      
+                         $msg = '';
+                      
+                         $msg.='<div class="modal-header">
+                         <h5 class="modal-title" id="exampleModalLabel">Ver Product</h5>
+                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                     </div>';
+                        $msg.='<div class="modal-body">
+                                     <br>
+                                     <table class="table table-striped">
+                                     <input  type="hidden" value="'. $data[0]->id_product.'"> '; 
+                                         foreach($data_product as $key=>$value):
+                                             $msg.='<tr>
+                                                 <td class="text-end" width="40%">'.$key.':</td>
+                                                 <td width="60%"><strong>'.$value .'</strong></td>
+                                             </tr>';
+                                         endforeach;
+                                         $msg.='<tr>
+                                                 <td class="text-end" width="40%">Image:</td>
+                                                 <td width="60%"><img src="../assets/images/products/'.$data[0]->image .'"/></td>
+                                             </tr>';
+                                     $msg.='</table>
+                             </div>';
+                            $msg.='<div class="modal-footer">
+                                         <button type="button"  onclick="" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                     </div> ';
+                     // ===========================================================
+
+                     // ===========================================================
+                     // Mostrar msg modal 
+                         echo json_encode($msg);
+                     // ===========================================================                          
+                    
+                    
+                }
+            // ===========================================================                 
+                
+            // ===========================================================
+            // apagar product / delete product   
+                public function delete_product()
+                {   
+                    $id_product = $_POST['id_product'];
+                    $adminModel = new AdminModel();
+                    $adminModel->delete_product($id_product);                
+                }
+            // ===========================================================                   
 
             // ===============================================================
 
