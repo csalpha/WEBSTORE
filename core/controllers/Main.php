@@ -332,27 +332,27 @@
             
             // ===========================================================
             // novo customer / new customer   
-                public function new_customer()
-                {
-                    // ===========================================================
-                    // verifica se já existe sessão aberta
-                        if (Store::is_customer_logged_in()) {
-                            $this->index();
-                            return;
-                        }
-                    // ===========================================================
+                // // public function new_customer()
+                // // {
+                // //     // ===========================================================
+                // //     // verifica se já existe sessão aberta
+                // //         if (Store::is_customer_logged_in()) {
+                // //             $this->index();
+                // //             return;
+                // //         }
+                // //     // ===========================================================
                     
-                    // ===========================================================
-                    // apresenta o layout para criar um novo utilizador
-                        Store::Layout([
-                            'layouts/html_header',
-                            'layouts/header',
-                            'create_customer',
-                            'layouts/footer',
-                            'layouts/html_footer',
-                        ]); 
-                    // ===========================================================    
-                }
+                // //     // ===========================================================
+                // //     // apresenta o layout para criar um novo utilizador
+                // //         Store::Layout([
+                // //             'layouts/html_header',
+                // //             'layouts/header',
+                // //             'create_customer',
+                // //             'layouts/footer',
+                // //             'layouts/html_footer',
+                // //         ]); 
+                // //     // ===========================================================    
+                // // }
             // ===========================================================   
                 
 
@@ -384,7 +384,7 @@
                         {
                             // as passwords são diferentes
                             $_SESSION['erro'] = 'As passs não estão iguais.';
-                            $this->new_customer();
+                            // // $this->new_customer();
                             return;
                         }
                     // ===========================================================                
@@ -396,7 +396,7 @@
                         if ($customer->check_email_exists($_POST['text_email'])) 
                         {
                             $_SESSION['erro'] = 'Já existe um customer com o mesmo email.';
-                            $this->new_customer();
+                            // // $this->new_customer();
                             return;
                         }
                     // ===========================================================                

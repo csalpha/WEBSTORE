@@ -9,7 +9,7 @@
 
             // ============================================================
             // customer ( novo / criar / confirmar )
-                'new_customer' => 'main@new_customer',
+                // // 'new_customer' => 'main@new_customer',
                 'create_customer' => 'main@create_customer',
                 'confirm_email' => 'main@confirm_email',
             // ============================================================

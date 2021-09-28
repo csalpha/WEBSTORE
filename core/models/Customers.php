@@ -74,7 +74,7 @@ namespace core\models;
                     ];
                 // ===========================================================
 
-                Store::printData($parameters);
+               // Store::printData($parameters);
 
                 // ===========================================================
                 // regista o novo customer na base de data 
