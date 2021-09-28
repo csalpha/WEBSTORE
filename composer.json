@@ -1,0 +1,22 @@
+{
+  "name": "froala/wysiwyg-editor",
+  "description": "Web Store",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Carlos Serodio",
+      "email": "carlosserodio86@hotmail.com"
+    }
+  ],
+  "require": {
+    "phpmailer/phpmailer": "^6.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "core\\" : "core/"
+    },
+    "files": [
+      "config.php"
+    ]
+  }
+}
