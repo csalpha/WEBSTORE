@@ -348,6 +348,26 @@
 			}
 		// =================================================================================================
 
+		function logout()
+		{
+			$.ajax({
+				url:"?a=logout",
+				method:"POST",
+				data:{},
+				success:function(data)
+				{
+					location.reload();
+
+				},
+				error:function(data)
+				{
+
+				}
+
+
+		});
+		}
+
 		// =================================================================================================
 			function apresentarModalEncomenda()
 			{

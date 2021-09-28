@@ -74,6 +74,337 @@
             // ===========================================================
 
             // ===========================================================
+            // store
+                public function store()
+                {
+                    // ===========================================================
+                    // apresenta a página da store
+
+                    // ===========================================================
+                    // buscar a lista de products disponíveis
+                        $products = new products();
+                    // ===========================================================                
+
+                    // ===========================================================
+                    // analisa que category mostrar
+                        $c = 'todos';
+
+                        if(isset($_GET['c']))
+                        {
+                            $c = $_GET['c'];
+                        }
+                    // ===========================================================                
+                    
+                    // ===========================================================
+                    // buscar informação à base de data
+                        $products_list = $products->products_list_available($c);
+                        $category_list = $products->category_list();
+                    // ===========================================================                
+                    
+                    // ===========================================================
+                    // Array data
+                        $data = 
+                        [
+                            'products' => $products_list,
+                            'categorys' => $category_list
+                        ];
+                    // ===========================================================                
+
+                    // ===========================================================
+                    // Layout
+                        Store::Layout
+                        (
+                            [
+                                'layouts/html_header',
+                                'layouts/header',
+                                'store',
+                                'layouts/footer',
+                                'layouts/html_footer',
+                            ], 
+
+                            $data
+
+                        );
+                    // ===========================================================
+                }
+            // ===========================================================  
+
+            // ===========================================================
+            // profile
+                public function profile_modal()
+                {   
+                    // ===========================================================
+                    // verifica se existe um utilizador logado
+                        if(!Store::is_customer_logged_in()) 
+                        {
+                            Store::redirect();
+                            return;
+                        }
+                    // ===========================================================    
+
+                    // ===========================================================
+                    // buscar informações do customer
+                        $customer = new Customers();
+                        $dtemp = $customer->search_data_customer($_SESSION['customer']);
+                    
+                        $data_customer = 
+                        [
+                            'Email' => $dtemp->email,
+                            'Full Name' => $dtemp->full_name,
+                            'address' => $dtemp->address,
+                            'city' => $dtemp->city,
+                            'telephone' => $dtemp->telephone
+                        ];
+                    // ===========================================================
+
+                    // ===========================================================  
+                    // Construir msg modal  
+                        $msg='';
+
+                        $msg.='<p class="text-center"><a onclick="apresentaModalHistorico()"  class="mb-3 btn btn-black text-uppercase filter-btn m-2 m-1" data-bs-dismiss="modal">
+                        <i class="far fa-list-alt"></i> Histórico de orders</a></p>
+                        <table class="table table-striped">';                                   
+                            foreach($data_customer as $key=>$value):
+                                $msg.='<tr>
+                                    <td class="text-end" width="40%">'.$key.':</td>
+                                    <td width="60%"><strong>'.$value .'</strong></td>
+                                </tr>';
+                            endforeach;
+                        $msg.='</table>';
+                    // ===========================================================
+                    
+                    // ===========================================================
+                    // Mostrar msg modal 
+                        echo json_encode($msg);
+                    // ===========================================================
+                }
+            // ===========================================================   
+            
+            // ===========================================================
+            // login
+                public function login()
+                {
+                    // ===========================================================
+                    // verifica se já existe um utilizador logado
+                        if (Store::is_customer_logged_in()) 
+                        {
+                            Store::redirect();
+                            return;
+                        }
+                    // ===========================================================
+                    
+                    // ===========================================================
+                    // apresentação do formulário de login
+                        Store::Layout([
+                            'layouts/html_header',
+                            'layouts/header',
+                            'login_form',
+                            'layouts/footer',
+                            'layouts/html_footer',
+                        ]);
+                    // ===========================================================    
+                }
+            // ===========================================================   
+            
+            // ===========================================================
+            //  login submit
+                public function login_submit()
+                {
+                    // ===========================================================
+                    // verifica se já existe um utilizador logado
+                        if (Store::is_customer_logged_in()) 
+                        {
+                            Store::redirect();
+                            return;
+                        }
+                    // ===========================================================
+                    
+                    // ===========================================================
+                    // verifica se foi efetuado o post do formulário de login
+                        if ($_SERVER['REQUEST_METHOD'] != 'POST') 
+                        {
+                            Store::redirect();
+                            return;
+                        }
+                    // ===========================================================
+                    
+                    // ===========================================================
+                    // validar se os campos vieram corretamente preenchidos
+                        if (
+                            !isset($_POST['text_user']) ||
+                            !isset($_POST['text_pass']) ||
+                            !filter_var(trim($_POST['text_user']), FILTER_VALIDATE_EMAIL)
+                        ) 
+                        {
+                            // ===========================================================
+                            // erro de preenchimento do formulário
+                                $_SESSION['erro'] = 'Login inválido';
+                                Store::redirect('login');
+                                return;
+                            // ===========================================================
+                        }
+                    // ===========================================================                
+
+                    // ===========================================================
+                    // prepara os data para o model
+                        $user = trim(strtolower($_POST['text_user']));
+                        $pass = trim($_POST['text_pass']);
+                    // ===========================================================
+
+                    $array = [ $user, $pass  ]; 
+
+                    //Store::printData($array);
+                    
+                    // ===========================================================
+                    // carrega o model e verifica se login é válido
+                        $customer = new Customers(); 
+                        $resultado = $customer->validate_login($user, $pass); 
+                    // ===========================================================
+
+                    //Store::printData($resultado);
+
+                    // ===========================================================
+                    // analisa o resultado
+                        if(is_bool($resultado))
+                        {   
+                            echo json_decode('Login inválido');
+                            // ===========================================================
+                            // login inválido / redirecciona para a pagina login
+                                // $_SESSION['erro'] = 'Login inválido';
+                                // Store::redirect('login');
+                                // return;
+                            // ===========================================================
+                        } 
+                        else 
+                        {   
+                            // ===========================================================
+                            // login válido. Coloca os data na sessão
+                                $_SESSION['customer'] = $resultado->id_customer;
+                                $_SESSION['user'] = $resultado->email;
+                                $_SESSION['nome_customer'] = $resultado->full_name;
+                            // ===========================================================  
+                            
+                            Store::redirect('store');
+
+                            // ===========================================================
+                            // redirecionar para o local correto
+                                if(isset($_SESSION['tmp_cart']))
+                                {
+                                    // ===========================================================
+                                    // remove a variável temporária da sessão
+                                        unset($_SESSION['tmp_cart']);
+                                    // =========================================================== 
+
+
+                                //Cart::finalize_order_summary_modal();
+
+                                    // ===========================================================
+                                    // redireciona para resumo da order
+                                        //Store::redirect('finalize_order_summary_modal');
+                                        Store::redirect('store');
+                                    // ===========================================================
+                                } 
+                                else 
+                                {
+                                    // ===========================================================
+                                    // redirectionamento para a store
+                                    Store::redirect('store');
+                                    // ===========================================================                                
+                                }
+                            // ===========================================================                        
+                        }
+                    // ===========================================================
+                }
+            // ===========================================================     
+            
+            // ===========================================================
+            // logout
+                public function logout()
+                {   
+                    // ===========================================================
+                    // remove as variáveis da sessão
+                        unset($_SESSION['customer']);
+                        unset($_SESSION['user']);
+                        unset($_SESSION['nome_customer']);
+                    // ===========================================================
+
+                    // ===========================================================
+                    // redireciona para o início da store
+                        //Store::redirect('store');
+                    // ===========================================================
+                }
+            // ===========================================================             
+        }
+    // =================================================================== 
+
+
+
+
+
+?>
+
+
+<!-- // =================================================================== 
+    // Classe Main
+        class Main
+        {
+            // ===========================================================
+            // index
+                public function index()
+                {
+                    // ===========================================================
+                    // apresenta a página da store
+
+                    // ===========================================================
+                    // buscar a lista de products disponíveis
+                        $products = new products();
+                    // ===========================================================                
+
+                    // ===========================================================
+                    // analisa que category mostrar
+                        $c = 'todos';
+
+                        if(isset($_GET['c']))
+                        {
+                            $c = $_GET['c'];
+                        }
+                    // ===========================================================                
+                    
+                    // ===========================================================
+                    // buscar informação à base de data
+                        $products_list = $products->products_list_available($c);
+                        $category_list = $products->category_list();
+                    // ===========================================================                
+                    
+                    // ===========================================================
+                    // Array data
+                        $data = 
+                        [
+                            'products' => $products_list,
+                            'categorys' => $category_list
+                        ];
+                    // ===========================================================                
+
+                    // ===========================================================
+                    // Layout
+                        Store::Layout
+                        (
+                            [
+                                'layouts/html_header',
+                                'layouts/header',
+                                'store',
+                                'layouts/footer',
+                                'layouts/html_footer',
+                            ], 
+
+                            $data
+
+                        );
+                    // ===========================================================
+                }
+            // ===========================================================
+
+            // ===========================================================
             // index
                 // public function index()
                 // {
@@ -1634,10 +1965,8 @@
                 } 
             // ===========================================================           
         }
-    // =================================================================== 
+    // ===================================================================  -->
 
-
-?>
 
 
 

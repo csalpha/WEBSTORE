@@ -53,7 +53,7 @@
 									<?php if(Store::is_customer_logged_in()): ?>
 										<!-- <a href="?a=profile" class="fas fa-user mr-2 nav-item"><i class="nav-item"> <?= $_SESSION['nome_customer']  ?></i></a>     -->
 										<a onclick="apresentarModalProfile()" class="fas fa-user mr-2 nav-item"><i class="nav-item"> <?= $_SESSION['nome_customer']  ?></i></a>
-										<a href="?a=logout" class="nav-item-inv"><i class="fas fa-sign-out-alt"></i></a>
+										<a onclick="logout()" class="nav-item-inv"><i class="fas fa-sign-out-alt"></i></a>
 									<?php else: ?>
 										<a id="user_login" onclick="apresentarModalLogin()" class="nav-item-inv"><i class="fas fa-sign-in-alt"></i></a>
 								<!--	<a href="?a=new_customer" class="nav-item">Create account</a>  -->
