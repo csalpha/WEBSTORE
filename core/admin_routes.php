@@ -107,7 +107,9 @@
                         'send_pdf_order' => 'admin@send_pdf_order',
                         'change_order_data' => 'admin@change_order_data',
                         'change_order_data_submit' => 'main@change_order_data_submit',
+                        'create_modal_ver_order' => 'admin@create_modal_ver_order',
                         'delete_order' => 'admin@delete_order',
+                        
                     // ============================================================
 
                     // ============================================================

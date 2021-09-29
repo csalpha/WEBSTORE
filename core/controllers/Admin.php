@@ -1334,265 +1334,194 @@
             // ===============================================================
             // CRUD PRODUTOS
 
-            // =========================================================== 
-            // Criar tabela produtos 
-                    public function criar_tabela_products()
-                    {
-                            //// ===========================================================
-                            // verifica se existe um admin logado
-                            if (!Store::is_admin_logged_in()) 
-                            {
-                                // ===========================================================
-                                // redireciona para a página inicial do backoffice
-                                    Store::redirect('home_page', true);
-                                    return;
-                                // ===========================================================
-                            }
-                        // ===========================================================
-
-                        $adminModel = new AdminModel();
-
-                        $p = new Products();
-                        $tot_cat = $p->count_category();
-                        
-                        $categorys = $p->category_list();
-                        
-                        
-                        foreach ($categorys as $category) {
-                            $nomes[] = "'$category'";
-                            $quantity[] = $adminModel->count_products_category($category);
-                        }
-                        
-                        $quantity = implode(',', $quantity);
-                        $nomes = implode(',', $nomes);                         
-
-                        // ===========================================================
-                        // apresenta a lista de orders (usando filtro se for o caso)
-                        // verifica se existe um filtro da query string
-                            $filtros = [
-                                'activo' => '1',
-                                'inactivo' => '0',
-                            ];
-                        // ===========================================================
-
-                        // ===========================================================
-                        // verifica se existe um filtro da query string
-                            $filtro = '';
-                            if (isset($_GET['f'])) 
-                            {
-                                // ===========================================================
-                                // verifica se a variável é uma key dos filtros
-                                    if (key_exists($_GET['f'], $filtros)) 
-                                    {
-                                        $filtro = $filtros[$_GET['f']];
-                                    }
-                                // ===========================================================
-                            }
-                        // =========================================================== 
-
-                        // ===========================================================
-                        // vai buscar a lista de products
-                            $ADMIN = new AdminModel(); // criar admin model
-                            $products = $ADMIN->products_list($filtro);
-                        // ===========================================================
-
-                        foreach ($products as $product) : 
-
-                                    $price_whithout_VAT = ($product->price / 1.23);
-                                    $vat = $product->price - $price_whithout_VAT;
-                                    $perc_iva = $product->VAT * 100;
-
-                                    $sub_array = array();
-                                    $sub_array[] = '<img src="../assets/images/products/'. $product->image .'" class="img-fluid" width="50px">';
-                                    $sub_array[] = $product->id_product;
-                                    $sub_array[] = '<a href="?a=products_details&c='. Store::aes_encrypt($product->id_product) .'" class="nav-it">'. $product->product_name .'</a>';
-                                    $sub_array[] = $product->category;
-                                    $sub_array[] = $product->price .' €';
-                                    $sub_array[] = number_format($price_whithout_VAT, 2,',','.') .' €';
-                                    $sub_array[] = number_format($vat, 2,',','.') .' €';
-                                    $sub_array[] = number_format($perc_iva, 0,',','.') .' %';
-                                    $sub_array[] = $product->stock;
-
-                                    if ($product->active == 1) : 
-                                        $sub_array[] ='<i class="text-success fas fa-check-circle"></i></span>';
-                                    else : 
-                                        $sub_array[] ='<i class="text-danger fas fa-times-circle"></i></span>';
-                                    endif;  
-                                    
-                                    $sub_array[] = $product->updated_at;
-                                    $sub_array[] = '<button onclick="apresentarModalVerProduto('. $product->id_product .')" name="ver" class="btn btn-primary btn-xs ver"><i class="fa fa-eye"></i></button>
-                                    ';
-                                    $sub_array[] = '<button id="botao_update" onclick="apresentarModalUpdateAdmin('. $product->id_product .')"  class="btn btn-warning btn-xs update"><i class="fa fa-edit"></i></button>';
-                                    $sub_array[] = '<button id="botao_delete" onclick="product_delete('. $product->id_product .')"  class="btn btn-danger btn-xs delete"><i class="fa fa-trash"></i></button>';                                    
-                                    $data[] = $sub_array;
-                            endforeach; 
-
-                        
-
-                                $output = array(
-                                    "data"				=>	$data
-                                );
-
-                            echo json_encode($output);
-                        
-                    }
-            // ===========================================================                
-
-            // ===========================================================
-            // lista products / products list
-                public function products_list()
-                {
-                        // ===========================================================
-                        // verifica se existe um admin logado
-                            if (!Store::is_admin_logged_in()) 
-                            {
-                                // ===========================================================
-                                // redireciona para a página inicial do backoffice
-                                    Store::redirect('home_page', true);
-                                    return;
-                                // ===========================================================
-                            }
-                        // ===========================================================
-
-                        $adminModel = new AdminModel();
-
-                        $p = new Products();
-                        $tot_cat = $p->count_category();
-                        
-                        $categorys = $p->category_list();
-                        
-                        
-                        foreach ($categorys as $category) {
-                            $nomes[] = "'$category'";
-                            $quantity[] = $adminModel->count_products_category($category);
-                        }
-                        
-                        $quantity = implode(',', $quantity);
-                        $nomes = implode(',', $nomes);                         
-
-                        // ===========================================================
-                        // apresenta a lista de orders (usando filtro se for o caso)
-                        // verifica se existe um filtro da query string
-                            $filtros = [
-                                'activo' => '1',
-                                'inactivo' => '0',
-                            ];
-                        // ===========================================================
-
-                        // ===========================================================
-                        // verifica se existe um filtro da query string
-                            $filtro = '';
-                            if (isset($_GET['f'])) 
-                            {
-                                // ===========================================================
-                                // verifica se a variável é uma key dos filtros
-                                    if (key_exists($_GET['f'], $filtros)) 
-                                    {
-                                        $filtro = $filtros[$_GET['f']];
-                                    }
-                                // ===========================================================
-                            }
-                        // =========================================================== 
-
-                        // ===========================================================
-                        // vai buscar a lista de products
-                            $ADMIN = new AdminModel(); // criar admin model
-                            $products = $ADMIN->products_list($filtro);
-                        // ===========================================================
-
-                        $msg = '';
-
-                        $msg .= '<h3>Lista de products</h3>
-                        <hr> 
-                        <div class="row">
-                                <div class="col">
-                                    <a href="?a=new_product" class="mb-3 btn btn-black text-uppercase filter-btn m-2"><i class="fa fa-plus"></i></a>
-                                    <button id="add_button" onclick="apresentarModalAdd()" class="mb-3 btn btn-black text-uppercase filter-btn m-2"><i class="fa fa-plus"></i></button>  
-                                    <a href="?a=products_list" class="mb-3 btn btn-black text-uppercase filter-btn m-2"><i class="fas fa-eye"></i></a>
-                                </div>                          
-                                <div class="col">';
-                            
-                                $f = '';
-                                if (isset($_GET['f'])) {
-                                    $f = $_GET['f'];
+                // =========================================================== 
+                // Criar tabela produtos 
+                        public function criar_tabela_products()
+                        {
+                                //// ===========================================================
+                                // verifica se existe um admin logado
+                                if (!Store::is_admin_logged_in()) 
+                                {
+                                    // ===========================================================
+                                    // redireciona para a página inicial do backoffice
+                                        Store::redirect('home_page', true);
+                                        return;
+                                    // ===========================================================
                                 }
+                            // ===========================================================
+
+                            $adminModel = new AdminModel();
+
+                            $p = new Products();
+                            $tot_cat = $p->count_category();
                             
-                                $msg .= '<div class="mb-3 row">';
-                                    $msg .= '</div>
-                                </div>
-                                </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                            </div>
-                            <div class="col">
-                                <div class="mb-3 row">
-                                </div>
-                            </div>
-                        </div>';
+                            $categorys = $p->category_list();
+                            
+                            
+                            foreach ($categorys as $category) {
+                                $nomes[] = "'$category'";
+                                $quantity[] = $adminModel->count_products_category($category);
+                            }
+                            
+                            $quantity = implode(',', $quantity);
+                            $nomes = implode(',', $nomes);                         
 
-                            $msg .= '<small>
-                                <table class="table table-striped" id="tabela-products">
-                                    <thead class="table-dark">
-                                        <tr>
-                                            <th>Picture</th>
-                                            <th>Código</th>
-                                            <th>Nome product</th>
-                                            <th>Category</th>
-                                            <th>Price</th>
-                                            <th>Price whithout VAT</th>
-                                            <th>VAT Price</th>
-                                            <th>VAT </th>
-                                            <th>Stock</th>
-                                            <th>Status</th>
-                                            <th>Atualizado em</th>
-                                            <th class="text-center">Ver</th>
-                                            <th class="text-center">Editar</th>
-                                            <th class="text-center">Apagar</th>                                    
-                                        </tr>
-                                    </thead>';
+                            // ===========================================================
+                            // apresenta a lista de orders (usando filtro se for o caso)
+                            // verifica se existe um filtro da query string
+                                $filtros = [
+                                    'activo' => '1',
+                                    'inactivo' => '0',
+                                ];
+                            // ===========================================================
 
-                                    $msg .= '<tfoot class="table-dark">
-                                        <tr>
-                                            <th>Picture</th>
-                                            <th>Código</th>
-                                            <th>Nome product</th>
-                                            <th>Category</th>
-                                            <th>Price</th>
-                                            <th>Price whithout VAT</th>
-                                            <th>VAT Price</th>
-                                            <th>VAT </th>
-                                            <th>Stock</th>
-                                            <th>Status</th>
-                                            <th>Atualizado em</th>
-                                            <th class="text-center">Ver</th>
-                                            <th class="text-center">Editar</th>
-                                            <th class="text-center">Apagar</th>                                    
-                                        </tr>
-                                    </tfoot>';                                    
-                                        $msg .='</table>
-                            </small>';
-                        $msg .='<div class="row">
-                            <div class="col">
-                            </div>
-                            <div class="col">
-                                <div class="mb-3 row">
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
+                            // ===========================================================
+                            // verifica se existe um filtro da query string
+                                $filtro = '';
+                                if (isset($_GET['f'])) 
+                                {
+                                    // ===========================================================
+                                    // verifica se a variável é uma key dos filtros
+                                        if (key_exists($_GET['f'], $filtros)) 
+                                        {
+                                            $filtro = $filtros[$_GET['f']];
+                                        }
+                                    // ===========================================================
+                                }
+                            // =========================================================== 
 
+                            // ===========================================================
+                            // vai buscar a lista de products
+                                $ADMIN = new AdminModel(); // criar admin model
+                                $products = $ADMIN->products_list($filtro);
+                            // ===========================================================
+
+                            foreach ($products as $product) : 
+
+                                        $price_whithout_VAT = ($product->price / 1.23);
+                                        $vat = $product->price - $price_whithout_VAT;
+                                        $perc_iva = $product->VAT * 100;
+
+                                        $sub_array = array();
+                                        $sub_array[] = '<img src="../assets/images/products/'. $product->image .'" class="img-fluid" width="50px">';
+                                        $sub_array[] = $product->id_product;
+                                        $sub_array[] = '<a href="?a=products_details&c='. Store::aes_encrypt($product->id_product) .'" class="nav-it">'. $product->product_name .'</a>';
+                                        $sub_array[] = $product->category;
+                                        $sub_array[] = $product->price .' €';
+                                        $sub_array[] = number_format($price_whithout_VAT, 2,',','.') .' €';
+                                        $sub_array[] = number_format($vat, 2,',','.') .' €';
+                                        $sub_array[] = number_format($perc_iva, 0,',','.') .' %';
+                                        $sub_array[] = $product->stock;
+
+                                        if ($product->active == 1) : 
+                                            $sub_array[] ='<i class="text-success fas fa-check-circle"></i></span>';
+                                        else : 
+                                            $sub_array[] ='<i class="text-danger fas fa-times-circle"></i></span>';
+                                        endif;  
+                                        
+                                        $sub_array[] = $product->updated_at;
+                                        $sub_array[] = '<button onclick="apresentarModalVerProduto('. $product->id_product .')" name="ver" class="btn btn-primary btn-xs ver"><i class="fa fa-eye"></i></button>
+                                        ';
+                                        $sub_array[] = '<button id="botao_update" onclick="apresentarModalUpdateAdmin('. $product->id_product .')"  class="btn btn-warning btn-xs update"><i class="fa fa-edit"></i></button>';
+                                        $sub_array[] = '<button id="botao_delete" onclick="product_delete('. $product->id_product .')"  class="btn btn-danger btn-xs delete"><i class="fa fa-trash"></i></button>';                                    
+                                        $data[] = $sub_array;
+                                endforeach; 
+
+                            
+
+                                    $output = array(
+                                        "data"				=>	$data
+                                    );
+
+                                echo json_encode($output);
+                            
+                        }
+                // ===========================================================                
+
+                // ===========================================================
+                // lista products / products list
+                    public function products_list()
+                    {
+                            // ===========================================================
+                            // verifica se existe um admin logado
+                                if (!Store::is_admin_logged_in()) 
+                                {
+                                    // ===========================================================
+                                    // redireciona para a página inicial do backoffice
+                                        Store::redirect('home_page', true);
+                                        return;
+                                    // ===========================================================
+                                }
+                            // ===========================================================
+
+                            $adminModel = new AdminModel();
+
+                            $p = new Products();
+                            $tot_cat = $p->count_category();
+                            
+                            $categorys = $p->category_list();
+                            
+                            
+                            foreach ($categorys as $category) {
+                                $nomes[] = "'$category'";
+                                $quantity[] = $adminModel->count_products_category($category);
+                            }
+                            
+                            $quantity = implode(',', $quantity);
+                            $nomes = implode(',', $nomes);                         
+
+                            // ===========================================================
+                            // apresenta a lista de orders (usando filtro se for o caso)
+                            // verifica se existe um filtro da query string
+                                $filtros = [
+                                    'activo' => '1',
+                                    'inactivo' => '0',
+                                ];
+                            // ===========================================================
+
+                            // ===========================================================
+                            // verifica se existe um filtro da query string
+                                $filtro = '';
+                                if (isset($_GET['f'])) 
+                                {
+                                    // ===========================================================
+                                    // verifica se a variável é uma key dos filtros
+                                        if (key_exists($_GET['f'], $filtros)) 
+                                        {
+                                            $filtro = $filtros[$_GET['f']];
+                                        }
+                                    // ===========================================================
+                                }
+                            // =========================================================== 
+
+                            // ===========================================================
+                            // vai buscar a lista de products
+                                $ADMIN = new AdminModel(); // criar admin model
+                                $products = $ADMIN->products_list($filtro);
+                            // ===========================================================
+
+                            $msg = '';
+
+                            $msg .= '<h3>Lista de products</h3>
+                            <hr> 
                             <div class="row">
-                                <div class="col">
-                                </div>
-                                <div class="col">
-                                    <div class="mb-3 row">
+                                    <div class="col">
+                                        <a href="?a=new_product" class="mb-3 btn btn-black text-uppercase filter-btn m-2"><i class="fa fa-plus"></i></a>
+                                        <button id="add_button" onclick="apresentarModalAdd()" class="mb-3 btn btn-black text-uppercase filter-btn m-2"><i class="fa fa-plus"></i></button>  
+                                        <a href="?a=products_list" class="mb-3 btn btn-black text-uppercase filter-btn m-2"><i class="fas fa-eye"></i></a>
+                                    </div>                          
+                                    <div class="col">';
+                                
+                                    $f = '';
+                                    if (isset($_GET['f'])) {
+                                        $f = $_GET['f'];
+                                    }
+                                
+                                    $msg .= '<div class="mb-3 row">';
+                                        $msg .= '</div>
                                     </div>
-                                </div>
+                                    </div>
                             </div>
-
-                            <div id="grafico"> </div>
-                
                             <div class="row">
                                 <div class="col">
                                 </div>
@@ -1601,91 +1530,162 @@
                                     </div>
                                 </div>
                             </div>';
+
+                                $msg .= '<small>
+                                    <table class="table table-striped" id="tabela-products">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th>Picture</th>
+                                                <th>Código</th>
+                                                <th>Nome product</th>
+                                                <th>Category</th>
+                                                <th>Price</th>
+                                                <th>Price whithout VAT</th>
+                                                <th>VAT Price</th>
+                                                <th>VAT </th>
+                                                <th>Stock</th>
+                                                <th>Status</th>
+                                                <th>Atualizado em</th>
+                                                <th class="text-center">Ver</th>
+                                                <th class="text-center">Editar</th>
+                                                <th class="text-center">Apagar</th>                                    
+                                            </tr>
+                                        </thead>';
+
+                                        $msg .= '<tfoot class="table-dark">
+                                            <tr>
+                                                <th>Picture</th>
+                                                <th>Código</th>
+                                                <th>Nome product</th>
+                                                <th>Category</th>
+                                                <th>Price</th>
+                                                <th>Price whithout VAT</th>
+                                                <th>VAT Price</th>
+                                                <th>VAT </th>
+                                                <th>Stock</th>
+                                                <th>Status</th>
+                                                <th>Atualizado em</th>
+                                                <th class="text-center">Ver</th>
+                                                <th class="text-center">Editar</th>
+                                                <th class="text-center">Apagar</th>                                    
+                                            </tr>
+                                        </tfoot>';                                    
+                                            $msg .='</table>
+                                </small>';
+                            $msg .='<div class="row">
+                                <div class="col">
+                                </div>
+                                <div class="col">
+                                    <div class="mb-3 row">
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+
+                                <div class="row">
+                                    <div class="col">
+                                    </div>
+                                    <div class="col">
+                                        <div class="mb-3 row">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="grafico"> </div>
+                    
+                                <div class="row">
+                                    <div class="col">
+                                    </div>
+                                    <div class="col">
+                                        <div class="mb-3 row">
+                                        </div>
+                                    </div>
+                                </div>';
+                            
+
+                            echo json_encode($msg);
+                    }
+                // =========================================================== 
+
+                // ===========================================================
+                // cria conteúdo - modal ver products
+                    public function create_modal_ver_product()
+                    {
+                        // ===========================================================
+                        // id vem por POST
+                            $id_product = $_POST['id_product'];
+                        // ===========================================================
                         
+                        // // ===========================================================
+                        // // vai buscar os data pessoais do Admin
+                            $ADMIN = new AdminModel();
+                            $data = [
+                                $ADMIN->search_product($id_product)
+                            ];
 
-                        echo json_encode($msg);
-                }
-            // =========================================================== 
+                            $data_product =
+                            [
+                                'id_product' => $data[0]->id_product,
+                                'category' => $data[0]->category,
+                                'product_name' => $data[0]->product_name,
+                                'description' => $data[0]->description,
+                                'price' => $data[0]->price,
+                                'stock' => $data[0]->stock,
+                                'visible' => $data[0]->visible,
+                                'active' => $data[0]->active,
+                                'price_without_VAT' => $data[0]->price_without_VAT,
+                                'VAT' => $data[0]->VAT,
+                            ];
 
-            // ===========================================================
-            // cria conteúdo - modal ver products
-                public function create_modal_ver_product()
-                {
-                    // ===========================================================
-                    // id vem por POST
+                            // Store::printData($data_customer);
+                            // ===========================================================  
+                            // Construir msg modal 
+                        
+                            $msg = '';
+                        
+                            $msg.='<div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Ver Product</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>';
+                            $msg.='<div class="modal-body">
+                                        <br>
+                                        <table class="table table-striped">
+                                        <input  type="hidden" value="'. $data[0]->id_product.'"> '; 
+                                            foreach($data_product as $key=>$value):
+                                                $msg.='<tr>
+                                                    <td class="text-end" width="40%">'.$key.':</td>
+                                                    <td width="60%"><strong>'.$value .'</strong></td>
+                                                </tr>';
+                                            endforeach;
+                                            $msg.='<tr>
+                                                    <td class="text-end" width="40%">Image:</td>
+                                                    <td width="60%"><img src="../assets/images/products/'.$data[0]->image .'"/></td>
+                                                </tr>';
+                                        $msg.='</table>
+                                </div>';
+                                $msg.='<div class="modal-footer">
+                                            <button type="button"  onclick="" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div> ';
+                        // ===========================================================
+
+                        // ===========================================================
+                        // Mostrar msg modal 
+                            echo json_encode($msg);
+                        // ===========================================================                          
+                        
+                        
+                    }
+                // ===========================================================                 
+                    
+                // ===========================================================
+                // apagar product / delete product   
+                    public function delete_product()
+                    {   
                         $id_product = $_POST['id_product'];
-                    // ===========================================================
-                    
-                    // // ===========================================================
-                    // // vai buscar os data pessoais do Admin
-                         $ADMIN = new AdminModel();
-                         $data = [
-                             $ADMIN->search_product($id_product)
-                         ];
-
-                        $data_product =
-                        [
-                            'id_product' => $data[0]->id_product,
-                            'category' => $data[0]->category,
-                            'product_name' => $data[0]->product_name,
-                            'description' => $data[0]->description,
-                            'price' => $data[0]->price,
-                            'stock' => $data[0]->stock,
-                            'visible' => $data[0]->visible,
-                            'active' => $data[0]->active,
-                            'price_without_VAT' => $data[0]->price_without_VAT,
-                            'VAT' => $data[0]->VAT,
-                        ];
-
-                        // Store::printData($data_customer);
-                        // ===========================================================  
-                         // Construir msg modal 
-                      
-                         $msg = '';
-                      
-                         $msg.='<div class="modal-header">
-                         <h5 class="modal-title" id="exampleModalLabel">Ver Product</h5>
-                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                     </div>';
-                        $msg.='<div class="modal-body">
-                                     <br>
-                                     <table class="table table-striped">
-                                     <input  type="hidden" value="'. $data[0]->id_product.'"> '; 
-                                         foreach($data_product as $key=>$value):
-                                             $msg.='<tr>
-                                                 <td class="text-end" width="40%">'.$key.':</td>
-                                                 <td width="60%"><strong>'.$value .'</strong></td>
-                                             </tr>';
-                                         endforeach;
-                                         $msg.='<tr>
-                                                 <td class="text-end" width="40%">Image:</td>
-                                                 <td width="60%"><img src="../assets/images/products/'.$data[0]->image .'"/></td>
-                                             </tr>';
-                                     $msg.='</table>
-                             </div>';
-                            $msg.='<div class="modal-footer">
-                                         <button type="button"  onclick="" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                     </div> ';
-                     // ===========================================================
-
-                     // ===========================================================
-                     // Mostrar msg modal 
-                         echo json_encode($msg);
-                     // ===========================================================                          
-                    
-                    
-                }
-            // ===========================================================                 
-                
-            // ===========================================================
-            // apagar product / delete product   
-                public function delete_product()
-                {   
-                    $id_product = $_POST['id_product'];
-                    $adminModel = new AdminModel();
-                    $adminModel->delete_product($id_product);                
-                }
-            // ===========================================================                   
+                        $adminModel = new AdminModel();
+                        $adminModel->delete_product($id_product);                
+                    }
+                // ===========================================================                   
 
             // ===============================================================
 
@@ -1774,7 +1774,7 @@
                                 $sub_array[] = $order->telephone;
                                 $sub_array[] = '<a href="?a=order_details&e='. Store::aes_encrypt($order->id_order) .'" class="nav-it">'. $order->status .'</a>';
                                 $sub_array[] = $order->updated_at;
-                                $sub_array[] = '<a href="?a=order_details&e='. Store::aes_encrypt($order->id_order) .'" class="btn btn-primary btn-xs update"><i class="fas fa-eye"></i></a>';
+                                $sub_array[] = '<button onclick="apresentarModalVerEncomenda('. $order->id_order .')" class="btn btn-primary btn-xs update"><i class="fas fa-eye"></i></button>';
                                 $sub_array[] = '<a href="?a=change_order_data&c='. Store::aes_encrypt($order->id_order) .'" class="btn btn-warning btn-xs update"><i class="fa fa-edit"></i></a>';
                                 //$sub_array[] = '<button id="botao_update" value="'. $admin->id_admin .'"  class="btn btn-warning btn-xs update"><i class="fa fa-edit"></i></button>';
                                 $sub_array[] = '<button onclick="order_delete('.$order->id_order.')" class="btn btn-danger btn-xs delete"><i class="fa fa-trash"></i></button>';
@@ -2002,6 +2002,73 @@
                         echo json_encode($msg);
                     }
                 // ===========================================================  
+
+                // ===========================================================
+                // cria conteúdo - modal ver orders
+                public function create_modal_ver_order()
+                {
+              // ===========================================================
+                        // id vem por POST
+                        $id_order = $_POST['id_order'];
+                        // ===========================================================
+                        
+                        // // ===========================================================
+                        // // vai buscar os data pessoais do Admin
+                            $ADMIN = new AdminModel();
+                            $data = [ 
+                                    $ADMIN->search_order($id_order) 
+                            ];
+                            
+                            //Store::printData($data[0][0]);
+
+
+                            $data_order =
+                            [
+                                'id_order' => $data[0][0]->id_order,
+                                'order_code' => $data[0][0]->order_code,
+                                'id_customer' => $data[0][0]->id_customer,
+                                'full_name' => $data[0][0]->full_name,
+                                'order_date' => $data[0][0]->order_date,
+                                'address' => $data[0][0]->address,
+                                'city' => $data[0][0]->city,
+                                'email' => $data[0][0]->email,
+                                'telephone' => $data[0][0]->telephone,
+                                'status' => $data[0][0]->status,
+                            ];
+
+                            // Store::printData($data_customer);
+                            // ===========================================================  
+                            // Construir msg modal 
+                        
+                            $msg = '';
+                        
+                            $msg.='<div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Ver Order</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>';
+                            $msg.='<div class="modal-body">
+                                        <br>
+                                        <table class="table table-striped">
+                                        <input  type="hidden" value="'. $data[0][0]->id_order.'"> '; 
+                                            foreach($data_order as $key=>$value):
+                                                $msg.='<tr>
+                                                    <td class="text-end" width="40%">'.$key.':</td>
+                                                    <td width="60%"><strong>'.$value .'</strong></td>
+                                                </tr>';
+                                            endforeach;
+                                        $msg.='</table>
+                                </div>';
+                                $msg.='<div class="modal-footer">
+                                            <button type="button"  onclick="" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div> ';
+                        // ===========================================================
+
+                        // ===========================================================
+                        // Mostrar msg modal 
+                            echo json_encode($msg);
+                        // ========================================================                      
+                }
+                // ===========================================================                 
                 
                 // ===========================================================
                 // apagar order / delete order   

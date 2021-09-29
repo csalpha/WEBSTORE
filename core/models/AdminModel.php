@@ -175,6 +175,23 @@ use core\controllers\Admin;
             // ===========================================================
 
             // ===========================================================
+            // buscar orders por id_order
+                public function search_order($id_order)
+                {
+                    // ===========================================================
+                    // buscar todas as orders do order indicado
+                        $parameters = [
+                            ':id_order' => $id_order
+                        ];
+                        $bd = new Database();
+                        return $bd->select("
+                            SELECT * FROM orders WHERE id_order = :id_order
+                        ", $parameters);
+                    // ===========================================================
+                }
+            // ===========================================================
+
+            // ===========================================================
             // buscar orders do customer
                 public function search_orders_customer($id_customer)
                 {

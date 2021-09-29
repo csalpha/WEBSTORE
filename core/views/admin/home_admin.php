@@ -579,7 +579,20 @@
             </div>
 
         </div>
-<!-- ===================================================================================================== -->         
+    <!-- ===================================================================================================== -->   
+    
+    <!-- PRODUCT MODALS -->
+    <!-- ===================================================================================================== -->
+
+        <!-- modal - ver product -->
+        <!-- ===================================================================================================== -->
+        <div class="modal fade" id="modalVerOrder" name="modalVerOrder" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content" id="corpo_modal_ver_order">
+                    </div>
+                </div>
+            </div>
+        <!-- ===================================================================================================== -->     
 
     <!-- ===================================================================================================== -->    
 
@@ -1205,72 +1218,97 @@
         // PRODUCT
         // =================================================================================================
 
-        // Apresentar Modal - ver produto
-        // =============================================================================================
-            function apresentarModalVerProduto(id_product) 
-            {
-                $.ajax(
+            // Apresentar Modal - ver produto
+            // =============================================================================================
+                function apresentarModalVerProduto(id_product) 
                 {
-                       url:"?a=create_modal_ver_product",
-                       method:"POST",
-                       data:{id_product:id_product},
-                        success:function(data)
+                    $.ajax(
+                    {
+                        url:"?a=create_modal_ver_product",
+                        method:"POST",
+                        data:{id_product:id_product},
+                            success:function(data)
+                            {
+                                const obj = JSON.parse(data);
+                                var modalVerProduct = new bootstrap.Modal(document.getElementById('modalVerProduct'));
+                                modalVerProduct.show();
+                                document.getElementById("corpo_modal_ver_product").innerHTML = obj;
+                        },
+                        error:function(data)
                         {
-                            const obj = JSON.parse(data);
-                            var modalVerProduct = new bootstrap.Modal(document.getElementById('modalVerProduct'));
-                            modalVerProduct.show();
-                            document.getElementById("corpo_modal_ver_product").innerHTML = obj;
-                       },
-                       error:function(data)
-                       {
-                       }
+                        }
+                    });
+                }     
+            // =============================================================================================  
+            
+            // Apresenta Modal - adiconar produto
+            // =============================================================================================
+                $(document).on('click', '#botao_adicionar_produto', function(event)
+                {
+                    //alert('Adicionar cliente');
+                    $('#product_form')[0].reset();
+                    $('.modal-title').text("Adicionar Produto");
+                    $('#action').val("Add");
+                    $('#operation').val("Add");
+                    //  $('#user_uploaded_image').html('');
+                    $('#productModal').modal('show');
                 });
-            }     
-        // =============================================================================================  
+            // =============================================================================================        
         
-        // Apresenta Modal - adiconar produto
-        // =============================================================================================
-            $(document).on('click', '#botao_adicionar_produto', function(event)
-            {
-                //alert('Adicionar cliente');
-                $('#product_form')[0].reset();
-                $('.modal-title').text("Adicionar Produto");
-                $('#action').val("Add");
-                $('#operation').val("Add");
-                //  $('#user_uploaded_image').html('');
-                $('#productModal').modal('show');
-            });
-        // =============================================================================================        
-    
-        // apagar dados - product
-        // =================================================================================================
-                function product_delete(id_product)
-                {
-                        var id_product = id_product;
-                        if(confirm("Are you sure you want to delete this?"))
-                        {
-                            $.ajax({
-                                url:"?a=delete_product",
-                                method:"POST",
-                                data:{id_product:id_product},
-                                success:function(data)
-                                {
-                                    alert("produto apagado com successo!!");
-                                    $('#tabela-products').DataTable().ajax.reload();
-                                }
-                            });
-                        }
-                        else
-                        {
-                            return false;	
-                        }
-                };
-	    // =================================================================================================  
+            // apagar dados - product
+            // =================================================================================================
+                    function product_delete(id_product)
+                    {
+                            var id_product = id_product;
+                            if(confirm("Are you sure you want to delete this?"))
+                            {
+                                $.ajax({
+                                    url:"?a=delete_product",
+                                    method:"POST",
+                                    data:{id_product:id_product},
+                                    success:function(data)
+                                    {
+                                        alert("produto apagado com successo!!");
+                                        $('#tabela-products').DataTable().ajax.reload();
+                                    }
+                                });
+                            }
+                            else
+                            {
+                                return false;	
+                            }
+                    };
+            // =================================================================================================  
 
         // =================================================================================================
 
         // ORDER
         // =================================================================================================
+
+            // Apresentar Modal - ver Encomenda
+            // =============================================================================================
+                function apresentarModalVerEncomenda(id_order) 
+                {
+                    $.ajax(
+                    {
+                        url:"?a=create_modal_ver_order",
+                        method:"POST",
+                        data:{id_order:id_order},
+                        success:function(data)
+                        {
+                           //// alert(data);
+
+                            const obj = JSON.parse(data);
+                            var modalVerOrder = new bootstrap.Modal(document.getElementById('modalVerOrder'));
+                            modalVerOrder.show();
+                            document.getElementById("corpo_modal_ver_order").innerHTML = obj;
+                        },
+                        error:function(data)
+                        {
+                        }
+                    });
+                }     
+            // =============================================================================================         
         
             // apagar dados - order
             // =================================================================================================
