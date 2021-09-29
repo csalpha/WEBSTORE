@@ -478,6 +478,34 @@
             </div>
         <!-- ===================================================================================================== -->  
 
+        <!-- modal - update product -->
+        <!-- ===================================================================================================== -->
+            <div class="modal fade" id="modalUpdateProduct" name="modalUpdateProduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                    <form method="post"  id="product_form_update" enctype="multipart/form-data">
+                            <div class="modal-content" id='corpo_modal_update_product'>
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Alterar dados do produto</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+
+                                        <div class="modal-body">
+                                            corpo modal
+                                        </div>
+
+                                <div class="modal-footer">
+                                    <input type="hidden" name="user_id" id="user_id" />
+                                    <input type="hidden" name="operation" id="operation" />
+                                    <input type="submit" name="action" id="action" class="btn btn-success " value="Adicionar" />
+                                    <button type="button"  onclick="" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                    </form>                 
+                    </div>
+            </div>
+        <!-- ===================================================================================================== -->           
+
+
         <!-- modal - add product -->
         <!-- ===================================================================================================== -->
             <div id="productModal" name="productModal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -492,12 +520,11 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
 
-                            <div class="modal-body" id="corpo_modal">
-                                                    
+                            <div class="modal-body" id="corpo_modal_product">
 
-                            <!-- Category -->
+                                    <!-- Category -->
                                     <!-- ===================================================================================================== -->				
-                                    <div class="my-3">
+                                        <div class="my-3">
                                             <label>Category</label>
                                             <select id="text_category_product" name="text_category_product"  class="form-control" onchange="">
                                                 <option value="" selected class="nav-it"></option>
@@ -505,7 +532,6 @@
                                                 <option value="<?= CATEGORY[1] ?>"  class="nav-it"><?= CATEGORY[1] ?></option>
                                                 <option value="<?= CATEGORY[2] ?>"  class="nav-it"><?= CATEGORY[2] ?></option>
                                             </select>	
-                                                    <br/>
                                         </div>
                                     <!-- ===================================================================================================== -->					
                                     
@@ -513,7 +539,7 @@
                                     <!-- ===================================================================================================== -->					
                                         <div class="my-3">
                                             <label>Product name</label>
-                                            <input type="text" class="form-control" name="text_product_name"  placeholder="product name" required>
+                                            <input type="text" class="form-control" id="text_product_name"  name="text_product_name"  placeholder="product name" required>
                                         </div>
                                     <!-- ===================================================================================================== -->					
 
@@ -521,7 +547,7 @@
                                     <!-- ===================================================================================================== -->					
                                         <div class="my-3">
                                             <label>Price</label>
-                                            <input type="text" class="form-control" name="text_pass_price"  placeholder="price" required>
+                                            <input type="text" class="form-control" id="text_price" name="text_price"  placeholder="text_price" required>
                                         </div>
                                     <!-- ===================================================================================================== -->					
 
@@ -529,7 +555,7 @@
                                     <!-- ===================================================================================================== -->					
                                         <div class="my-3">
                                             <label>VAT</label>
-                                            <input type="text" class="form-control" name="text_VAT"  placeholder="VAT" required>
+                                            <input type="text" class="form-control" id="text_VAT" name="text_VAT"  placeholder="VAT" required>
                                         </div>
                                     <!-- ===================================================================================================== -->					
 
@@ -537,7 +563,7 @@
                                     <!-- ===================================================================================================== -->					
                                         <div class="my-3">
                                             <label>Stock</label>
-                                            <input type="text" class="form-control" name="text_stock"  placeholder="Stock" required>
+                                            <input type="text" class="form-control" id="text_stock" name="text_stock"  placeholder="Stock" required>
                                         </div>
                                     <!-- ===================================================================================================== -->					
 
@@ -545,7 +571,7 @@
                                     <!-- ===================================================================================================== -->					
                                         <div class="my-3">
                                             <label>description</label>
-                                            <input type="text" class="form-control" name="text_description"  placeholder="description" required>
+                                            <input type="text" class="form-control" id="text_description" name="text_description"  placeholder="description" required>
                                         </div>
                                     <!-- ===================================================================================================== -->					
 
@@ -555,20 +581,20 @@
                                             <label>Visible</label>
                                             <select id="text_visible_product" name="text_visible_product"  class="form-control" onchange="">
                                                 <option value="" selected class="nav-it"></option>
-                                                <option value="<?= active[0] ?>"  class="nav-it">visvel</option>
-                                                <option value="<?= active[1] ?>"  class="nav-it">escondido</option>
+                                                <option value="<?= active[0] ?>"  class="nav-it">escondido</option>
+                                                <option value="<?= active[1] ?>"  class="nav-it">visivel</option>
                                             </select>
                                         </div>
                                     <!-- ===================================================================================================== -->	
 
-                                    <!-- visible -->
+                                    <!-- active -->
                                     <!-- ===================================================================================================== -->					
-                                    <div class="my-3">
+                                        <div class="my-3">
                                             <label>Activo</label>
-                                            <select id="text_active_product" name="text_visible_product"  class="form-control" onchange="">
+                                            <select id="text_active_product" name="text_active_product"  class="form-control" onchange="">
                                                 <option value="" selected class="nav-it"></option>
-                                                <option value="<?= active[0] ?>"  class="nav-it">activo</option>
-                                                <option value="<?= active[1] ?>"  class="nav-it">inactivo</option>
+                                                <option value="<?= active[0] ?>"  class="nav-it">inactivo</option>
+                                                <option value="<?= active[1] ?>"  class="nav-it">activo</option>
                                             </select>
                                         </div>
                                     <!-- ===================================================================================================== -->                                    
@@ -577,13 +603,9 @@
                                     <!-- ===================================================================================================== -->					
                                         <div class="my-3">
                                                     <label>Picture</label>
-                                                    <input type="file" class="form-control" name="user_image" id="user_image">
+                                                    <input type="file" class="form-control" name="product_image" id="product_image">
                                         </div>
                                     <!-- ===================================================================================================== -->		                        
-
-
-                                            
-
                             </div>
 
                             <div class="modal-footer">
@@ -600,13 +622,15 @@
 
             </div>
         <!-- ===================================================================================================== -->   
-    
+
+    <!-- ===================================================================================================== -->
+
     <!-- Order MODALS -->
     <!-- ===================================================================================================== -->
 
         <!-- modal - ver order -->
         <!-- ===================================================================================================== -->
-        <div class="modal fade" id="modalVerOrder" name="modalVerOrder" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="modalVerOrder" name="modalVerOrder" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content" id="corpo_modal_ver_order">
                     </div>
@@ -1265,15 +1289,157 @@
             // =============================================================================================
                 $(document).on('click', '#botao_adicionar_produto', function(event)
                 {
-                    alert('Adicionar produto');
+                   // alert('Adicionar produto');
                     $('#product_form')[0].reset();
-                    // $('.modal-title').text("Adicionar Produto");
-                    // $('#action').val("Add");
-                    // $('#operation').val("Add");
-                    // //  $('#user_uploaded_image').html('');
+                    $('.modal-title').text("Adicionar Produto");
+                    $('#action').val("Add");
+                    $('#operation').val("Add");
+                    $('#product_uploaded_image').html('');
                     $('#productModal').modal('show');
                 });
-            // =============================================================================================        
+            // ============================================================================================= 
+            
+            // Submeter dados - adicionar produto
+            // =============================================================================================
+                $(document).on('submit', '#product_form', function(event)
+                {
+                   // alert('Submeter dados - adicionar produto');
+                    event.preventDefault();
+
+                    var text_product_name = $('#text_product_name').val();
+                    var text_price = $('#text_price').val();
+                    var text_VAT = $('#text_VAT').val();
+                    var text_stock = $('#text_stock').val();
+                    var text_description = $('#text_description').val();
+                    var text_category_product = '';
+                    var text_visible_product = '';
+                    var text_active_product = ''; 
+
+                    $("#text_category_product option:selected").each(function() 
+                    {
+                        text_category_product = $(this).val();
+                    }); 
+
+                    $("#text_visible_product option:selected").each(function() 
+                    {
+                        text_visible_product = $(this).val();
+                    });    
+
+                    $("#text_active_product option:selected").each(function() 
+                    {
+                        text_active_product = $(this).val();
+                    });                     
+                    
+                    var image = $('#product_image').val().split('\\').pop().toLowerCase();
+                    var extension = $('#product_image').val().split('.').pop().toLowerCase();  
+                    
+                    if(extension != '')
+                    {
+                        if(jQuery.inArray(extension, ['gif','png','jpg','jpeg']) == -1)
+                        {
+                            alert("Invalid Image File");
+                            $('#product_image').val('');
+                            return false;
+                        }
+                    }	        
+                    
+                    array = [   text_product_name,
+                                text_price,
+                                text_VAT ,
+                                text_stock,
+                                text_description ,
+                                text_category_product ,
+                                text_visible_product ,
+                                image,
+                                text_active_product ,
+                                extension 
+                            ];
+                        
+                   // alert(array);
+
+                    if(text_product_name != '' && text_price != '' && text_VAT != '' && text_stock !='' 
+                        && text_description != '' && text_category_product != '' && text_visible_product != '' && image != ''
+                        && text_active_product )
+                    {
+                    
+                        //alert('Campos preenchidos');
+                    $.ajax(
+                    {
+                        method: 'post',
+                        url: '?a=create_product',
+                        data:new FormData(this),
+                        contentType:false,
+                        processData:false,
+                        success:function(data)
+                        {
+                            //alert(data);
+                            //alert("Produto adicionado com successo!!");
+                            $('#tabela-products').DataTable().ajax.reload();
+                            $('#productModal').modal('hide');
+                        },
+                        error:function(data)
+                        {
+                            alert('ajax error');
+                        }
+                                
+                        });            
+
+                        }
+                        else
+                        {
+                            alert("Both Fields are Required");
+                        }
+                    });
+            // ============================================================================================= 
+            
+            // Apresentar Modal - actualizar admin
+            // =============================================================================================
+                function apresentarModalUpdateProduct(id_product) 
+                {
+                    $('#modalUpdateProduct').modal('show');
+                    //$('#upload_image_admin').html('');
+
+                     $.ajax({
+                         url:"?a=create_modal_update_product&c=" + id_product,
+                         method:"POST",
+                         data:{id_product:id_product},
+                         success:function(data)
+                         {
+                            alert(data);
+                            const obj = JSON.parse(data);
+                            $('#modalUpdateProduct').modal('show');
+                    // //        $('#modalUpdateAdmin').modal('show');
+                    // //        $('#text_email_admin').val(obj.user);
+                    // //        $('#text_id_admin').val(obj.id_admin);
+                    // //        $('#text_pass_1_admin').val(obj.pass);
+                    // //        $('#text_pass_2_admin').val(obj.pass);
+                    // //        $('#text_full_name_admin').val(obj.full_name);
+                    // //        $('#text_address_admin').val(obj.address);
+                    // //        $('#text_city_admin').val(obj.city);
+                    // //        $('#text_telephone_admin').val(obj.telephone);
+                    // //        $('#text_activo_admin').val(obj.active);
+                    // //        $('#text_gender_admin').val(obj.gender);
+                    // //        $('#upload_image_admin').html(obj.image);
+
+                           
+                    // //        //document.getElementById('corpo_modal_update_admin').innerHTML = obj;
+
+                    // //     //    estado = document.getElementById('text_activo_admin').value;
+                    // //     //    genero = document.getElementById('text_gender_admin').value;
+
+                    // //     //    alert(estado);
+                    // //     //    alert(genero);
+
+                    // //     // //    $('#text_activo_admin').val('0');
+                    // //     // //    $('#text_gender_admin').val('M');
+                        },
+                        error:function(data)
+                        {
+                            alert('Error');
+                        }
+                    });
+                }            
+            // =============================================================================================              
         
             // apagar dados - product
             // =================================================================================================

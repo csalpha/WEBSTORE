@@ -153,27 +153,29 @@
             // ===========================================================
             // encriptação / encrypt
 
-            // ===========================================================
-            // aes Encriptar / encrypt
-                public static function aes_encrypt($valor)
-                {
-                    // ===========================================================
-                    // devolver valor ( encriptado de binario para hexadecimal )
-                        return bin2hex(openssl_encrypt($valor, 'aes-256-cbc', AES_KEY, OPENSSL_RAW_DATA, AES_IV));
-                    // ===========================================================
-                }
-            // ===========================================================
+                // ===========================================================
+                // aes Encriptar / encrypt
+                    public static function aes_encrypt($valor)
+                    {
+                        // ===========================================================
+                        // devolver valor ( encriptado de binario para hexadecimal )
+                            return bin2hex(openssl_encrypt($valor, 'aes-256-cbc', AES_KEY, OPENSSL_RAW_DATA, AES_IV));
+                        // ===========================================================
+                    }
+                // ===========================================================
 
+                // ===========================================================
+                // aes Desencriptar / decrypt
+                    public static function aes_decrypt($valor)
+                    {
+                        // ===========================================================
+                        // devolver valor (desencriptado de binario para hexadecimal)
+                            return openssl_decrypt(hex2bin($valor), 'aes-256-cbc', AES_KEY, OPENSSL_RAW_DATA, AES_IV);
+                        // ===========================================================            
+                    }
+                // ===========================================================  
+            
             // ===========================================================
-            // aes Desencriptar / decrypt
-                public static function aes_decrypt($valor)
-                {
-                    // ===========================================================
-                    // devolver valor (desencriptado de binario para hexadecimal)
-                        return openssl_decrypt(hex2bin($valor), 'aes-256-cbc', AES_KEY, OPENSSL_RAW_DATA, AES_IV);
-                    // ===========================================================            
-                }
-            // ===========================================================    
 
             // ===========================================================
             // mostrar data / printData 

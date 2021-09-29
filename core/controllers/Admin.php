@@ -1423,7 +1423,7 @@
                                         $sub_array[] = $product->updated_at;
                                         $sub_array[] = '<button onclick="apresentarModalVerProduto('. $product->id_product .')" name="ver" class="btn btn-primary btn-xs ver"><i class="fa fa-eye"></i></button>
                                         ';
-                                        $sub_array[] = '<button id="botao_update" onclick="apresentarModalUpdateAdmin('. $product->id_product .')"  class="btn btn-warning btn-xs update"><i class="fa fa-edit"></i></button>';
+                                        $sub_array[] = '<button id="botao_update" onclick="apresentarModalUpdateProduct('. $product->id_product .')"  class="btn btn-warning btn-xs update"><i class="fa fa-edit"></i></button>';
                                         $sub_array[] = '<button id="botao_delete" onclick="product_delete('. $product->id_product .')"  class="btn btn-danger btn-xs delete"><i class="fa fa-trash"></i></button>';                                    
                                         $data[] = $sub_array;
                                 endforeach; 
@@ -1672,7 +1672,181 @@
                         
                         
                     }
-                // ===========================================================                 
+                // ===========================================================    
+                
+                // ===========================================================
+                // criar product / create product
+                    public function create_product()
+                    {   
+                        // dados product
+                        // ===========================================================
+                            $text_product_name = $_POST['text_product_name'];
+                            $text_price = $_POST['text_price'];
+                            $text_VAT = $_POST['text_VAT'];
+                            $text_stock = $_POST['text_stock'];
+                            $text_description = $_POST['text_description'];
+                            $text_category_product = $_POST['text_category_product'];
+                            $text_visible_product = $_POST['text_visible_product'];
+                            $text_active_product = $_POST['text_active_product'];
+                            $product_image = $_FILES["product_image"]["name"]; 
+                        // ===========================================================
+
+
+                        // ===========================================================
+                        // Carregar model
+                            $product = new Products(); 
+
+                            $product->register_product( 
+                            $text_product_name ,
+                            $text_price ,
+                            $text_VAT ,
+                            $text_stock ,
+                            $text_description ,
+                            $text_category_product,
+                            $text_visible_product,
+                            $text_active_product,
+                            $product_image
+                            );                            
+
+                           
+                        // ===========================================================  
+                            
+                        // //     if($existe_noutra_conta)
+                        // //     {
+                        // //         // ===================================================
+                        // //         // Construir msg modal                                
+                        // //             $msg = '';
+                        // //             $msg.= '<div class="alert alert-danger text-center p-2">
+                        // //             <p>O email já pertence a outro Admin.</p>
+                        // //             </div>';
+                        // //         // ===================================================
+
+                        // //         // ===================================================
+                        // //         // Mostrar msg modal
+                        // //         echo json_encode($msg);
+                        // //         return;
+                        // //         // ===================================================                                   
+                        // //     }
+                        // //     // ===========================================================
+                        // //     // validar se a nova pass vem com data                         
+                        // //         else if(strlen($text_pass_1_admin) < 6)
+                        // //         {
+                        // //             // ===========================================================
+                        // //             // Construir msg modal                                
+                        // //                 $msg = '';
+                        // //                 $msg.= '<div class="alert alert-danger text-center p-2">
+                        // //                 <p>A nova pass tem de ter mais de 5 caracteres.</p>
+                        // //                 </div>';
+                        // //             // ===========================================================
+
+                        // //             // ===========================================================
+                        // //             // Mostrar msg modal
+                        // //                 echo json_encode($msg);
+                        // //                 return;
+                        // //             // ===========================================================
+                        // //         }
+                        // //     // ===========================================================
+                        // //     // verificar se a nova pass é diferente da pass atual
+                        // //         else if($text_pass_1_admin != $text_pass_2_admin)
+                        // //         {
+                        // //             // ===========================================================
+                        // //             // Construir msg modal                                 
+                        // //                 $msg = '';
+                        // //                 $msg .='
+                        // //                 <div class="alert alert-danger text-center p-2">
+                        // //                 <p>As passes não coincidem.</p>
+                        // //                 </div>';
+                        // //             // ===========================================================
+
+                        // //             // ===========================================================
+                        // //             // Mostrar msg modal                                  
+                        // //                 echo json_encode($msg);
+                        // //                 return;
+                        // //             // ===========================================================
+                                    
+                        // //         }
+                        // //     // ===========================================================
+
+                        // //     // ===========================================================
+                        // //     // inserir novo admin na base de data e devolver o purl                    
+                        // //         else
+                        // //         {
+                        // //         $ADMIN->register_admin_modal( $text_email_admin ,
+                        // //         $text_pass_1_admin ,
+                        // //         $text_full_name_admin ,
+                        // //         $text_address_admin ,
+                        // //         $text_city_admin ,
+                        // //         $text_telephone_admin,
+                        // //         $text_activo_admin,
+                        // //         $text_gender_admin,
+                        // //         $user_image);
+                        // //         // ===========================================================                
+                                
+                        // //         // ===========================================================
+                        // //         // envio do email para o admin
+                        // //         $email = new SendEmail();
+                        // //         $resultado = $email->send_email_confirmation_new_admin($text_email_admin, $purl = null);
+                        // //         // ===========================================================     
+                                
+                        // //             // ===========================================================
+                        // //             // Construir msg modal                                
+                        // //                 $msg = '';
+
+                        // //                 $msg .='
+                        // //                 <div class="alert alert-success text-center p-2">
+                        // //                 <p>Admin criado com sucesso!</p>
+                        // //                 </div>';
+                        // //             // ===========================================================
+
+                        // //             // $this->admins_list();
+
+                        // //             // ===========================================================
+                        // //             // Mostrar msg modal                                  
+                        // //                 //echo json_encode($msg);
+                        // //             // ===========================================================                        
+                        // //         }
+                            
+                    }
+                // ===========================================================  
+                
+                // ===========================================================
+                // criar conteudo - modal update admin  
+                    public function create_modal_update_product()
+                    {
+                        // ===========================================================
+                        // id vem por POST
+                            $id_product = $_POST['id_product'];
+                        // // ===========================================================
+                        
+                        // ===========================================================
+                        // vai buscar os data pessoais do Admin
+                                $product = new Products();
+                                $data = [
+                                    $product->search_product($id_product)
+                                ];
+
+                                Store::printData($data);
+
+                                 $data_product =
+                                 [
+                                     'id_product' => $data[0]->id_product,
+                                     'category' => $data[0]->category,
+                                     'product_name' => $data[0]->product_name,
+                                     'description' => $data[0]->description,
+                                     'image' => $data[0]->image,
+                                     'price' => $data[0]->price,
+                                     'stock' => $data[0]->stock,
+                                     'visible' => $data[0]->visible,
+                                     'active' => $data[0]->active,
+                                     'VAT' => $data[0]->VAT
+                                 ]; 
+
+                                echo json_encode($data_product);
+                        // ===========================================================                       
+                        
+                        
+                    }
+                // ===========================================================                   
                     
                 // ===========================================================
                 // apagar product / delete product   

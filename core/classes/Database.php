@@ -1,15 +1,9 @@
 <?php
 
-    /* MVC
-    
-        Model
-        View
-        Controller
-
+    /* 
         Model - dados/base de dados
         View - Layout + html + css + bootstrap 5
         Controller - Regras de negócio 
-
     */
 
     // ===========================================================

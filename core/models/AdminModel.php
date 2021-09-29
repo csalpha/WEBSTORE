@@ -1037,8 +1037,8 @@ use core\controllers\Admin;
                     // regista o novo admin na base de data 
                         $bd = new Database(); // criar bd
                         $sql = "
-                        INSERT INTO Admins (user, pass, full_name, address, city, telephone, active, created_at,  gender, image ) 
-                        VALUES(:user,:pass,:full_name,:address,:city,:telephone,:active,NOW(), :gender, :user_image);";
+                        INSERT INTO Admins (user, pass, full_name, address, city, telephone, active, created_at,  gender, image, created_at ) 
+                        VALUES(:user,:pass,:full_name,:address,:city,:telephone,:active, :gender, :user_image,NOW());";
                         $bd->insert($sql, $parameters);
 
                     //  Store::printData($bd);

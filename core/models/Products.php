@@ -129,6 +129,49 @@ namespace core\models;
                 // ===========================================================
             }
         // ===========================================================   
+
+        // ===========================================================
+        // atualizar data product
+            public function register_product( 
+                $text_product_name ,
+                $text_price ,
+                $text_VAT ,
+                $text_stock ,
+                $text_description ,
+                $text_category_product,
+                $text_visible_product,
+                $text_active_product,
+                $product_image
+                )
+            {
+                // ===========================================================
+                // atualiza os data do customer indicados na bd
+
+                    $parameters = [
+                        ':text_product_name'       =>   $text_product_name,
+                        ':text_price'     =>   $text_price,
+                        ':text_VAT'         =>   $text_VAT,
+                        ':text_stock'            =>   $text_stock,
+                        ':text_description'            =>   $text_description,
+                        ':text_visible_product'      =>   $text_visible_product,
+                        ':text_category_product'      =>   $text_category_product,
+                        ':text_active_product'      =>   $text_active_product,
+                        ':product_image'      =>   $product_image
+                    ];
+
+                    //Store::printData($parameters);
+
+                    $bd = new Database();
+
+                    $sql = "
+                    INSERT INTO Products (product_name, price, VAT, stock, description, visible, category,  active, image , created_at ) 
+                    VALUES(:text_product_name,:text_price,:text_VAT,:text_stock,:text_description,:text_visible_product,:text_category_product, :text_active_product, :product_image,NOW() );";
+                    $bd->insert($sql, $parameters);
+                // ===========================================================
+                //Store::printData($parameters);
+
+            }
+        // ==========================================================        
         
         // ===========================================================
         // atualizar data product
@@ -169,7 +212,35 @@ namespace core\models;
                 //Store::printData($parameters);
 
             }
-        // ===========================================================          
+        // ===========================================================  
+        
+        // ===========================================================
+        // buscar products 
+            public function search_product($id_product)
+            {
+                // ===========================================================
+                // vai buscar data do admin registados na base de data
+                    $parameters = [
+                        'id_product' => $id_product
+                    ];
+
+                    $bd = new Database();
+                    $resultados = $bd->select("
+                            SELECT 
+                                *
+                            FROM products 
+                            WHERE id_product = :id_product
+                        ", $parameters);
+                // ===========================================================
+
+                
+
+                // ===========================================================
+                // devolve resultados
+                    return $resultados[0];
+                    //Store::printData($resultados);
+                // ===========================================================
+            }        
         
         
     }

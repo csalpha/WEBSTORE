@@ -123,6 +123,7 @@
                         'change_product_data_submit' => 'admin@change_product_data_submit',
                         'create_modal_ver_product' => 'admin@create_modal_ver_product',
                         'delete_product' => 'admin@delete_product',
+                        'create_modal_update_product' => 'admin@create_modal_update_product',
                     // ============================================================        
                 ];
     // ============================================================  
