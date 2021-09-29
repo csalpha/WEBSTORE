@@ -478,113 +478,133 @@
             </div>
         <!-- ===================================================================================================== -->  
 
-        <!-- modal - add admin -->
+        <!-- modal - add product -->
         <!-- ===================================================================================================== -->
-        <div id="productModal" name="userModal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div id="productModal" name="productModal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-dialog modal-dialog-centered">
 
-                <form method="post"  id="user_form" enctype="multipart/form-data">
-                    <div class="modal-content">
+                    <form method="post"  id="product_form" enctype="multipart/form-data">
+                        <div class="modal-content">
 
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Adicionar Admin</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Adicionar Produto</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+
+                            <div class="modal-body" id="corpo_modal">
+                                                    
+
+                            <!-- Category -->
+                                    <!-- ===================================================================================================== -->				
+                                    <div class="my-3">
+                                            <label>Category</label>
+                                            <select id="text_category_product" name="text_category_product"  class="form-control" onchange="">
+                                                <option value="" selected class="nav-it"></option>
+                                                <option value="<?= CATEGORY[0] ?>"  class="nav-it"><?= CATEGORY[0] ?></option>
+                                                <option value="<?= CATEGORY[1] ?>"  class="nav-it"><?= CATEGORY[1] ?></option>
+                                                <option value="<?= CATEGORY[2] ?>"  class="nav-it"><?= CATEGORY[2] ?></option>
+                                            </select>	
+                                                    <br/>
+                                        </div>
+                                    <!-- ===================================================================================================== -->					
+                                    
+                                    <!-- Product name -->
+                                    <!-- ===================================================================================================== -->					
+                                        <div class="my-3">
+                                            <label>Product name</label>
+                                            <input type="text" class="form-control" name="text_product_name"  placeholder="product name" required>
+                                        </div>
+                                    <!-- ===================================================================================================== -->					
+
+                                    <!-- Price -->
+                                    <!-- ===================================================================================================== -->					
+                                        <div class="my-3">
+                                            <label>Price</label>
+                                            <input type="text" class="form-control" name="text_pass_price"  placeholder="price" required>
+                                        </div>
+                                    <!-- ===================================================================================================== -->					
+
+                                    <!-- VAT -->
+                                    <!-- ===================================================================================================== -->					
+                                        <div class="my-3">
+                                            <label>VAT</label>
+                                            <input type="text" class="form-control" name="text_VAT"  placeholder="VAT" required>
+                                        </div>
+                                    <!-- ===================================================================================================== -->					
+
+                                    <!-- Stock -->
+                                    <!-- ===================================================================================================== -->					
+                                        <div class="my-3">
+                                            <label>Stock</label>
+                                            <input type="text" class="form-control" name="text_stock"  placeholder="Stock" required>
+                                        </div>
+                                    <!-- ===================================================================================================== -->					
+
+                                    <!-- Description -->
+                                    <!-- ===================================================================================================== -->					
+                                        <div class="my-3">
+                                            <label>description</label>
+                                            <input type="text" class="form-control" name="text_description"  placeholder="description" required>
+                                        </div>
+                                    <!-- ===================================================================================================== -->					
+
+                                    <!-- visible -->
+                                    <!-- ===================================================================================================== -->					
+                                        <div class="my-3">
+                                            <label>Visible</label>
+                                            <select id="text_visible_product" name="text_visible_product"  class="form-control" onchange="">
+                                                <option value="" selected class="nav-it"></option>
+                                                <option value="<?= active[0] ?>"  class="nav-it">visvel</option>
+                                                <option value="<?= active[1] ?>"  class="nav-it">escondido</option>
+                                            </select>
+                                        </div>
+                                    <!-- ===================================================================================================== -->	
+
+                                    <!-- visible -->
+                                    <!-- ===================================================================================================== -->					
+                                    <div class="my-3">
+                                            <label>Activo</label>
+                                            <select id="text_active_product" name="text_visible_product"  class="form-control" onchange="">
+                                                <option value="" selected class="nav-it"></option>
+                                                <option value="<?= active[0] ?>"  class="nav-it">activo</option>
+                                                <option value="<?= active[1] ?>"  class="nav-it">inactivo</option>
+                                            </select>
+                                        </div>
+                                    <!-- ===================================================================================================== -->                                    
+                                    
+                                    <!-- Picture -->
+                                    <!-- ===================================================================================================== -->					
+                                        <div class="my-3">
+                                                    <label>Picture</label>
+                                                    <input type="file" class="form-control" name="user_image" id="user_image">
+                                        </div>
+                                    <!-- ===================================================================================================== -->		                        
+
+
+                                            
+
+                            </div>
+
+                            <div class="modal-footer">
+                                <input type="hidden" name="product_id" id="product_id" />
+                                <input type="hidden" name="operation" id="operation" />
+                                <input type="submit" name="action" id="action" class="btn btn-success " value="Adicionar" />
+                                <button type="button"  onclick="" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+
                         </div>
+                    </form>
 
-                        <div class="modal-body" id="corpo_modal">
-
-                            <!-- Email -->
-                            <!-- ===================================================================================================== -->				
-                                <label>Email</label>
-                                    <input type="email" class="form-control" name="text_email_admin_add" id="text_email_admin_add" placeholder="Email" required>
-                                    <br/>
-                            <!-- ===================================================================================================== -->					
-                            
-                            <!-- pass_1 -->
-                            <!-- ===================================================================================================== -->					
-                                <label>Pass</label>
-                                <input type="password" class="form-control" name="text_pass_1_admin_add" id="text_pass_1_admin_add" placeholder="Pass" required>
-                                <br/>
-                            <!-- ===================================================================================================== -->					
-                            <!-- pass_2 -->
-                            <!-- ===================================================================================================== -->					
-                                <label>Repetir Pass</label>
-                                <input type="password" class="form-control" name="text_pass_2_admin_add" id="text_pass_2_admin_add"  placeholder="Repetir Pass" required>
-                                <br/>
-                            <!-- ===================================================================================================== -->					
-                            <!-- Full Name -->
-                            <!-- ===================================================================================================== -->					
-                                <label>Full Name</label>
-                                <input type="text" class="form-control" name="text_full_name_admin_add"  id="text_full_name_admin_add"  placeholder="Full Name" required>
-                                <br/>
-                            <!-- ===================================================================================================== -->					
-                            <!-- address -->
-                            <!-- ===================================================================================================== -->					
-                                <label>address</label>
-                                <input type="text" class="form-control" name="text_address_admin_add" id="text_address_admin_add" placeholder="address" required>
-                                <br/>
-                            <!-- ===================================================================================================== -->					
-                            <!-- city -->
-                            <!-- ===================================================================================================== -->					
-                                <label>city</label>
-                                <input type="text" class="form-control" name="text_city_admin_add" id="text_city_admin_add"  placeholder="city" required>
-                                <br/>
-                            <!-- ===================================================================================================== -->					
-                            <!-- telephone -->
-                            <!-- ===================================================================================================== -->					
-                                <label>telephone</label>
-                                <input type="text" class="form-control" name="text_telephone_admin_add" id="text_telephone_admin_add" placeholder="telephone">
-                                <br/>
-                            <!-- ===================================================================================================== -->	
-                            
-                            <!-- Estado -->
-                            <!-- ===================================================================================================== -->					
-                                <label>Estado:</label>
-                                <select id="text_activo_admin_add" name="text_activo_admin_add"  class="form-control" onchange="">
-                                                    <option value="" <?= $f == '' ? 'selected' : '' ?> class="nav-it"></option>
-                                                    <option value="1" <?= $f == 'activo' ? 'selected' : '' ?> class="nav-it">Activo</option>
-                                                    <option value="0" <?= $f == 'inactivo' ? 'selected' : '' ?> class="nav-it">Inactivo</option>
-                                </select>	
-                                <br/>
-                            <!-- ===================================================================================================== -->									
-                            <!-- Género -->
-                            <!-- ===================================================================================================== -->					
-                                <label>Gender</label>
-                                <select id="text_gender_admin_add" name="text_gender_admin_add" class="form-control" onchange=""> 
-                                                                <option value="" <?= $f == '' ? 'selected' : '' ?> class="nav-it"></option>
-                                                                <option value="M" <?= $f == 'masculino' ? 'selected' : '' ?> class="nav-it">Masculino</option>
-                                                                <option value="F" <?= $f == 'feminino' ? 'selected' : '' ?> class="nav-it">Feminino</option>
-                                </select>
-                                <br/>
-                            <!-- ===================================================================================================== -->	
-                            <!-- Picture -->
-                            <!-- ===================================================================================================== -->					
-                                <input type="file" name="user_image_add" id="user_image_add" />
-                                <span id="user_uploaded_image"></span>
-                            <!-- ===================================================================================================== -->		                        
-
-                        </div>
-
-                        <div class="modal-footer">
-                            <input type="hidden" name="user_id" id="user_id" />
-                            <input type="hidden" name="operation" id="operation" />
-                            <input type="submit" name="action" id="action" class="btn btn-success " value="Adicionar" />
-                            <button type="button"  onclick="" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        </div>
-
-                    </div>
-                </form>
+                </div>
 
             </div>
-
-        </div>
-    <!-- ===================================================================================================== -->   
+        <!-- ===================================================================================================== -->   
     
-    <!-- PRODUCT MODALS -->
+    <!-- Order MODALS -->
     <!-- ===================================================================================================== -->
 
-        <!-- modal - ver product -->
+        <!-- modal - ver order -->
         <!-- ===================================================================================================== -->
         <div class="modal fade" id="modalVerOrder" name="modalVerOrder" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
@@ -1245,12 +1265,12 @@
             // =============================================================================================
                 $(document).on('click', '#botao_adicionar_produto', function(event)
                 {
-                    //alert('Adicionar cliente');
+                    alert('Adicionar produto');
                     $('#product_form')[0].reset();
-                    $('.modal-title').text("Adicionar Produto");
-                    $('#action').val("Add");
-                    $('#operation').val("Add");
-                    //  $('#user_uploaded_image').html('');
+                    // $('.modal-title').text("Adicionar Produto");
+                    // $('#action').val("Add");
+                    // $('#operation').val("Add");
+                    // //  $('#user_uploaded_image').html('');
                     $('#productModal').modal('show');
                 });
             // =============================================================================================        

@@ -1338,8 +1338,8 @@
                 // Criar tabela produtos 
                         public function criar_tabela_products()
                         {
-                                //// ===========================================================
-                                // verifica se existe um admin logado
+                            // ===========================================================
+                            // verifica se existe um admin logado
                                 if (!Store::is_admin_logged_in()) 
                                 {
                                     // ===========================================================
@@ -1350,21 +1350,22 @@
                                 }
                             // ===========================================================
 
-                            $adminModel = new AdminModel();
+                            // ===========================================================
+                                $adminModel = new AdminModel();
 
-                            $p = new Products();
-                            $tot_cat = $p->count_category();
-                            
-                            $categorys = $p->category_list();
-                            
-                            
-                            foreach ($categorys as $category) {
-                                $nomes[] = "'$category'";
-                                $quantity[] = $adminModel->count_products_category($category);
-                            }
-                            
-                            $quantity = implode(',', $quantity);
-                            $nomes = implode(',', $nomes);                         
+                                $p = new Products();
+                                $tot_cat = $p->count_category();
+                                
+                                $categorys = $p->category_list();
+                                
+                                foreach ($categorys as $category) {
+                                    $nomes[] = "'$category'";
+                                    $quantity[] = $adminModel->count_products_category($category);
+                                }
+                                
+                                $quantity = implode(',', $quantity);
+                                $nomes = implode(',', $nomes);  
+                            // ===========================================================                       
 
                             // ===========================================================
                             // apresenta a lista de orders (usando filtro se for o caso)
@@ -1396,7 +1397,7 @@
                                 $products = $ADMIN->products_list($filtro);
                             // ===========================================================
 
-                            foreach ($products as $product) : 
+                                foreach ($products as $product) : 
 
                                         $price_whithout_VAT = ($product->price / 1.23);
                                         $vat = $product->price - $price_whithout_VAT;
@@ -1427,11 +1428,9 @@
                                         $data[] = $sub_array;
                                 endforeach; 
 
-                            
-
-                                    $output = array(
-                                        "data"				=>	$data
-                                    );
+                                $output = array(
+                                    "data"				=>	$data
+                                );
 
                                 echo json_encode($output);
                             
@@ -1506,9 +1505,7 @@
                             <hr> 
                             <div class="row">
                                     <div class="col">
-                                        <a href="?a=new_product" class="mb-3 btn btn-black text-uppercase filter-btn m-2"><i class="fa fa-plus"></i></a>
-                                        <button id="add_button" onclick="apresentarModalAdd()" class="mb-3 btn btn-black text-uppercase filter-btn m-2"><i class="fa fa-plus"></i></button>  
-                                        <a href="?a=products_list" class="mb-3 btn btn-black text-uppercase filter-btn m-2"><i class="fas fa-eye"></i></a>
+                                        <button id="botao_adicionar_produto" class="mb-3 btn btn-black text-uppercase filter-btn m-2"><i class="fa fa-plus"></i></button>  
                                     </div>                          
                                     <div class="col">';
                                 
