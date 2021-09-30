@@ -176,24 +176,35 @@ namespace core\models;
         // ===========================================================
         // atualizar data product
             public function update_product( 
-            $id_product  ,
-            $product_name,
-            $category    ,
-            $price       ,
-            $stock       ,
-            $description )
+                $text_id_product,
+                $text_product_name ,
+                $text_product_price ,
+                $text_VAT_product ,
+                $text_stock_product ,
+                $text_description_product ,
+                $text_category_product,
+                $text_visible_product,
+                $text_active_product,
+                $image 
+            )
             {
                 // ===========================================================
                 // atualiza os data do customer indicados na bd
 
                     $parameters = [
-                        ':id_product'       =>   $id_product,
-                        ':product_name'     =>   $product_name,
-                        ':category'         =>   $category,
-                        ':price'            =>   $price,
-                        ':stock'            =>   $stock,
-                        ':description'      =>   $description
+                        ':id_product'       =>   $text_id_product,
+                        ':product_name'     =>   $text_product_name,
+                        ':category'         =>   $text_category_product,
+                        ':price'            =>   $text_product_price,
+                        ':stock'            =>   $text_stock_product,
+                        ':description'      =>   $text_description_product,
+                        ':VAT'              =>   $text_VAT_product,
+                        ':visible'          =>   $text_visible_product,
+                        ':active'           =>   $text_active_product,
+                        ':image'            =>   $image
                     ];
+
+                    //Store::printData($parameters);
 
                     $bd = new Database();
 
@@ -205,7 +216,11 @@ namespace core\models;
                             category = :category,
                             price = :price,
                             stock = :stock,
-                            description = :description
+                            description = :description,
+                            VAT = :VAT,
+                            visible = :visible,
+                            active =:active,
+                            image =:image
                         WHERE id_product = :id_product
                     ", $parameters);
                 // ===========================================================

@@ -1593,22 +1593,13 @@
                                 processData:false,
                                 success:function(data)
                                 {
-                                    alert('update product')
-                        // //             $('#modalUpdateCustomer').modal('hide');
-                        // //             alert(data);
-                        // //             //document.getElementById('msg_admin').innerHTML = data;
-                        // //             //alert(data);
-                        // //             // // alert("Admin adicionado com successo!!");
-                        // //             $('#tabela-customers').DataTable().ajax.reload();
-                                   
-                                                    
-                                                    
+                                    alert('update product');
+                                    $('#modalUpdateProduct').modal('hide');
+                                    $('#tabela-products').DataTable().ajax.reload();
                                 },
                                 error:function(data)
                                 {
-                                                
-                        // //             alert('ajax error');
-                                                
+                                    alert('ajax error');
                                 }
                                                 
                             });            

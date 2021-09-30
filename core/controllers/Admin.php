@@ -1695,7 +1695,10 @@
                         // ===========================================================
                         // Carregar model
                             $product = new Products(); 
+                        // ===========================================================
 
+                        // ===========================================================
+                        // Registar produto
                             $product->register_product( 
                             $text_product_name ,
                             $text_price ,
@@ -1706,111 +1709,13 @@
                             $text_visible_product,
                             $text_active_product,
                             $product_image
-                            );                            
-
-                           
-                        // ===========================================================  
-                            
-                        // //     if($existe_noutra_conta)
-                        // //     {
-                        // //         // ===================================================
-                        // //         // Construir msg modal                                
-                        // //             $msg = '';
-                        // //             $msg.= '<div class="alert alert-danger text-center p-2">
-                        // //             <p>O email já pertence a outro Admin.</p>
-                        // //             </div>';
-                        // //         // ===================================================
-
-                        // //         // ===================================================
-                        // //         // Mostrar msg modal
-                        // //         echo json_encode($msg);
-                        // //         return;
-                        // //         // ===================================================                                   
-                        // //     }
-                        // //     // ===========================================================
-                        // //     // validar se a nova pass vem com data                         
-                        // //         else if(strlen($text_pass_1_admin) < 6)
-                        // //         {
-                        // //             // ===========================================================
-                        // //             // Construir msg modal                                
-                        // //                 $msg = '';
-                        // //                 $msg.= '<div class="alert alert-danger text-center p-2">
-                        // //                 <p>A nova pass tem de ter mais de 5 caracteres.</p>
-                        // //                 </div>';
-                        // //             // ===========================================================
-
-                        // //             // ===========================================================
-                        // //             // Mostrar msg modal
-                        // //                 echo json_encode($msg);
-                        // //                 return;
-                        // //             // ===========================================================
-                        // //         }
-                        // //     // ===========================================================
-                        // //     // verificar se a nova pass é diferente da pass atual
-                        // //         else if($text_pass_1_admin != $text_pass_2_admin)
-                        // //         {
-                        // //             // ===========================================================
-                        // //             // Construir msg modal                                 
-                        // //                 $msg = '';
-                        // //                 $msg .='
-                        // //                 <div class="alert alert-danger text-center p-2">
-                        // //                 <p>As passes não coincidem.</p>
-                        // //                 </div>';
-                        // //             // ===========================================================
-
-                        // //             // ===========================================================
-                        // //             // Mostrar msg modal                                  
-                        // //                 echo json_encode($msg);
-                        // //                 return;
-                        // //             // ===========================================================
-                                    
-                        // //         }
-                        // //     // ===========================================================
-
-                        // //     // ===========================================================
-                        // //     // inserir novo admin na base de data e devolver o purl                    
-                        // //         else
-                        // //         {
-                        // //         $ADMIN->register_admin_modal( $text_email_admin ,
-                        // //         $text_pass_1_admin ,
-                        // //         $text_full_name_admin ,
-                        // //         $text_address_admin ,
-                        // //         $text_city_admin ,
-                        // //         $text_telephone_admin,
-                        // //         $text_activo_admin,
-                        // //         $text_gender_admin,
-                        // //         $user_image);
-                        // //         // ===========================================================                
-                                
-                        // //         // ===========================================================
-                        // //         // envio do email para o admin
-                        // //         $email = new SendEmail();
-                        // //         $resultado = $email->send_email_confirmation_new_admin($text_email_admin, $purl = null);
-                        // //         // ===========================================================     
-                                
-                        // //             // ===========================================================
-                        // //             // Construir msg modal                                
-                        // //                 $msg = '';
-
-                        // //                 $msg .='
-                        // //                 <div class="alert alert-success text-center p-2">
-                        // //                 <p>Admin criado com sucesso!</p>
-                        // //                 </div>';
-                        // //             // ===========================================================
-
-                        // //             // $this->admins_list();
-
-                        // //             // ===========================================================
-                        // //             // Mostrar msg modal                                  
-                        // //                 //echo json_encode($msg);
-                        // //             // ===========================================================                        
-                        // //         }
-                            
+                            ); 
+                        // ===========================================================                          
                     }
                 // ===========================================================  
                 
                 // ===========================================================
-                // criar conteudo - modal update admin  
+                // criar conteudo - modal update product
                     public function create_modal_update_product()
                     {
                         // ===========================================================
@@ -1850,148 +1755,52 @@
                 
                 // ===========================================================
                 // update / atualizar customer
-                public function update_product()
-                {   
-                    // // // ===========================================================
-                    // // // verifica se existe um utilizador logado
-                    // // if(!Store::is_admin_logged_in()) {
-                    // //     Store::redirect();
-                    // //     return;
-                    // // }
-                    // // // ===========================================================
+                    public function update_product()
+                    {   
+                        // ===========================================================
+                        // verifica se existe um utilizador logado
+                        if(!Store::is_admin_logged_in()) {
+                            Store::redirect();
+                            return;
+                        }
+                        // ===========================================================
 
-                    // // // ===========================================================
-                    // // // validar data
-                    // //     $id_customer = trim(strtolower($_POST['text_id_customer']));
-                    // //     $email_customer = trim(strtolower($_POST['text_email_customer']));
-                    // //     $pass_1_customer = trim(strtolower($_POST['text_pass_1_customer']));
-                    // //     $pass_2_customer = trim(strtolower($_POST['text_pass_2_customer']));
-                    // //     $full_name_customer = trim($_POST['text_full_name_customer']);
-                    // //     $address_customer = trim($_POST['text_address_customer']);
-                    // //     $city_customer = trim($_POST['text_city_customer']);
-                    // //     $telephone_customer = trim($_POST['text_telephone_customer']);
-                    // //     $activo_customer = trim($_POST['text_activo_customer']);
-                    // //     $gender_customer = trim($_POST['text_gender_customer']);
-                    // //     $image_customer = trim($_GET['c']);   
-                    // // // ===========================================================
+                        // // // ===========================================================
+                        // // // validar data
+                                $text_id_product = trim(strtolower($_POST['text_id_product']));
+                                $text_product_name = trim(strtolower($_POST['text_product_name']));
+                                $text_product_price = trim(strtolower($_POST['text_product_price']));
+                                $text_VAT_product = trim(strtolower($_POST['text_VAT_product']));
+                                $text_stock_product = trim($_POST['text_stock_product']);
+                                $text_description_product = trim($_POST['text_description_product']);
+                                $text_visible_product = trim($_POST['text_visible_product']);
+                                $text_active_product = trim($_POST['text_active_product']);
+                                $text_category_product = trim($_POST['text_category_product']);
+                                $image = trim($_GET['c']);   
+                        // // // ===========================================================
 
-                    // // //Store::printData($image_customer);
+                        // ===========================================================
+                        // Carregar model
+                            $product = new Products(); 
+                        // ===========================================================
 
-
-                    // // // ===========================================================
-                    // // // Carregar model
-                    // //     $customer = new Customers(); 
-                    // //     $existe_noutra_conta = $customer->check_if_email_exists_in_another_account($id_customer, $email_customer);
-                    // // // ===========================================================
-                    
-                    // // // ===========================================================
-                    // // // validar se é email válido
-                    // //     if(!filter_var($email_customer, FILTER_VALIDATE_EMAIL))
-                    // //     {
-
-                    // //         // ===========================================================
-                    // //         // Construir msg modal                                
-                    // //             $msg = '';
-                    // //             $msg.= '<div class="alert alert-danger text-center p-2">
-                    // //             <p>Endereço de email inválido.</p>
-                    // //             </div>';
-                                
-                    // //         // ===========================================================
-
-                    // //         // ===========================================================
-                    // //         // Mostrar msg modal
-                    // //             echo json_encode($msg);
-                    // //             return;
-                    // //         // ===========================================================
-                    // //     }
-                    // // // ===========================================================
-
-                    // //                         // ===========================================================
-                    // // // validar os restantes campos
-                    // // else if($pass_1_customer != $pass_2_customer)
-                    // // {
-                    // //     // ===========================================================
-                    // //     // Construir msg modal                                
-                    // //         $msg = '';
-                    // //         $msg.= '<div class="alert alert-danger text-center p-2">
-                    // //         <p>A palavra pass e a sua repetição tem de ser iguais.</p>
-                    // //         </div>';
-                    // //     // ===========================================================
-
-                    // //     // ===========================================================
-                    // //     // Mostrar msg modal
-                    // //         echo json_encode($msg);
-                    // //         return;
-                    // //     // ===========================================================                                
-                    // // }
-                    // // // ===========================================================
-
-                    // // // ===========================================================
-                    // // // validar os restantes campos
-                    // //     else if(empty($full_name_customer) || empty($address_customer) || empty($city_customer))
-                    // //     {
-                    // //         // ===========================================================
-                    // //         // Construir msg modal                                
-                    // //             $msg = '';
-                    // //             $msg.= '<div class="alert alert-danger text-center p-2">
-                    // //             <p>Preencha corretamente o formulário.</p>
-                    // //             </div>';
-                    // //         // ===========================================================
-
-                    // //         // ===========================================================
-                    // //         // Mostrar msg modal
-                    // //             echo json_encode($msg);
-                    // //             return;
-                    // //         // ===========================================================                                
-                    // //     }
-                    // // // ===========================================================
-
-                    // // // ===========================================================
-                    // // // validar se este email já existe noutra conta de customer
-                    // //     else if($existe_noutra_conta)
-                    // //     {
-                    // //         // ===================================================
-                    // //         // Construir msg modal                                
-                    // //             $msg = '';
-                    // //             $msg.= '<div class="alert alert-danger text-center p-2">
-                    // //             <p>O email já pertence a outro customer.</p>
-                    // //             </div>';
-                    // //         // ===================================================
-
-                    // //         // ===================================================
-                    // //         // Mostrar msg modal
-                    // //             echo json_encode($msg);
-                    // //             return;
-                    // //         // ===================================================                                   
-                    // //     }
-                    // // // ===========================================================
-                    // //     else
-                    // //     {
-                    // //         // // ===========================================================
-                    // //         // // atualizar os data do customer na base de data
-                    // //                 $customer->update_customer_alfa(
-                    // //                 $id_customer, $email_customer, $pass_1_customer, 
-                    // //                 $full_name_customer, $address_customer, $city_customer, 
-                    // //                 $telephone_customer, $activo_customer, $gender_customer,  $image_customer);
-                    // //         // // ===========================================================
-
-                    // //         // ===========================================================
-                    // //         // Construir msg modal                                
-                    // //             $msg = '';
-    
-                    // //             $msg .='
-                    // //             <div class="alert alert-success text-center p-2">
-                    // //             <p>Dados actualizados com sucesso!</p>
-                    // //             </div>';
-                    // //         // ===========================================================
-
-                    // //         // ===========================================================
-                    // //         // Mostrar msg modal                                  
-                    // //             echo json_encode($msg);
-                    // //         // ===========================================================
-                    // //     }
-                }
-            // ===========================================================                  
+                        // ===========================================================
+                        // Registar produto
+                            $product->update_product( 
+                            $text_id_product,
+                            $text_product_name ,
+                            $text_product_price ,
+                            $text_VAT_product ,
+                            $text_stock_product ,
+                            $text_description_product ,
+                            $text_category_product,
+                            $text_visible_product,
+                            $text_active_product,
+                            $image
+                            ); 
+                        // ===========================================================  
+                    }
+                // ===========================================================                  
                     
                 // ===========================================================
                 // apagar product / delete product   
