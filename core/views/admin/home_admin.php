@@ -804,7 +804,7 @@
                         data:{id_admin:id_admin},
                         success:function(data)
                         {
-                            const obj = JSON.parse(data);
+                           const obj = JSON.parse(data);
                            $('#modalUpdateAdmin').modal('show');
                            $('#text_email_admin').val(obj.user);
                            $('#text_id_admin').val(obj.id_admin);
@@ -817,18 +817,6 @@
                            $('#text_activo_admin').val(obj.active);
                            $('#text_gender_admin').val(obj.gender);
                            $('#upload_image_admin').html(obj.image);
-
-                           
-                           //document.getElementById('corpo_modal_update_admin').innerHTML = obj;
-
-                        //    estado = document.getElementById('text_activo_admin').value;
-                        //    genero = document.getElementById('text_gender_admin').value;
-
-                        //    alert(estado);
-                        //    alert(genero);
-
-                        // //    $('#text_activo_admin').val('0');
-                        // //    $('#text_gender_admin').val('M');
                         },
                         error:function(data)
                         {
@@ -1007,7 +995,7 @@
                             $.ajax(
                             {
                                 method: 'post',
-                                url: '?a=update_customer&c=' + image,
+                                url: '?a=update_admin&c=' + image,
                                 data:new FormData(this),
                                 contentType:false,
                                 processData:false,
@@ -1706,12 +1694,14 @@
                     //$('#product_uploaded_image').html('');
 
                   $.ajax({
-                        url:"?a=create_modal_update_product&c=" + id_product,
+                        url:"?a=create_modal_update_order",
                         method:"POST",
-                        data:{id_product:id_product},
+                        data:{ id_order : id_order },
                         success:function(data)
                         {
-                       /*     const obj = JSON.parse(data);
+                            const obj = JSON.parse(data);
+                            alert(data);
+                       /*     
                             $('#modalUpdateProduct').modal('show');
                             $('#text_id_product').val(obj.id_product);
                             $('#text_category_product').val(obj.category);
@@ -1722,7 +1712,8 @@
                             $('#text_VAT_product').val(obj.VAT);
                             $('#text_stock_product').val(obj.stock);
                             $('#text_active_product').val(obj.active);
-                            $('#product_uploaded_image').html(obj.image);*/
+                            $('#product_uploaded_image').html(obj.image);
+                        */
                         },
                         error:function(data)
                         {

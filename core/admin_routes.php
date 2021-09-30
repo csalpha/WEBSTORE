@@ -109,7 +109,7 @@
                         'change_order_data_submit' => 'main@change_order_data_submit',
                         'create_modal_ver_order' => 'admin@create_modal_ver_order',
                         'delete_order' => 'admin@delete_order',
-                        
+                        'create_modal_update_order' => 'admin@create_modal_update_order',
                     // ============================================================
 
                     // ============================================================

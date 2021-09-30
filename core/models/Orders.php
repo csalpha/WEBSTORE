@@ -194,6 +194,35 @@ namespace core\models;
         // ================================================================
 
         // ================================================================
+        //  detalhes de order
+            public function search_order($id_order)
+            {
+                // ================================================================
+                // data da order
+                    $parameters = 
+                    [
+                        ':id_order' => $id_order
+                    ];
+                // ================================================================ 
+
+                // ================================================================
+                // vai buscar os data da order e a lista dos products da order
+                    $bd = new Database(); // criar bd
+                    $data_order = $bd->select("
+                        SELECT *
+                        FROM orders
+                        WHERE id_order = :id_order
+                    ", $parameters)[0];
+                // ================================================================
+                            
+                // ================================================================
+                // devolver ao controlador os data do detalhe da order
+                    return $data_order;
+                // ================================================================
+            }
+        // ================================================================        
+
+        // ================================================================
         // efetuar pagamento
             public function make_payment($order_code)
             {

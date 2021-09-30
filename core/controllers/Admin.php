@@ -1897,7 +1897,7 @@
                                 $sub_array[] = '<a href="?a=order_details&e='. Store::aes_encrypt($order->id_order) .'" class="nav-it">'. $order->status .'</a>';
                                 $sub_array[] = $order->updated_at;
                                 $sub_array[] = '<button onclick="apresentarModalVerEncomenda('. $order->id_order .')" class="btn btn-primary btn-xs update"><i class="fas fa-eye"></i></button>';
-                                $sub_array[] = '<button onclick="apresentarModalUpdateOrder('. $order->id_order .')" class="btn btn-warning btn-xs update"><i class="fa fa-edit"></i></button>';
+                               // $sub_array[] = '<button onclick="apresentarModalUpdateOrder('. $order->id_order.','. $order->id_customer .')" class="btn btn-warning btn-xs update"><i class="fa fa-edit"></i></button>';
                                 $sub_array[] = '<button onclick="order_delete('.$order->id_order.')" class="btn btn-danger btn-xs delete"><i class="fa fa-trash"></i></button>';
                                 $data[] = $sub_array;
                             endforeach; 
@@ -2029,7 +2029,6 @@
                                                     <th>Status</th>
                                                     <th>Atualizado em</th>
                                                     <th class="text-center">Ver</th>
-                                                    <th class="text-center">Editar</th>
                                                     <th class="text-center">Apagar</th>                                                
                                                 </tr>
                                             </thead>';
@@ -2044,7 +2043,6 @@
                                                 <th>Status</th>
                                                 <th>Atualizado em</th>
                                                 <th class="text-center">Ver</th>
-                                                <th class="text-center">Editar</th>
                                                 <th class="text-center">Apagar</th>                                                
                                             </tr>
                                         </tfoot>';
@@ -2152,35 +2150,34 @@
                         // ===========================================================
                         // id vem por POST
                             $id_order = $_POST['id_order'];
-                        // // ===========================================================
-                        
+                        // ===========================================================                        
+                    
                         // ===========================================================
                         // vai buscar os data pessoais do Admin
                                 $order = new Orders();
-                                $data = [
+                                $data_order = [
                                     $order->search_order($id_order)
                                 ];
 
-                                //Store::printData($data);
+                            Store::printData($data_order);
 
-                                $data_product =
+                                $data_order =
                                 [
-                                    'id_product' => $data[0]->id_product,
-                                    'category' => $data[0]->category,
-                                    'product_name' => $data[0]->product_name,
-                                    'description' => $data[0]->description,
-                                    'image' => $data[0]->image,
-                                    'price' => $data[0]->price,
-                                    'stock' => $data[0]->stock,
-                                    'visible' => $data[0]->visible,
-                                    'active' => $data[0]->active,
-                                    'VAT' => $data[0]->VAT
+                                    'id_order' => $data_order[0]->id_order,
+                                    'id_customer' => $data_order[0]->id_customer,
+                                    'order_date' => $data_order[0]->order_date,
+                                    'address' => $data_order[0]->address,
+                                    'city' => $data_order[0]->city,
+                                    'email' => $data_order[0]->email,
+                                    'telephone' => $data_order[0]->telephone,
+                                    'order_code' => $data_order[0]->order_code,
+                                    'status' => $data_order[0]->status,
+                                    'VAT' => $data_order[0]->VAT
                                 ]; 
 
-                                echo json_encode($data_product);
-                        // ===========================================================                       
-                        
-                        
+                        // //         echo json_encode($data_product);
+                        // // // ===========================================================      
+                        // // echo json_encode($data);                 
                     }
                 // ===========================================================                 
                 
@@ -2192,7 +2189,67 @@
                         $adminModel = new AdminModel();
                         $adminModel->delete_order($id_order);                
                     }
-                // ===========================================================                  
+                // ===========================================================    
+                
+                // ===========================================================
+                // detalhe da order /  details orders
+                public function order_details()
+                {
+                    // ===========================================================
+                    // verifica se existe um admin logado
+                        if (!Store::is_admin_logged_in()) 
+                        {
+                            // ===========================================================
+                            // redireciona para a página inicial do backoffice
+                                Store::redirect('home_page', true);
+                                return;
+                            // ===========================================================
+                        }
+                    // ===========================================================
+                    
+                    // ===========================================================
+                    // buscar o id_order passado na url
+                        $id_order = null;
+                        if (isset($_GET['e'])) 
+                        {
+                            // ===========================================================
+                            // definir o id da order desencriptado
+                                $id_order = Store::aes_decrypt($_GET['e']);
+                            // ===========================================================
+                        }
+                    // ===========================================================
+
+                    // ===========================================================
+                    // avaliar tipo de dados do id da encoemnda
+                        if (gettype($id_order) != 'string') 
+                        {
+                            // ===========================================================
+                            // redireciona para a página inicial do backoffice
+                                Store::redirect('home_page', true);
+                                return;
+                            // ===========================================================
+                        }
+                    // ===========================================================
+                    
+                    // ===========================================================
+                    //carregar os dados da order selecionada
+                        $admin_model = new AdminModel(); // criar admin model
+                        $order = $admin_model->search_order_details($id_order);
+                    // ===========================================================
+                    
+                    // ===========================================================
+                    //apresentar os dados por forma a poder ver os detalhes e alterar o seu status
+                        $data = $order;
+                        Store::admin_layout([
+                            'admin/layouts/html_header',
+                            'admin/layouts/header',
+                            'admin/order_detail',
+                            'admin/layouts/footer',
+                            'admin/layouts/html_footer',
+                        ], $data);
+                    // ===========================================================
+                }
+            // ===========================================================                
             
             // ===============================================================
 
