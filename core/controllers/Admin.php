@@ -1754,7 +1754,7 @@
                 // =========================================================== 
                 
                 // ===========================================================
-                // update / atualizar customer
+                // update / atualizar produto
                     public function update_product()
                     {   
                         // ===========================================================
@@ -1850,6 +1850,7 @@
                                 'completed' => 'COMPLETED',
                             ];
                         // ===========================================================
+
                         // ===========================================================
                         // verifica se existe um filtro da query string
                             $filtro = '';
@@ -1864,6 +1865,7 @@
                                 // ===========================================================
                             }
                         // ===========================================================
+
                         // ===========================================================
                         // vai buscar o id customer se existir na query string
                             $id_customer = null;
@@ -1884,11 +1886,6 @@
                     
                         // ===========================================================
                         // apresenta a página das orders
-                            //  $data = [
-                            //      'orders_list' => $orders_list,
-                            //      'filtro' => $filtro
-                            //  ];                        
-
                             foreach ($orders_list as $order) : 
 
                                 $sub_array = array();
@@ -1900,11 +1897,10 @@
                                 $sub_array[] = '<a href="?a=order_details&e='. Store::aes_encrypt($order->id_order) .'" class="nav-it">'. $order->status .'</a>';
                                 $sub_array[] = $order->updated_at;
                                 $sub_array[] = '<button onclick="apresentarModalVerEncomenda('. $order->id_order .')" class="btn btn-primary btn-xs update"><i class="fas fa-eye"></i></button>';
-                                $sub_array[] = '<a href="?a=change_order_data&c='. Store::aes_encrypt($order->id_order) .'" class="btn btn-warning btn-xs update"><i class="fa fa-edit"></i></a>';
-                                //$sub_array[] = '<button id="botao_update" value="'. $admin->id_admin .'"  class="btn btn-warning btn-xs update"><i class="fa fa-edit"></i></button>';
+                                $sub_array[] = '<button onclick="apresentarModalUpdateOrder('. $order->id_order .')" class="btn btn-warning btn-xs update"><i class="fa fa-edit"></i></button>';
                                 $sub_array[] = '<button onclick="order_delete('.$order->id_order.')" class="btn btn-danger btn-xs delete"><i class="fa fa-trash"></i></button>';
                                 $data[] = $sub_array;
-                        endforeach; 
+                            endforeach; 
 
                             $output = array(
                                 "data"				=>	$data
@@ -1919,11 +1915,18 @@
                 // orders list
                     public function orders_list()
                     {
-                        $admin = new AdminModel();
-                        $total_orders_in_processing = $admin->total_orders_in_processing();
-                        $total_orders_pending = $admin->total_orders_pending();
-
                         $msg = '';
+
+                        // carregar model
+                        // ===========================================================
+                            $admin = new AdminModel();
+                        // ===========================================================
+
+                        // total orders in processing / pending
+                        // ===========================================================
+                            $total_orders_in_processing = $admin->total_orders_in_processing();
+                            $total_orders_pending = $admin->total_orders_pending();
+                        // ===========================================================
 
                         // ===========================================================
                         // verifica se existe um admin logado
@@ -1982,70 +1985,56 @@
                     
                         // ===========================================================
                         // apresenta a página das orders
-                            $data = [
-                                'orders_list' => $orders_list,
-                                'filtro' => $filtro
-                            ];                        
+                                $data = [
+                                    'orders_list' => $orders_list,
+                                    'filtro' => $filtro
+                                ];                        
 
-                        //$msg .= 'orders list';
-
-                        $msg .= '
-                        <h3>Lista de orders '; 
-                        $msg .= $filtro != " " ? $filtro : " ";
-                        
-                        $msg .= '</h3>
-                        <hr>
-                            <div class="row">
-                                <div class="col">
-                                    <a href="?a=new_order" class="mb-3 btn btn-black text-uppercase filter-btn m-2"><i class="fa fa-plus"></i></a>
-                                    </div>
+                            $msg .= '
+                            <h3>Lista de orders '; 
+                            $msg .= $filtro != " " ? $filtro : " ";
+                            
+                            $msg .= '</h3>
+                            <hr>
+                                <div class="row">
                                     <div class="col">
-                                    <a href="?a=orders_list" class="mb-3 btn btn-black text-uppercase filter-btn m-2"><i class="fas fa-eye"></i></a>
+                                        
                                     </div>
+
+                                    <div class="col">
+                                        
+                                    </div>
+                                        
                                     <div class="col">';
 
-                                    $f = '';
-                                    if (isset($_GET['f'])) {
-                                        $f = $_GET['f'];
-                                    }
+                                        $f = '';
+                                        if (isset($_GET['f'])) {
+                                            $f = $_GET['f'];
+                                        }
 
-                                    $msg .= '<div class="mb-3 row">';
-                                        // <label for="inputPassword" class="col-sm-4 text-end col-form-label">Escolher estado:</label>
-                                        // <div class="col-sm-8">
-                                        //     <select id="combo-status" class="form-control" onchange="definir_filtro()">';
+                                        $msg .= '<div class="mb-3 row">';
+                                            $msg .='</div>
+                                            </div>
+                                        </div>';
+                            
+                                    $msg .= '<small>
+                                        <table class="table table-striped" id="tabela-orders">
+                                            <thead class="table-dark">
+                                                <tr>
+                                                    <th>Data</th>
+                                                    <th>Código</th>
+                                                    <th>Nome Cliente</th>
+                                                    <th>Email</th>
+                                                    <th>telephone</th>
+                                                    <th>Status</th>
+                                                    <th>Atualizado em</th>
+                                                    <th class="text-center">Ver</th>
+                                                    <th class="text-center">Editar</th>
+                                                    <th class="text-center">Apagar</th>                                                
+                                                </tr>
+                                            </thead>';
 
-                                        //         $msg .= '<option value=" "';
-                                        //         $msg .= $f == " " ? 'selected' : " "; 
-                                        //         $msg .= 'class="nav-it"></option>';
-                                        //         $msg .= '<option value="pendent"';  
-                                        //         $msg .= $f == "pendent" ? "selected" : " " ; 
-                                        //         $msg .= 'class="nav-it">Pendent</option>
-                                        //         <option value="processing"';  
-                                        //         $msg .= $f == "processing" ? "selected" : " "; 
-                                        //         $msg .= 'class="nav-it">Processing</option>
-                                        //         <option value="sent"';  
-                                        //         $msg .= $f == "sent" ? "selected" : " ";
-                                        //         $msg .= 'class="nav-it">Sent</option>
-                                        //         <option value="canceled"';  
-                                        //         $msg .= $f == "canceled" ? "selected" : " ";
-                                        //         $msg .= 'class="nav-it">Canceled</option>
-                                        //         <option value="completed"';  
-                                        //         $msg .= $f == "completed" ? "selected" : " ";
-                                        //         $msg .= 'class="nav-it">Completed</option>
-                                        //     </select>
-                                        //     </div>
-                                        $msg .='</div>
-                                        </div>
-                                    </div>';
-                        
-                            // //  if (count($orders_list) == 0) : 
-                            // //     $msg .= '<hr>
-                            // //     <p>Não existem orders registadas.</p>
-                            // //     <hr>';
-                            // //  else : 
-                                $msg .= '<small>
-                                    <table class="table table-striped" id="tabela-orders">
-                                        <thead class="table-dark">
+                                            $msg .= '<tfoot class="table-dark">
                                             <tr>
                                                 <th>Data</th>
                                                 <th>Código</th>
@@ -2058,141 +2047,141 @@
                                                 <th class="text-center">Editar</th>
                                                 <th class="text-center">Apagar</th>                                                
                                             </tr>
-                                        </thead>';
+                                        </tfoot>';
+                                    $msg .= '</table>
+                                    </small>';
+                            
 
-                                        $msg .= '<tfoot class="table-dark">
-                                        <tr>
-                                            <th>Data</th>
-                                            <th>Código</th>
-                                            <th>Nome Cliente</th>
-                                            <th>Email</th>
-                                            <th>telephone</th>
-                                            <th>Status</th>
-                                            <th>Atualizado em</th>
-                                            <th class="text-center">Ver</th>
-                                            <th class="text-center">Editar</th>
-                                            <th class="text-center">Apagar</th>                                                
-                                        </tr>
-                                    </tfoot>';
-                                    // <tbody>';
-                                        /*    foreach ($orders_list as $order) : 
-                                                $msg .= '<tr>
-                                                    <td>'. $order->order_date .'</td>
-                                                    <td>'. $order->order_code .'</td>
-                                                    <td>'. $order->full_name .'</td>
-                                                    <td>'. $order->email .'</td>
-                                                    <td>'. $order->telephone .'</td>
-                                                    <td>
-                                                        <a href="?a=order_details&e='. Store::aes_encrypt($order->id_order) .'" class="nav-it">'. $order->status .'</a>
-                                                    </td>
-                                                    <td>'. $order->updated_at .'</td>
-                                                <td class="text-center">
-                                                <a href="?a=order_details&e='. Store::aes_encrypt($order->id_order) .'" class="btn btn-primary btn-xs update"><i class="fas fa-eye"></i></a>
-                                                </td>                                                        
-                                                <td class="text-center">
-                                                    <a href="?a=change_order_data&c='. Store::aes_encrypt($order->id_order) .'" class="btn btn-warning btn-xs update"><i class="fa fa-edit"></i></a>
-                                                </td>
-                                                <td class="text-center">
-                                                <a href="?a=delete_order&id_order='. Store::aes_encrypt($order->id_order) .'" class="btn btn-danger btn-xs delete"><i class="fa fa-trash"></i></button>
-                                                </td>                                                        
-                                                </tr>';
-                                            endforeach; */
-                                            
-                                            // $msg .= '</tbody>
-                                            $msg .= '</table>
-                                </small>';
-                            // //  endif; 
+                                $msg .= '<hr>
+                                <div class="row">
+                                    <div class="col">
+                                    </div>
+                                    <div class="col">
+                                        <div class="mb-3 row">
+                                        </div>
+                                    </div>
+                                </div>';
 
-                            $msg .= '<hr>
-                            <div class="row">
-                                <div class="col">
-                                </div>
-                                <div class="col">
-                                    <div class="mb-3 row">
+                                $msg .= '<div id="grafico"> </div>
+                                <div class="row">
+                                    <div class="col">
+                                    </div>
+                                    <div class="col">
+                                        <div class="mb-3 row">
+                                        </div>
                                     </div>
                                 </div>
-                            </div>';
+                            </div>';                        
 
-                            $msg .= '<div id="grafico"> </div>
-                            <div class="row">
-                                <div class="col">
-                                </div>
-                                <div class="col">
-                                    <div class="mb-3 row">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>';                        
-
-                        echo json_encode($msg);
+                            echo json_encode($msg);
+                        // ===========================================================
                     }
                 // ===========================================================  
 
                 // ===========================================================
                 // cria conteúdo - modal ver orders
-                public function create_modal_ver_order()
-                {
-              // ===========================================================
-                        // id vem por POST
-                        $id_order = $_POST['id_order'];
-                        // ===========================================================
-                        
-                        // // ===========================================================
-                        // // vai buscar os data pessoais do Admin
-                            $ADMIN = new AdminModel();
-                            $data = [ 
-                                    $ADMIN->search_order($id_order) 
-                            ];
+                    public function create_modal_ver_order()
+                    {
+                            // ===========================================================
+                            // id vem por POST
+                                $id_order = $_POST['id_order'];
+                            // ===========================================================
                             
-                            //Store::printData($data[0][0]);
+                            // ===========================================================
+                            // vai buscar os dados da encomenda
+                                $ADMIN = new AdminModel();
+                                $data = [ 
+                                    $ADMIN->search_order($id_order) 
+                                ];
+                            // ===========================================================
+                                
+                                // Dados da encomenda
+                                // ===========================================================
+                                    $data_order =
+                                    [
+                                        'id_order' => $data[0][0]->id_order,
+                                        'order_code' => $data[0][0]->order_code,
+                                        'id_customer' => $data[0][0]->id_customer,
+                                        'full_name' => $data[0][0]->full_name,
+                                        'order_date' => $data[0][0]->order_date,
+                                        'address' => $data[0][0]->address,
+                                        'city' => $data[0][0]->city,
+                                        'email' => $data[0][0]->email,
+                                        'telephone' => $data[0][0]->telephone,
+                                        'status' => $data[0][0]->status,
+                                    ];
+                                // ===========================================================
 
+                                // ===========================================================  
+                                // Construir msg modal 
+                            
+                                    $msg = '';
+                                
+                                    $msg.='<div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Ver Order</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>';
+                                    $msg.='<div class="modal-body">
+                                            <br>
+                                            <table class="table table-striped">
+                                            <input  type="hidden" value="'. $data[0][0]->id_order.'"> '; 
+                                                    foreach($data_order as $key=>$value):
+                                                        $msg.='<tr>
+                                                            <td class="text-end" width="40%">'.$key.':</td>
+                                                            <td width="60%"><strong>'.$value .'</strong></td>
+                                                        </tr>';
+                                                    endforeach;
+                                            $msg.='</table>
+                                        </div>';
+                                        $msg.='<div class="modal-footer">
+                                                    <button type="button"  onclick="" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div> ';
+                                // ===========================================================
 
-                            $data_order =
-                            [
-                                'id_order' => $data[0][0]->id_order,
-                                'order_code' => $data[0][0]->order_code,
-                                'id_customer' => $data[0][0]->id_customer,
-                                'full_name' => $data[0][0]->full_name,
-                                'order_date' => $data[0][0]->order_date,
-                                'address' => $data[0][0]->address,
-                                'city' => $data[0][0]->city,
-                                'email' => $data[0][0]->email,
-                                'telephone' => $data[0][0]->telephone,
-                                'status' => $data[0][0]->status,
-                            ];
-
-                            // Store::printData($data_customer);
-                            // ===========================================================  
-                            // Construir msg modal 
-                        
-                            $msg = '';
-                        
-                            $msg.='<div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Ver Order</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>';
-                            $msg.='<div class="modal-body">
-                                        <br>
-                                        <table class="table table-striped">
-                                        <input  type="hidden" value="'. $data[0][0]->id_order.'"> '; 
-                                            foreach($data_order as $key=>$value):
-                                                $msg.='<tr>
-                                                    <td class="text-end" width="40%">'.$key.':</td>
-                                                    <td width="60%"><strong>'.$value .'</strong></td>
-                                                </tr>';
-                                            endforeach;
-                                        $msg.='</table>
-                                </div>';
-                                $msg.='<div class="modal-footer">
-                                            <button type="button"  onclick="" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        </div> ';
+                                // ===========================================================
+                                // Mostrar msg modal 
+                                    echo json_encode($msg);
+                                // ========================================================                      
+                    }
+                // ===========================================================  
+                
+                // ===========================================================
+                // criar conteudo - modal update product
+                    public function create_modal_update_order()
+                    {
                         // ===========================================================
-
+                        // id vem por POST
+                            $id_order = $_POST['id_order'];
+                        // // ===========================================================
+                        
                         // ===========================================================
-                        // Mostrar msg modal 
-                            echo json_encode($msg);
-                        // ========================================================                      
-                }
+                        // vai buscar os data pessoais do Admin
+                                $order = new Orders();
+                                $data = [
+                                    $order->search_order($id_order)
+                                ];
+
+                                //Store::printData($data);
+
+                                $data_product =
+                                [
+                                    'id_product' => $data[0]->id_product,
+                                    'category' => $data[0]->category,
+                                    'product_name' => $data[0]->product_name,
+                                    'description' => $data[0]->description,
+                                    'image' => $data[0]->image,
+                                    'price' => $data[0]->price,
+                                    'stock' => $data[0]->stock,
+                                    'visible' => $data[0]->visible,
+                                    'active' => $data[0]->active,
+                                    'VAT' => $data[0]->VAT
+                                ]; 
+
+                                echo json_encode($data_product);
+                        // ===========================================================                       
+                        
+                        
+                    }
                 // ===========================================================                 
                 
                 // ===========================================================

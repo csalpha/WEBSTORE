@@ -331,32 +331,6 @@
             // ===========================================================   
             
             // ===========================================================
-            // novo customer / new customer   
-                // // public function new_customer()
-                // // {
-                // //     // ===========================================================
-                // //     // verifica se já existe sessão aberta
-                // //         if (Store::is_customer_logged_in()) {
-                // //             $this->index();
-                // //             return;
-                // //         }
-                // //     // ===========================================================
-                    
-                // //     // ===========================================================
-                // //     // apresenta o layout para criar um novo utilizador
-                // //         Store::Layout([
-                // //             'layouts/html_header',
-                // //             'layouts/header',
-                // //             'create_customer',
-                // //             'layouts/footer',
-                // //             'layouts/html_footer',
-                // //         ]); 
-                // //     // ===========================================================    
-                // // }
-            // ===========================================================   
-                
-
-            // ===========================================================
             // criar customer / create customer   
                 public function create_customer()
                 {   

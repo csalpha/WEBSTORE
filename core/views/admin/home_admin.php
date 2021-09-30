@@ -13,7 +13,7 @@
         <!-- HOME ADMIN -->
         <!-- ===================================================================================================== -->
             <div id="home_admin" class="col-md-10">
-                    
+
             </div>
         <!-- ===================================================================================================== -->
 
@@ -358,7 +358,7 @@
             </div>
         <!-- ===================================================================================================== -->   
 
-        <!-- modal add customer -->
+        <!-- modal - add customer -->
         <!-- ===================================================================================================== -->
             <div id="customerModal" name="customerModal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
@@ -719,7 +719,7 @@
 
     <!-- ===================================================================================================== -->
 
-    <!-- Order MODALS -->
+    <!-- ORDER MODALS -->
     <!-- ===================================================================================================== -->
 
         <!-- modal - ver order -->
@@ -730,7 +730,36 @@
                     </div>
                 </div>
             </div>
-        <!-- ===================================================================================================== -->     
+        <!-- ===================================================================================================== -->  
+        
+        <!-- modal - update order -->
+        <!-- ===================================================================================================== -->
+            <div class="modal fade" id="modalUpdateOrder" name="modalUpdateOrder" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                    <form method="post"  id="product_form_update" enctype="multipart/form-data">
+                            <div class="modal-content" id='corpo_modal_update_product'>
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Alterar dados da encomenda</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+
+                                <div class="modal-body" id="corpo_modal_product">
+
+                                    Modal update encomenda
+
+                                </div>
+
+                                <div class="modal-footer">
+                                    <input type="hidden" name="user_id" id="user_id" />
+                                    <input type="hidden" name="operation" id="operation" />
+                                    <input type="submit" name="action" id="action" class="btn btn-success " value="Adicionar" />
+                                    <button type="button"  onclick="" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                    </form>                 
+                    </div>
+            </div>
+        <!-- ===================================================================================================== -->         
 
     <!-- ===================================================================================================== -->    
 
@@ -1667,7 +1696,41 @@
                         }
                     });
                 }     
-            // =============================================================================================         
+            // =============================================================================================   
+            
+            // Apresentar Modal - actualizar produto
+            // =============================================================================================
+                function apresentarModalUpdateOrder(id_order) 
+                {
+                    $('#modalUpdateOrder').modal('show');
+                    //$('#product_uploaded_image').html('');
+
+                  $.ajax({
+                        url:"?a=create_modal_update_product&c=" + id_product,
+                        method:"POST",
+                        data:{id_product:id_product},
+                        success:function(data)
+                        {
+                       /*     const obj = JSON.parse(data);
+                            $('#modalUpdateProduct').modal('show');
+                            $('#text_id_product').val(obj.id_product);
+                            $('#text_category_product').val(obj.category);
+                            $('#text_product_name').val(obj.product_name);
+                            $('#text_product_price').val(obj.price);
+                            $('#text_visible_product').val(obj.visible);
+                            $('#text_description_product').val(obj.description);
+                            $('#text_VAT_product').val(obj.VAT);
+                            $('#text_stock_product').val(obj.stock);
+                            $('#text_active_product').val(obj.active);
+                            $('#product_uploaded_image').html(obj.image);*/
+                        },
+                        error:function(data)
+                        {
+                            alert('Error');
+                        }
+                    });
+                }            
+            // =============================================================================================              
         
             // apagar dados - order
             // =================================================================================================
