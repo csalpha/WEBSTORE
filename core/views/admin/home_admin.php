@@ -489,9 +489,103 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
 
-                                        <div class="modal-body">
-                                            corpo modal
+                                <div class="modal-body" id="corpo_modal_product">
+
+                                    <!-- Product name -->
+                                    <!-- ===================================================================================================== -->					
+                                        <div class="my-3">
+                                            <label>ID product</label>
+                                            <input type="text" class="form-control" id="text_id_product"  name="text_id_product"  placeholder="product name" required>
                                         </div>
+                                    <!-- ===================================================================================================== -->	                                
+
+                                    <!-- Category -->
+                                    <!-- ===================================================================================================== -->				
+                                        <div class="my-3">
+                                            <label>Category</label>
+                                            <select id="text_category_product" name="text_category_product"  class="form-control" onchange="">
+                                                <option value="" selected class="nav-it"></option>
+                                                <option value="<?= CATEGORY[0] ?>"  class="nav-it"><?= CATEGORY[0] ?></option>
+                                                <option value="<?= CATEGORY[1] ?>"  class="nav-it"><?= CATEGORY[1] ?></option>
+                                                <option value="<?= CATEGORY[2] ?>"  class="nav-it"><?= CATEGORY[2] ?></option>
+                                            </select>	
+                                        </div>
+                                    <!-- ===================================================================================================== -->					
+
+                                    <!-- Product name -->
+                                    <!-- ===================================================================================================== -->					
+                                        <div class="my-3">
+                                            <label>Product name</label>
+                                            <input type="text" class="form-control" id="text_product_name"  name="text_product_name"  placeholder="product name" required>
+                                        </div>
+                                    <!-- ===================================================================================================== -->					
+
+                                    <!-- Price -->
+                                    <!-- ===================================================================================================== -->					
+                                        <div class="my-3">
+                                            <label>Price</label>
+                                            <input type="text" class="form-control" id="text_product_price" name="text_product_price"  placeholder="price" required>
+                                        </div>
+                                    <!-- ===================================================================================================== -->					
+
+                                    <!-- VAT -->
+                                    <!-- ===================================================================================================== -->					
+                                        <div class="my-3">
+                                            <label>VAT</label>
+                                            <input type="text" class="form-control" id="text_VAT_product" name="text_VAT_product"  placeholder="VAT" required>
+                                        </div>
+                                    <!-- ===================================================================================================== -->					
+
+                                    <!-- Stock -->
+                                    <!-- ===================================================================================================== -->					
+                                        <div class="my-3">
+                                            <label>Stock</label>
+                                            <input type="text" class="form-control" id="text_stock_product" name="text_stock_product"  placeholder="Stock" required>
+                                        </div>
+                                    <!-- ===================================================================================================== -->					
+
+                                    <!-- Description -->
+                                    <!-- ===================================================================================================== -->					
+                                        <div class="my-3">
+                                            <label>description</label>
+                                            <input type="text" class="form-control" id="text_description_product" name="text_description_product"  placeholder="description" required>
+                                        </div>
+                                    <!-- ===================================================================================================== -->					
+
+                                    <!-- visible -->
+                                    <!-- ===================================================================================================== -->					
+                                        <div class="my-3">
+                                            <label>Visible</label>
+                                            <select id="text_visible_product" name="text_visible_product"  class="form-control" onchange="">
+                                                <option value="" selected class="nav-it"></option>
+                                                <option value="<?= active[0] ?>"  class="nav-it">escondido</option>
+                                                <option value="<?= active[1] ?>"  class="nav-it">visivel</option>
+                                            </select>
+                                        </div>
+                                    <!-- ===================================================================================================== -->	
+
+                                    <!-- active -->
+                                    <!-- ===================================================================================================== -->					
+                                        <div class="my-3">
+                                            <label>Activo</label>
+                                            <select id="text_active_product" name="text_active_product"  class="form-control" onchange="">
+                                                <option value="" selected class="nav-it"></option>
+                                                <option value="<?= active[0] ?>"  class="nav-it">inactivo</option>
+                                                <option value="<?= active[1] ?>"  class="nav-it">activo</option>
+                                            </select>
+                                        </div>
+                                    <!-- ===================================================================================================== -->                                    
+
+                                    <!-- Picture -->
+                                    <!-- ===================================================================================================== -->					
+                                        <div class="my-3">
+                                            <label>Picture</label>
+                                            <input type="file" class="form-control" name="product_image" id="product_image">
+                                            <span id="product_uploaded_image" name="product_uploaded_image"></span>
+                                        </div>
+                                    <!-- ===================================================================================================== -->	
+
+                                </div>
 
                                 <div class="modal-footer">
                                     <input type="hidden" name="user_id" id="user_id" />
@@ -1392,12 +1486,12 @@
                     });
             // ============================================================================================= 
             
-            // Apresentar Modal - actualizar admin
+            // Apresentar Modal - actualizar produto
             // =============================================================================================
                 function apresentarModalUpdateProduct(id_product) 
                 {
                     $('#modalUpdateProduct').modal('show');
-                    //$('#upload_image_admin').html('');
+                    $('#product_uploaded_image').html('');
 
                      $.ajax({
                          url:"?a=create_modal_update_product&c=" + id_product,
@@ -1405,33 +1499,18 @@
                          data:{id_product:id_product},
                          success:function(data)
                          {
-                            alert(data);
                             const obj = JSON.parse(data);
                             $('#modalUpdateProduct').modal('show');
-                    // //        $('#modalUpdateAdmin').modal('show');
-                    // //        $('#text_email_admin').val(obj.user);
-                    // //        $('#text_id_admin').val(obj.id_admin);
-                    // //        $('#text_pass_1_admin').val(obj.pass);
-                    // //        $('#text_pass_2_admin').val(obj.pass);
-                    // //        $('#text_full_name_admin').val(obj.full_name);
-                    // //        $('#text_address_admin').val(obj.address);
-                    // //        $('#text_city_admin').val(obj.city);
-                    // //        $('#text_telephone_admin').val(obj.telephone);
-                    // //        $('#text_activo_admin').val(obj.active);
-                    // //        $('#text_gender_admin').val(obj.gender);
-                    // //        $('#upload_image_admin').html(obj.image);
-
-                           
-                    // //        //document.getElementById('corpo_modal_update_admin').innerHTML = obj;
-
-                    // //     //    estado = document.getElementById('text_activo_admin').value;
-                    // //     //    genero = document.getElementById('text_gender_admin').value;
-
-                    // //     //    alert(estado);
-                    // //     //    alert(genero);
-
-                    // //     // //    $('#text_activo_admin').val('0');
-                    // //     // //    $('#text_gender_admin').val('M');
+                            $('#text_id_product').val(obj.id_product);
+                            $('#text_category_product').val(obj.category);
+                            $('#text_product_name').val(obj.product_name);
+                            $('#text_product_price').val(obj.price);
+                            $('#text_visible_product').val(obj.visible);
+                            $('#text_description_product').val(obj.description);
+                            $('#text_VAT_product').val(obj.VAT);
+                            $('#text_stock_product').val(obj.stock);
+                            $('#text_active_product').val(obj.active);
+                            $('#product_uploaded_image').html(obj.image);
                         },
                         error:function(data)
                         {
@@ -1439,30 +1518,133 @@
                         }
                     });
                 }            
-            // =============================================================================================              
+            // =============================================================================================    
+            
+            // Submeter dados - atualizar produto
+            // =============================================================================================
+                $(document).on('submit', '#product_form_update', function(event)
+                {
+                        event.preventDefault();
+
+                        var text_id_product = $('#text_id_product').val();
+                        var text_product_name = $('#text_product_name').val();
+                        var text_product_price = $('#text_product_price').val();
+                        var text_VAT_product = $('#text_VAT_product').val();
+                        var text_stock_product = $('#text_stock_product').val();
+                        var text_description_product = $('#text_description_product').val();
+                        var text_visible_product = '';
+                        var text_active_product = ''; 
+                        var text_category_product = '';
+
+                        $("#text_category_product option:selected").each(function() 
+                        {
+                            text_category_product = $(this).val();
+                        }); 
+
+                        $("#text_visible_product option:selected").each(function() 
+                        {
+                            text_visible_product = $(this).val();
+                        });   
+                        
+                        $("#text_active_product option:selected").each(function() 
+                        {
+                            text_active_product = $(this).val();
+                        });                         
+                        
+                        var image = $('#product_image').val().split('\\').pop().toLowerCase();
+                        var extension = $('#product_image').val().split('.').pop().toLowerCase();  
+                        
+                        if(extension != '')
+                        {
+                            if(jQuery.inArray(extension, ['gif','png','jpg','jpeg']) == -1)
+                            {
+                                alert("Invalid Image File");
+                                $('#product_image').val('');
+                                return false;
+                            }
+                        }	  
+                        
+                         array = [ 
+                             text_id_product,
+                             text_product_name,
+                             text_product_price,
+                             text_VAT_product,
+                             text_stock_product ,
+                             text_description_product ,
+                             text_visible_product ,
+                             text_active_product ,
+                             text_category_product ,
+                             image
+                             ];
+
+                         alert(array);
+                            
+                        if( text_id_product != '' && text_product_name != '' && text_product_price != '' && text_VAT_product !='' 
+                            && text_stock_product != '' && text_description_product != '' && text_visible_product != '' 
+                            && text_active_product != '' && text_category_product != ''&& image != '')
+                        {
+                            alert('success');
+                            $.ajax(
+                            {
+                                method: 'post',
+                                url: '?a=update_product&c=' + image,
+                                data:new FormData(this),
+                                contentType:false,
+                                processData:false,
+                                success:function(data)
+                                {
+                                    alert('update product')
+                        // //             $('#modalUpdateCustomer').modal('hide');
+                        // //             alert(data);
+                        // //             //document.getElementById('msg_admin').innerHTML = data;
+                        // //             //alert(data);
+                        // //             // // alert("Admin adicionado com successo!!");
+                        // //             $('#tabela-customers').DataTable().ajax.reload();
+                                   
+                                                    
+                                                    
+                                },
+                                error:function(data)
+                                {
+                                                
+                        // //             alert('ajax error');
+                                                
+                                }
+                                                
+                            });            
+
+                         }
+                         else
+                         {
+                             alert("Both Fields are Required");
+                         }
+
+
+                });
+            // =============================================================================================               
         
-            // apagar dados - product
+            // apagar dados - produto
             // =================================================================================================
                     function product_delete(id_product)
                     {
-                            var id_product = id_product;
-                            if(confirm("Are you sure you want to delete this?"))
-                            {
-                                $.ajax({
-                                    url:"?a=delete_product",
-                                    method:"POST",
-                                    data:{id_product:id_product},
-                                    success:function(data)
-                                    {
-                                        alert("produto apagado com successo!!");
-                                        $('#tabela-products').DataTable().ajax.reload();
-                                    }
-                                });
-                            }
-                            else
-                            {
-                                return false;	
-                            }
+                        var id_product = id_product;
+                        if(confirm("Are you sure you want to delete this?"))
+                        {
+                            $.ajax({
+                                url:"?a=delete_product",
+                                method:"POST",
+                                data:{id_product:id_product},
+                                success:function(data)
+                                {
+                                    alert("produto apagado com successo!!");
+                                    $('#tabela-products').DataTable().ajax.reload();
+                                }
+                            });
+                        }
+                        else
+                        {
+                            return false;	
+                        }
                     };
             // =================================================================================================  
 
