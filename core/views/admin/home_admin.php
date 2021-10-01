@@ -759,7 +759,65 @@
                     </form>                 
                     </div>
             </div>
-        <!-- ===================================================================================================== -->         
+        <!-- ===================================================================================================== --> 
+
+<!-- modal -->
+<!-- ===================================================================================================== -->
+<div class="modal fade" id="modalStatus" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <!-- modal dialog -->
+        <!-- ===================================================================================================== -->
+            <div class="modal-dialog modal-dialog-centered">
+                <!-- modal content -->
+                <!-- ===================================================================================================== -->                
+                    <div class="modal-content">
+                        <!-- modal header -->
+                        <!-- ===================================================================================================== -->                        
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Alterar estado da encomenda</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                        <!-- ===================================================================================================== -->  
+                        
+                        <!-- modal body -->
+                        <!-- ===================================================================================================== -->                        
+                                <div id="corpo_modal_status" class="modal-body">
+                                    
+                                     
+                                        
+                                            
+                                            
+                                    
+
+
+                                    
+                                </div>
+                        <!-- ===================================================================================================== -->  
+                        
+                        <!-- modal footer -->
+                        <!-- ===================================================================================================== -->                        
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            </div>
+                        <!-- ===================================================================================================== -->   
+                    </div>
+                <!-- ===================================================================================================== -->                    
+            </div>
+        <!-- ===================================================================================================== -->        
+    </div>
+<!-- ===================================================================================================== -->          
+        
+		<!-- Modal order detail -->
+		<!-- ===================================================================================================== -->
+		    <div class="modal fade" id="modalOrderDetail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					  <div class="modal-dialog modal-dialog-centered">
+						  <div id="corpo_order_detail" class="modal-content">
+
+						  </div>
+					  </div>
+			</div>
+		<!-- ===================================================================================================== -->   
+        
+
 
     <!-- ===================================================================================================== -->    
 
@@ -1699,7 +1757,7 @@
                         data:{ id_order : id_order },
                         success:function(data)
                         {
-                            const obj = JSON.parse(data);
+                            //const obj = JSON.parse(data);
                             alert(data);
                        /*     
                             $('#modalUpdateProduct').modal('show');
@@ -1746,8 +1804,48 @@
                             return false;	
                         }
                 };
-	        // =================================================================================================         
-        
-        // =================================================================================================        
+	        // =================================================================================================   
+
+            // apresentar modal update status
+            // =================================================================================================
+                function apresentarModalEstadoEncomenda(id_order){
+                   // alert(estado);
+                    // var modalStatus = new bootstrap.Modal(document.getElementById('modalStatus'));
+                    // modalStatus.show();
+                    // // $('#estado_encomenda').val(estado);
+
+                    $.ajax({
+                        url:"?a=create_modal_update_order",
+                        method:"POST",
+                        data:{ id_order : id_order },
+                        success:function(data)
+                        {
+                            const obj = JSON.parse(data);
+                            //alert(data);
+                            $('#modalStatus').modal('show');
+                            document.getElementById("corpo_modal_status").innerHTML = obj;
+                            // $('#estado_encomenda').val(obj.status);
+                       /*     
+                            $('#modalUpdateProduct').modal('show');
+                            $('#text_id_product').val(obj.id_product);
+                            $('#text_category_product').val(obj.category);
+                            $('#text_product_name').val(obj.product_name);
+                            $('#text_product_price').val(obj.price);
+                            $('#text_visible_product').val(obj.visible);
+                            $('#text_description_product').val(obj.description);
+                            $('#text_VAT_product').val(obj.VAT);
+                            $('#text_stock_product').val(obj.stock);
+                            $('#text_active_product').val(obj.active);
+                            $('#product_uploaded_image').html(obj.image);
+                        */
+                        },
+                        error:function(data)
+                        {
+                            alert('Error');
+                        }
+                    });
+                }
+            // =================================================================================================
+   
 
     </script>

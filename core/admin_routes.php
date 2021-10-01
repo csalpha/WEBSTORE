@@ -110,6 +110,8 @@
                         'create_modal_ver_order' => 'admin@create_modal_ver_order',
                         'delete_order' => 'admin@delete_order',
                         'create_modal_update_order' => 'admin@create_modal_update_order',
+                        'order_history_details_modal' => 'admin@order_history_details_modal',
+                        
                     // ============================================================
 
                     // ============================================================

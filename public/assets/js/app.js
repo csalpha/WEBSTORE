@@ -564,45 +564,40 @@
 
 	// =================================================================================================
 	// change order details
-		function order_details(id)
+		function order_details(id_order, id_customer)
 		{
-			//alert(id);
+			//alert('aqui');
 
-			$.ajax({
-
-				method: 'post',
-				dataType: 'json',
-				url: '?a=order_history_details_modal',
-				data: { id: id },
-
-				success:function(result)
-				{
-					//alert(result);
-					//const obj = JSON.parse(result);
-					//alert(obj);
-					// // $("#msg_dados").fadeIn();
-
-					// // //document.getElementById("corpo_pass_sucesso").innerHTML = '';
-					// // document.getElementById("msg_dados").innerHTML = '';
-					//const obj = JSON.parse(result);
-					// // //alert(result);
-					// // // //  const obj = JSON.parse(response);
-
-				    var modalOrderDetail = new bootstrap.Modal(document.getElementById('modalOrderDetail'));
-				    modalOrderDetail.show();
-
+			 $.ajax({
+			 	method: 'post',
+			 	dataType: 'json',
+			 	url: '?a=order_history_details_modal',
+			 	data: { id_order: id_order, id_customer: id_customer },
+			 	success:function(result)
+			 	{
+					var modalOrderDetail = new bootstrap.Modal(document.getElementById('modalOrderDetail'));
+					modalOrderDetail.show();
 					document.getElementById("corpo_order_detail").innerHTML = result;
+					
+			 		//alert(result);
+			 		//const obj = JSON.parse(result);
+			 		//alert(obj);
+			 		// // $("#msg_dados").fadeIn();
+			 		// // //document.getElementById("corpo_pass_sucesso").innerHTML = '';
+			 		// // document.getElementById("msg_dados").innerHTML = '';
+			 		//const obj = JSON.parse(result);
+			 		// // //alert(result);
+			 		//const obj = JSON.parse(response);
 
-					// // setTimeout(function() {
-					// // 	$("#msg_dados").fadeOut().empty();
-					// // }, 2000);
-
-				},
-				error:function(result)
-				{
-					//alert(result);
-				}
-			});
+			 		// // setTimeout(function() {
+			 		// // 	$("#msg_dados").fadeOut().empty();
+			 		// // }, 2000);
+			 	},
+			 	error:function(result)
+			 	{
+			 		//alert(result);
+			 	}
+			 });
 		}
 	// =================================================================================================
 

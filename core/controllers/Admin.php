@@ -1894,9 +1894,10 @@
                                 $sub_array[] = $order->full_name;
                                 $sub_array[] = $order->email;
                                 $sub_array[] = $order->telephone;
-                                $sub_array[] = '<a href="?a=order_details&e='. Store::aes_encrypt($order->id_order) .'" class="nav-it">'. $order->status .'</a>';
+                                $sub_array[] = '<button onclick="apresentarModalEstadoEncomenda('. $order->id_order.')" class="nav-it">'. $order->status .'</button>';
                                 $sub_array[] = $order->updated_at;
-                                $sub_array[] = '<button onclick="apresentarModalVerEncomenda('. $order->id_order .')" class="btn btn-primary btn-xs update"><i class="fas fa-eye"></i></button>';
+                                $sub_array[] = '<button onclick="order_details('. $order->id_order.','. $order->id_customer  .')" class="btn btn-primary btn-xs update"><i class="fas fa-eye"></i></button>';
+                                //$sub_array[] = '<button onclick="apresentarModalVerEncomenda('. $order->id_order .')" class="btn btn-primary btn-xs update"><i class="fas fa-eye"></i></button>';
                                // $sub_array[] = '<button onclick="apresentarModalUpdateOrder('. $order->id_order.','. $order->id_customer .')" class="btn btn-warning btn-xs update"><i class="fa fa-edit"></i></button>';
                                 $sub_array[] = '<button onclick="order_delete('.$order->id_order.')" class="btn btn-danger btn-xs delete"><i class="fa fa-trash"></i></button>';
                                 $data[] = $sub_array;
@@ -2155,27 +2156,41 @@
                         // ===========================================================
                         // vai buscar os data pessoais do Admin
                                 $order = new Orders();
-                                $data_order = [
-                                    $order->search_order($id_order)
-                                ];
+                                $data_order = $order->search_order($id_order);
 
-                            Store::printData($data_order);
+ 
 
-                                $data_order =
-                                [
-                                    'id_order' => $data_order[0]->id_order,
-                                    'id_customer' => $data_order[0]->id_customer,
-                                    'order_date' => $data_order[0]->order_date,
-                                    'address' => $data_order[0]->address,
-                                    'city' => $data_order[0]->city,
-                                    'email' => $data_order[0]->email,
-                                    'telephone' => $data_order[0]->telephone,
-                                    'order_code' => $data_order[0]->order_code,
-                                    'status' => $data_order[0]->status,
-                                    'VAT' => $data_order[0]->VAT
-                                ]; 
+                            //Store::printData($data_order);
 
-                        // //         echo json_encode($data_product);
+                                // // $data_order =
+                                // // [
+                                // //     // // 'id_order' => $data_order[0]->id_order,
+                                // //     // // 'id_customer' => $data_order[0]->id_customer,
+                                // //     // // 'order_date' => $data_order[0]->order_date,
+                                // //     // // 'address' => $data_order[0]->address,
+                                // //     // // 'city' => $data_order[0]->city,
+                                // //     // // 'email' => $data_order[0]->email,
+                                // //     // // 'telephone' => $data_order[0]->telephone,
+                                // //     // // 'order_code' => $data_order[0]->order_code,
+                                // //     'status' => $data_order->status,
+                                // //     // // 'VAT' => $data_order[0]->VAT
+                                // // ]; 
+
+              
+
+                                $msg = '';
+                                $status = $data_order->status;
+
+                                foreach(STATUS as $estado): 
+                                    if($status == $estado):
+                                            $msg.='<div class="my-3">'. $estado .'</div>';
+                                    else:
+                                            $msg.='<div class="my-3 nav-it"><a>'. $estado .'</a></div>';
+                                    endif;
+                                endforeach; 
+
+
+                        echo json_encode($msg);
                         // // // ===========================================================      
                         // // echo json_encode($data);                 
                     }
@@ -2193,63 +2208,228 @@
                 
                 // ===========================================================
                 // detalhe da order /  details orders
-                public function order_details()
-                {
-                    // ===========================================================
-                    // verifica se existe um admin logado
-                        if (!Store::is_admin_logged_in()) 
-                        {
-                            // ===========================================================
-                            // redireciona para a página inicial do backoffice
-                                Store::redirect('home_page', true);
-                                return;
-                            // ===========================================================
-                        }
-                    // ===========================================================
-                    
-                    // ===========================================================
-                    // buscar o id_order passado na url
-                        $id_order = null;
-                        if (isset($_GET['e'])) 
-                        {
-                            // ===========================================================
-                            // definir o id da order desencriptado
-                                $id_order = Store::aes_decrypt($_GET['e']);
-                            // ===========================================================
-                        }
-                    // ===========================================================
+                    public function order_details()
+                    {
+                        // ===========================================================
+                        // verifica se existe um admin logado
+                            if (!Store::is_admin_logged_in()) 
+                            {
+                                // ===========================================================
+                                // redireciona para a página inicial do backoffice
+                                    Store::redirect('home_page', true);
+                                    return;
+                                // ===========================================================
+                            }
+                        // ===========================================================
+                        
+                        // ===========================================================
+                        // buscar o id_order passado na url
+                            $id_order = null;
+                            if (isset($_GET['e'])) 
+                            {
+                                // ===========================================================
+                                // definir o id da order desencriptado
+                                    $id_order = Store::aes_decrypt($_GET['e']);
+                                // ===========================================================
+                            }
+                        // ===========================================================
 
-                    // ===========================================================
-                    // avaliar tipo de dados do id da encoemnda
-                        if (gettype($id_order) != 'string') 
-                        {
-                            // ===========================================================
-                            // redireciona para a página inicial do backoffice
-                                Store::redirect('home_page', true);
+                        // ===========================================================
+                        // avaliar tipo de dados do id da encoemnda
+                            if (gettype($id_order) != 'string') 
+                            {
+                                // ===========================================================
+                                // redireciona para a página inicial do backoffice
+                                    Store::redirect('home_page', true);
+                                    return;
+                                // ===========================================================
+                            }
+                        // ===========================================================
+                        
+                        // ===========================================================
+                        //carregar os dados da order selecionada
+                            $admin_model = new AdminModel(); // criar admin model
+                            $order = $admin_model->search_order_details($id_order);
+                        // ===========================================================
+                        
+                        // ===========================================================
+                        //apresentar os dados por forma a poder ver os detalhes e alterar o seu status
+                            $data = $order;
+                            Store::admin_layout([
+                                'admin/layouts/html_header',
+                                'admin/layouts/header',
+                                'admin/order_detail',
+                                'admin/layouts/footer',
+                                'admin/layouts/html_footer',
+                            ], $data);
+                        // ===========================================================
+                    }
+                // ===========================================================   ~
+                
+                // ===========================================================
+                // historico orders detalhe / order history detail
+                    public function order_history_details_modal()
+                    {
+
+                        // ===========================================================
+                        // verifica se existe um utilizador logado
+                        // // if(!Store::is_customer_logged_in()) {
+                        // //     Store::redirect();
+                        // //     return;
+                        // // }
+                        // ===========================================================
+                        
+                        // ===========================================================
+                        // verificar se veio indicado um id_order (encriptado)
+                        // // if(!isset($_POST['id'])){
+                        // //     Store::redirect();
+                        // //     return;
+                        // // }
+                        // ===========================================================
+
+                        // ===========================================================
+                        // id order
+                            $id_order = $_POST['id_order'];
+                            $id_customer = $_POST['id_customer'];
+                        // ===========================================================
+
+                        ////Store::printData($id_order, $id_customer);
+                        
+                        // ===========================================================
+                        // verifica se a order pertence a este customer
+                            $orders = new Orders();
+                            $resultado = $orders->check_customer_order($id_customer, $id_order);
+                            if(!$resultado){
+                                Store::redirect();
                                 return;
-                            // ===========================================================
-                        }
-                    // ===========================================================
+                            }
+                        // ===========================================================
+                        
+                        // ===========================================================
+                        // vamos buscar os data de detalhe da order.
+                            $order_details = $orders->order_details($id_customer, $id_order);
+                        // ===========================================================
+                        
+                        // ===========================================================
+                        // calcular o valor total da order
+                            $total = 0;
+                            foreach($order_details['order_products'] as $product){
+                                $total += ($product->quantity * $product->unit_price);
+                            }
+                        // ===========================================================
+
+                        $msg = '';
+                        $msg .='<div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Detalhes Encomenda</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>';
+                        $msg .='<div class="modal-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="p-2 my-3">
+                                            <span><strong>Data da order</strong></span><br>'.
+                                            $order_details['data_order']->order_date.
+                                            '</div>
+                                            <div class="p-2 my-3">
+                                                <span><strong>address</strong></span><br>'.
+                                                $order_details['data_order']->address.
+                                            '</div>  
+                        
+                                            <div class="p-2 my-3">
+                                                <span><strong>city</strong></span><br>'.
+                                                $order_details['data_order']->city.
+                                            '</div>   
+                        
+                                        </div>
+                                        <div class="col">
+                                            <div class="p-2 my-3">
+                                                <span><strong>Email</strong></span><br>'.
+                                                $order_details['data_order']->email.
+                                            '</div>';    
+                        
+                                            $msg.='<div class="p-2 my-3">
+                                                <span><strong>Telephone</strong></span><br>';
+                                            $msg.=!empty($order_details['data_order']->telephone) ? $order_details['data_order']->telephone : "&nbsp;"
+                                            .'</div>';
+                        
+                                            $msg.='<div class="p-2 my-3">
+                                                <span><strong>Código da encomenda</strong></span><br>'.
+                                                $order_details['data_order']->order_code.
+                                            '</div>                                        
+                                        </div>
+                                        <div class="col align-self-center">
+                                            <div class="text-center mb-3">
+                                            <strong> Estado da encomenda </strong>
                     
-                    // ===========================================================
-                    //carregar os dados da order selecionada
-                        $admin_model = new AdminModel(); // criar admin model
-                        $order = $admin_model->search_order_details($id_order);
-                    // ===========================================================
+                                            </div>
+                               
+                                                <div class="col text-end">
+                                                    <div class="mb-3 btn btn-black text-uppercase filter-btn m-2" onclick="apresentarModal()">'. $order_details['data_order']->status.'</div>';
+                                                    if($order_details['data_order']->status == 'PROCESSING'):                     
+                                                        $msg.='<div class="m1">
+                                                        <a href="?a=generate_pdf_order&e=<?= core\classes\Store::aes_encrypt($order->id_order)?>" class="mb-3 btn btn-black text-uppercase filter-btn m-2">Ver PDF</a>
+                                                        <a href="?a=send_pdf_order&e=<?= core\classes\Store::aes_encrypt($order->id_order)?>" class="mb-3 btn btn-black text-uppercase filter-btn m-2">Enviar PDF</a>
+                                                    </div>';
+                                                   endif; 
+                                                   $msg.='</div>
+                                        </div>                                    
                     
-                    // ===========================================================
-                    //apresentar os dados por forma a poder ver os detalhes e alterar o seu status
-                        $data = $order;
-                        Store::admin_layout([
-                            'admin/layouts/html_header',
-                            'admin/layouts/header',
-                            'admin/order_detail',
-                            'admin/layouts/footer',
-                            'admin/layouts/html_footer',
-                        ], $data);
-                    // ===========================================================
-                }
-            // ===========================================================                
+                                    </div>
+                                    <div class="row mb-5">
+                                        <div class="col">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Product</th>
+                                                        <th class="text-center">Quantity</th>
+                                                        <th class="text-center">Price Whithout VAT</th>
+                                                        <th class="text-end">Preço / Uni.</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>';
+                                                $total_order = 0; 
+                                                $total_quantity = 0; 
+                                                $total_whithout_VAT = 0;
+                                                foreach($order_details['order_products'] as $product):
+                                                    $preco = $product->quantity * $product->unit_price;
+                                                    $price_whithout_VAT = $product->quantity * ($product->unit_price / 1.23);
+                                                    $total_order += $preco; 
+                                                    $total_quantity += $product->quantity; 
+                                                    $total_whithout_VAT += $price_whithout_VAT;                                                 
+                                                    $msg .='<tr>
+                                                                <td>'. $product->product_name .'</td>
+                                                                <td class="text-center">'. $product->quantity .'</td>
+                                                                <td class="text-center">'. number_format($price_whithout_VAT, 2,',','.') . '€' .'</td>
+                                                                <td class="text-end">'. number_format($preco,2,',','.') . ' €' .'</td>
+                                                            </tr>';
+                                                endforeach;
+                                                $msg .='<tr>
+                                                <td><strong>all</strong></td>
+                                                <td class="text-center"><strong>'. $total_quantity .'</strong></td>
+                                                <td class="text-center"><strong>'. number_format($total_whithout_VAT, 2,',','.') . '€' .'</strong></td>
+                                                <td colspan="12" class="text-end"><strong>'. number_format($total_order,2,',','.') . ' €' .'</strong></td>
+                                            </tr>';
+                            
+                                                $msg .='</tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                
+                                    <div id="msg">
+                
+                                    </div>
+                                </div>
+                                </div>';     
+            
+                        $msg.='<div class="modal-footer">
+                                    <a class="mb-3 btn btn-black text-uppercase filter-btn m-2 btn-100" data-bs-dismiss="modal" >Sair</a>
+                            </div>';  
+
+                        //Store::printData($msg);
+                        echo json_encode($msg);
+
+                    }
+                // ===========================================================                 
             
             // ===============================================================
 
