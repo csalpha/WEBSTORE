@@ -2154,45 +2154,25 @@
                         // ===========================================================                        
                     
                         // ===========================================================
-                        // vai buscar os data pessoais do Admin
-                                $order = new Orders();
-                                $data_order = $order->search_order($id_order);
+                        // vai buscar os dados da encomenda
+                            $order = new Orders();
+                            $data_order = $order->search_order($id_order);
+                
 
- 
+                            $msg = '';
+                            $status = $data_order->status;
 
-                            //Store::printData($data_order);
+                            foreach(STATUS as $estado): 
+                                if($status == $estado):
+                                    $msg.='<div class="my-3">'. $estado .'</div>';
+                                else:
+                                    $msg.='<div class="my-3 nav-it"><a>'. $estado .'</a></div>';
+                                endif;
+                            endforeach; 
 
-                                // // $data_order =
-                                // // [
-                                // //     // // 'id_order' => $data_order[0]->id_order,
-                                // //     // // 'id_customer' => $data_order[0]->id_customer,
-                                // //     // // 'order_date' => $data_order[0]->order_date,
-                                // //     // // 'address' => $data_order[0]->address,
-                                // //     // // 'city' => $data_order[0]->city,
-                                // //     // // 'email' => $data_order[0]->email,
-                                // //     // // 'telephone' => $data_order[0]->telephone,
-                                // //     // // 'order_code' => $data_order[0]->order_code,
-                                // //     'status' => $data_order->status,
-                                // //     // // 'VAT' => $data_order[0]->VAT
-                                // // ]; 
-
+                            echo json_encode($msg);
+                        // ===========================================================
               
-
-                                $msg = '';
-                                $status = $data_order->status;
-
-                                foreach(STATUS as $estado): 
-                                    if($status == $estado):
-                                            $msg.='<div class="my-3">'. $estado .'</div>';
-                                    else:
-                                            $msg.='<div class="my-3 nav-it"><a>'. $estado .'</a></div>';
-                                    endif;
-                                endforeach; 
-
-
-                        echo json_encode($msg);
-                        // // // ===========================================================      
-                        // // echo json_encode($data);                 
                     }
                 // ===========================================================                 
                 
