@@ -330,12 +330,12 @@
                             // ===============================================================
                             // assunto
                                 $mail->isHTML(true);
-                                $mail->Subject = APP_NAME . ' - Envio de PDF com detalhe de order.';
+                                $mail->Subject = APP_NAME . ' - Envio de PDF com detalhe de encomenda.';
                             // ===============================================================
                             
                             // ===============================================================
                             // message
-                                $html = '<p>Segue em anexo o PDF com os detalhes da order.</p>';
+                                $html = '<p>Segue em anexo o PDF com os detalhes da encomenda.</p>';
                                 $html .= '<p><i><small>' . APP_NAME .'</small></i></p>';
                             // ===============================================================
 

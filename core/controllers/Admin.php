@@ -2338,7 +2338,7 @@
                                                     if($order_details['data_order']->status == 'PROCESSING'):                     
                                                         $msg.='<div class="m1">
                                                          <a href="?a=generate_pdf_order&e='.Store::aes_encrypt($order_details['data_order']->id_order).'&c='.Store::aes_encrypt($id_customer).'" class="mb-3 btn btn-black text-uppercase filter-btn m-2">Ver PDF</a>
-                                                        <a href="?a=send_pdf_order&e='.Store::aes_encrypt($order_details['data_order']->id_order).'" class="mb-3 btn btn-black text-uppercase filter-btn m-2">Enviar PDF</a>
+                                                        <a href="?a=send_pdf_order&e='.Store::aes_encrypt($order_details['data_order']->id_order).'&c='.Store::aes_encrypt($id_customer).'" class="mb-3 btn btn-black text-uppercase filter-btn m-2">Enviar PDF</a>
                                                     </div>';
                                                    endif; 
                                                    $msg.='</div>
@@ -2594,7 +2594,19 @@
                 // ===========================================================
                 
                 // ===========================================================
-                //buscar o id_order
+                //buscar o id_customer
+                    // ===========================================================
+                    // avaliar se id da customer esta configurado
+                        $id_customer = null;
+                        if (isset($_GET['c'])) 
+                        {
+                            // ===========================================================
+                            // definir o id do customer desencriptado
+                                $id_customer = Store::aes_decrypt($_GET['c']);
+                            // ===========================================================
+                        }
+                    // ===========================================================
+
                     // ===========================================================
                     // avaliar se id da order esta configurado
                         $id_order = null;
@@ -2605,7 +2617,7 @@
                                 $id_order = Store::aes_decrypt($_GET['e']);
                             // ===========================================================
                         }
-                    // ===========================================================
+                // ===========================================================                    
 
                     // ===========================================================
                     // avaliar o tipo de dados do id da order
@@ -2618,17 +2630,37 @@
                             // ===========================================================
                         }
                     // ===========================================================
+
+                    // ===========================================================
+                    // avaliar o tipo de dados do id da customer
+                    if (gettype($id_customer) != 'string') 
+                    {
+                        // ===========================================================
+                        // redireciona para a página inicial do backoffice
+                            Store::redirect('home_page', true);
+                            return;
+                        // ===========================================================
+                    }
+                // ===========================================================                    
                 // ===========================================================
 
                 // ===========================================================
                 // vai buscar os dados da order
                     $id_order = Store::aes_decrypt($_GET['e']); // definir id da order
-                    $admin_model = new AdminModel(); // criar admin model
-                    $order = $admin_model->search_order_details($id_order);
+                    $id_customer = Store::aes_decrypt($_GET['c']); // definir id do customer
+                // ===========================================================
+
+                // ===========================================================
+                    // buscar dados do customer
+                        $order = new Orders();
+                        $order_details = $order->order_details($id_customer, $id_order);
+                    // ===========================================================                        
+                       // Store::printData($order_details['order_products']);
+                        //Store::printData($order_details['order_products']);
                 // ===========================================================
                 
                 // buscar dados do customer
-                // Store::printData($order);
+                // // Store::printData($order_details['order_products']);
 
                 // ===========================================================
                 // criar pdf com template
@@ -2650,13 +2682,13 @@
                 // ===========================================================                    
                 // data order
                     $pdf->position_dimension(225,204,165,22);
-                    $pdf->write($order['order']->data_order);
+                    $pdf->write($order_details['data_order']->order_date);
                 // ===========================================================
 
                 // ===========================================================
                 // codigo order
                     $pdf->position_dimension(550,203,165,22);
-                    $pdf->write($order['order']->codigo_order);
+                    $pdf->write($order_details['data_order']->order_code);
                 // ===========================================================    
 
                 // ===========================================================
@@ -2666,20 +2698,20 @@
                 // ===========================================================
                 // nome
                     $pdf->position_dimension(70,260,600,22);
-                    $pdf->write($order['order']->full_name);
+                    $pdf->write($order_details['data_order']->full_name);
                 // ===========================================================
                 
                 // ===========================================================
                 // address - city
                     $pdf->position_dimension(75,284,600,22);
-                    $pdf->write($order['order']->address .' - '.$order['order']->city);  
+                    $pdf->write($order_details['data_order']->address .' - '.$order_details['data_order']->city);  
                 // ===========================================================      
                 
                 // ===========================================================  
                 // email - telephone
                     $pdf->position_dimension(75,308,600,22);
-                    $telephone = empty($order['order']->telephone) ? '': ' - '.$order['order']->telephone;
-                    $pdf->write($order['order']->email .$telephone);   
+                    $telephone = empty($order_details['data_order']->telephone) ? '': ' - '.$order_details['data_order']->telephone;
+                    $pdf->write($order_details['data_order']->email .$telephone);   
                 // ===========================================================    
                 
                 // ===========================================================
@@ -2695,20 +2727,20 @@
                 // ===========================================================
                 // lista dos products orderdos
                     $total_order = 0;
-                    foreach( $order['products_list'] as $product)
+                    foreach( $order_details['order_products'] as $product)
                     {
                         // ===========================================================
                         // localizacao da apresentacao da quantidade x product
                             $pdf->set_alignment('left');
                             $pdf->position_dimension(75,$y,480,22);
-                            $pdf->write($product->quantidade. ' x ' .$product->preco_unidade); 
+                            $pdf->write($product->quantity. ' x ' .$product->unit_price); 
                         // ===========================================================
 
                         // ===========================================================
                         // preco do product
                             $pdf->set_alignment('right');
                             $pdf->position_dimension(560,$y,160,22);
-                            $preco = $product->quantidade * $product->preco_unidade;
+                            $preco = $product->quantity * $product->unit_price;
                             $total_order += $preco;
                             $pdf->write(number_format($preco,2,',','.') . ' €');
                         // ===========================================================
@@ -2755,14 +2787,14 @@
 
                 // ===========================================================
                 // Guardar o pdf criado
-                    $ficheiro = $order['order']->codigo_order . '-' . date('Ymdmis').'.pdf';
+                    $ficheiro = $order_details['data_order']->order_code . '-' . date('Ymdmis').'.pdf';
                     $pdf->save_pdf($ficheiro);     
                 // ===========================================================
                 
                 // ===========================================================
                 // enviar o email para o customer com o ficheiro em anexo
                     $email = new SendEmail(); // enviar email
-                    $resultado = $email->send_pdf_order_to_customer($order['order']->email, $ficheiro); 
+                    $resultado = $email->send_pdf_order_to_customer($order_details['data_order']->email, $ficheiro); 
                 // ===========================================================     
                 
                 // ===========================================================
@@ -2773,7 +2805,7 @@
 
                 // ===========================================================
                 //reecaminhar para a pagina da order
-                    Store::redirect('order_details&e='.$_GET['e'], true);
+                    Store::redirect('home_admin', true);
                 // ===========================================================
 
             }
