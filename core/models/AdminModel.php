@@ -460,7 +460,41 @@ use core\controllers\Admin;
                         ];
                     // ===========================================================
                 }
-            // ===========================================================
+            // ===========================================================  
+            
+            public function search_order_details_alfa($id_order)
+            {
+                // ===========================================================
+                // vai buscar os data da order
+                    $parameters = [
+                        ':id_order' => $id_order
+                    ];
+                    $bd = new Database();
+                    $data_order = $bd->select("
+                        SELECT Customers.full_name, orders.* 
+                        FROM Customers, orders 
+                        WHERE orders.id_order = :id_order
+                        AND Customers.id_customer = orders.id_customer
+                        ", $parameters);
+                // ===========================================================
+                
+                // ===========================================================
+                // vai buscar lista de products da order
+                    $products_list = $bd->select("
+                        SELECT * 
+                        FROM order_product 
+                        WHERE id_order = :id_order", $parameters);
+                // ===========================================================
+                
+                // ===========================================================
+                // devolve os data da order e a respectiva lista products
+                    return [
+                        'order' => $data_order,
+                        'products_list' => $products_list
+                    ];
+                // ===========================================================
+            }
+        // ===========================================================             
 
             // ===========================================================
             // atualizar status order
@@ -474,6 +508,8 @@ use core\controllers\Admin;
                             ':id_order' => $id_order,
                             ':status' => $estado
                         ];
+
+                        //Store::printData($parameters);
 
                         $bd->update("
                             UPDATE orders

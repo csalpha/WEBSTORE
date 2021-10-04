@@ -736,7 +736,7 @@
         <!-- ===================================================================================================== -->
             <div class="modal fade" id="modalUpdateOrder" name="modalUpdateOrder" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
-                    <form method="post"  id="product_form_update" enctype="multipart/form-data">
+                    <form method="post"  id="order_form_update" enctype="multipart/form-data">
                             <div class="modal-content" id='corpo_modal_update_product'>
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLabel">Alterar dados da encomenda</h5>
@@ -745,7 +745,26 @@
 
                                 <div class="modal-body" id="corpo_modal_product">
 
-                                    Modal update encomenda
+                                                                        <!-- Status -->
+                                    <!-- ===================================================================================================== -->				
+                                    <div class="my-3">
+                                        <input type="hidden" id="update_id_order" name="update_id_order">
+                                    </div>
+                                    <!-- ===================================================================================================== -->		
+                                    <!-- Status -->
+                                    <!-- ===================================================================================================== -->				
+                                        <div class="my-3">
+                                            <label>Status</label>
+                                            <select id="update_status_order" name="update_status_order"  class="form-control" onchange="">
+                                                <option value="" selected class="nav-it"></option>
+                                                <option value="<?= STATUS[0] ?>"  class="nav-it"><?= STATUS[0] ?></option>
+                                                <option value="<?= STATUS[1] ?>"  class="nav-it"><?= STATUS[1] ?></option>
+                                                <option value="<?= STATUS[2] ?>"  class="nav-it"><?= STATUS[2] ?></option>
+                                                <option value="<?= STATUS[3] ?>"  class="nav-it"><?= STATUS[3] ?></option>
+                                                <option value="<?= STATUS[4] ?>"  class="nav-it"><?= STATUS[4] ?></option>
+                                            </select>	
+                                        </div>
+                                    <!-- ===================================================================================================== -->					
 
                                 </div>
 
@@ -760,51 +779,7 @@
                     </div>
             </div>
         <!-- ===================================================================================================== --> 
-
-<!-- modal -->
-<!-- ===================================================================================================== -->
-<div class="modal fade" id="modalStatus" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <!-- modal dialog -->
-        <!-- ===================================================================================================== -->
-            <div class="modal-dialog modal-dialog-centered">
-                <!-- modal content -->
-                <!-- ===================================================================================================== -->                
-                    <div class="modal-content">
-                        <!-- modal header -->
-                        <!-- ===================================================================================================== -->                        
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Alterar estado da encomenda</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                        <!-- ===================================================================================================== -->  
-                        
-                        <!-- modal body -->
-                        <!-- ===================================================================================================== -->                        
-                                <div id="corpo_modal_status" class="modal-body">
-                                    
-                                     
-                                        
-                                            
-                                            
-                                    
-
-
-                                    
-                                </div>
-                        <!-- ===================================================================================================== -->  
-                        
-                        <!-- modal footer -->
-                        <!-- ===================================================================================================== -->                        
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            </div>
-                        <!-- ===================================================================================================== -->   
-                    </div>
-                <!-- ===================================================================================================== -->                    
-            </div>
-        <!-- ===================================================================================================== -->        
-    </div>
-<!-- ===================================================================================================== -->          
+       
         
 		<!-- Modal order detail -->
 		<!-- ===================================================================================================== -->
@@ -1748,38 +1723,76 @@
             // =============================================================================================
                 function apresentarModalUpdateOrder(id_order) 
                 {
-                    $('#modalUpdateOrder').modal('show');
-                    //$('#product_uploaded_image').html('');
-
-                  $.ajax({
-                        url:"?a=create_modal_update_order",
+                    $.ajax({
+                        url:"?a=create_modal_update_order&c=" + id_order,
                         method:"POST",
-                        data:{ id_order : id_order },
+                        data:{id_order:id_order},
                         success:function(data)
                         {
-                            //const obj = JSON.parse(data);
-                            alert(data);
-                       /*     
-                            $('#modalUpdateProduct').modal('show');
-                            $('#text_id_product').val(obj.id_product);
-                            $('#text_category_product').val(obj.category);
-                            $('#text_product_name').val(obj.product_name);
-                            $('#text_product_price').val(obj.price);
-                            $('#text_visible_product').val(obj.visible);
-                            $('#text_description_product').val(obj.description);
-                            $('#text_VAT_product').val(obj.VAT);
-                            $('#text_stock_product').val(obj.stock);
-                            $('#text_active_product').val(obj.active);
-                            $('#product_uploaded_image').html(obj.image);
-                        */
+                           const obj = JSON.parse(data);
+                           $('#modalUpdateOrder').modal('show');
+                           $('#update_id_order').val(obj.id_order);
+                           $('#update_status_order').val(obj.status);
                         },
                         error:function(data)
                         {
-                            alert('Error');
+                        alert('Error');
                         }
                     });
                 }            
-            // =============================================================================================              
+            // =============================================================================================    
+            
+            // Submeter dados - adicionar admin
+            // =============================================================================================
+                $(document).on('submit', '#order_form_update', function(event)
+                {
+                    event.preventDefault();
+
+                    var update_status_order = '';
+                    var update_id_order = $('#update_id_order').val();
+
+                    $("#update_status_order option:selected").each(function() 
+                    {
+                        update_status_order = $(this).val();
+                    });         
+                    
+                    array = [ update_status_order  ];
+                        
+                    //alert(array);
+
+                    if(update_status_order != '' )
+                    {
+                        //alert('success');
+                        $.ajax(
+                            {
+                                    method: 'post',
+                                    url: '?a=update_order',
+                                    data:new FormData(this),
+                                    contentType:false,
+                                    processData:false,
+                                    success:function(data)
+                                    {
+                                        $('#tabela-orders').DataTable().ajax.reload();
+                                        $('#modalUpdateOrder').modal('hide');
+                                    },
+                                    error:function(data)
+                                    {
+                                    
+                                        alert('ajax error');
+                                    
+                                    }
+                                    
+                            });            
+
+                    }
+                    else
+                    {
+                        alert("Both Fields are Required");
+                    }
+                    
+                   
+                });
+            // =============================================================================================             
         
             // apagar dados - order
             // =================================================================================================
@@ -1804,48 +1817,33 @@
                             return false;	
                         }
                 };
-	        // =================================================================================================   
+	        // ================================================================================================= 
+            
+            function generate_pdf_order(id_order){
 
-            // apresentar modal update status
-            // =================================================================================================
-                function apresentarModalEstadoEncomenda(id_order){
-                   // alert(estado);
-                    // var modalStatus = new bootstrap.Modal(document.getElementById('modalStatus'));
-                    // modalStatus.show();
-                    // // $('#estado_encomenda').val(estado);
+                alert('pdf');
 
-                    $.ajax({
-                        url:"?a=create_modal_update_order",
+                $.ajax({
+                        url:"?a=generate_pdf_order",
                         method:"POST",
-                        data:{ id_order : id_order },
+                        data:{id_order:id_order},
                         success:function(data)
                         {
-                            const obj = JSON.parse(data);
-                            //alert(data);
-                            $('#modalStatus').modal('show');
-                            document.getElementById("corpo_modal_status").innerHTML = obj;
-                            // $('#estado_encomenda').val(obj.status);
-                       /*     
-                            $('#modalUpdateProduct').modal('show');
-                            $('#text_id_product').val(obj.id_product);
-                            $('#text_category_product').val(obj.category);
-                            $('#text_product_name').val(obj.product_name);
-                            $('#text_product_price').val(obj.price);
-                            $('#text_visible_product').val(obj.visible);
-                            $('#text_description_product').val(obj.description);
-                            $('#text_VAT_product').val(obj.VAT);
-                            $('#text_stock_product').val(obj.stock);
-                            $('#text_active_product').val(obj.active);
-                            $('#product_uploaded_image').html(obj.image);
-                        */
+                            alert(data);
+                        // //    const obj = JSON.parse(data);
+                        // //    $('#modalUpdateOrder').modal('show');
+                        // //    $('#update_id_order').val(obj.id_order);
+                        // //    $('#update_status_order').val(obj.status);
                         },
                         error:function(data)
                         {
-                            alert('Error');
+                        alert('Error');
                         }
                     });
-                }
-            // =================================================================================================
+
+            }
+
+
    
 
     </script>
