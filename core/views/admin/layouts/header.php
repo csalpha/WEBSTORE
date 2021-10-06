@@ -55,7 +55,7 @@
                                 Admins</a>
                                 <a type="button" class="nav-link" href="agenda.php" 
                                 ><div class="sb-nav-link-icon"><i class="far fa-calendar-alt"></i></div>
-                                Agendar Consultas</a>
+                                Agendar Encomendas</a>
                                 <div class="sb-sidenav-menu-heading">Estatísticas</div>
                             <a type="button" class="nav-link" href="charts.php"
                                 ><div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
