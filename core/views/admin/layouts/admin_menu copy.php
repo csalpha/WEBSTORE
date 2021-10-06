@@ -6,7 +6,7 @@
                                 <!-- ===================================================================================================== -->
                                     <div >
                                         <!-- <a class="mb-3 btn btn-black text-uppercase filter-btn m-2" href="?a=home_page">Home</a> -->
-                                        <a onclick="home_page_admin()" class="mb-3 btn btn-black text-uppercase filter-btn m-2">Home</a>
+                                        <a onclick="home_page_admin()" class="nav-link">Home</a>
                                     </div>
                                 <!-- ===================================================================================================== -->
 
@@ -14,7 +14,7 @@
                                 <!-- ===================================================================================================== -->
                                     <div >
                                         <!-- <a class="mb-3 btn btn-black text-uppercase filter-btn m-2" href="?a=customers_list">Customers</a> -->
-                                        <a onclick="customers_list()" class="mb-3 btn btn-black text-uppercase filter-btn m-2">Customers</a>
+                                        <a onclick="customers_list()" class="nav-link">Customers</a>
                                     </div>
                                 <!-- ===================================================================================================== -->
 
@@ -22,7 +22,7 @@
                                 <!-- ===================================================================================================== -->
                                     <div >
                                         <!-- <a class="mb-3 btn btn-black text-uppercase filter-btn m-2" href="?a=orders_list">Orders</a> -->
-                                        <a onclick="orders_list()" class="mb-3 btn btn-black text-uppercase filter-btn m-2">Orders</a>
+                                        <a onclick="orders_list()" class="nav-link">Orders</a>
 
                                     </div>
                                 <!-- ===================================================================================================== -->
@@ -31,7 +31,7 @@
                                 <!-- ===================================================================================================== -->
                                     <div >
                                         <!-- <a class="mb-3 btn btn-black text-uppercase filter-btn m-2" href="?a=products_list">Products</a> -->
-                                        <a onclick="products_list()" class="mb-3 btn btn-black text-uppercase filter-btn m-2" >Products</a>
+                                        <a onclick="products_list()" class="nav-link" >Products</a>
                                     </div>
                                 <!-- ===================================================================================================== --> 
 
@@ -39,7 +39,7 @@
                                 <!-- ===================================================================================================== -->
                                     <div >
                                         <!-- <a class="mb-3 btn btn-black text-uppercase filter-btn m-2" href="?a=admins_list">Admins</a> -->
-                                        <a onclick="admins_list()" class="mb-3 btn btn-black text-uppercase filter-btn m-2">Admins</a>
+                                        <a onclick="admins_list()" class="nav-link">Admins</a>
 
                                     </div>   
                                 <!-- ===================================================================================================== -->
