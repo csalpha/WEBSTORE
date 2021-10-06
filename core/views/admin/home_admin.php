@@ -1,8 +1,5 @@
 <?php $f = ''; ?>
 
-
-<body class="sb-nav-fixed">
-                
                     <?php include(__DIR__ . '/layouts/header.php')?> 
 
                     <div id="layoutSidenav_content">
@@ -17,6 +14,7 @@
                         <?php include(__DIR__ . '/layouts/footer.php')?> 
 
                     </div>
+                </div>
                 
                     
                 

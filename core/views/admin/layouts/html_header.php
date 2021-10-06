@@ -12,4 +12,4 @@
     <script type="text/javascript" src="../assets/datatables/datatables.min.js"></script>
     <script src="../assets/js/apexcharts.min.js"></script>
 </head>
-<body>
+<body class="sb-nav-fixed">
