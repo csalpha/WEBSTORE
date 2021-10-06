@@ -56,13 +56,15 @@
                             'total_orders_in_processing' => $total_orders_in_processing
                         ];
 
-                        Store::admin_layout([
-                            'admin/layouts/html_header',
-                            'admin/layouts/header',
-                            'admin/home_admin',
-                            'admin/layouts/footer',
-                            'admin/layouts/html_footer',
-                        ], $data);
+                        
+
+                        // // Store::admin_layout([
+                        // //     'admin/layouts/html_header',
+                        // //     'admin/layouts/header',
+                        // //     'admin/home_admin',
+                        // //     'admin/layouts/footer',
+                        // //     'admin/layouts/html_footer',
+                        // // ], $data);
                     // ===========================================================
                 }
             // ===========================================================   
@@ -415,28 +417,28 @@
                     // admin login
                         public function admin_login()
                         {
-                            // ===========================================================
-                            // verifica se já existe um admin logado /redireccionamento
-                                if (Store::is_admin_logged_in()) 
-                                {
-                                    // ===========================================================
-                                    // redireciona para a página inicial do backoffice
-                                        Store::redirect('home_page', true);
-                                        return;
-                                    // ===========================================================
-                                }
-                            // ===========================================================
+                            // // // ===========================================================
+                            // // // verifica se já existe um admin logado /redireccionamento
+                            // //     if (Store::is_admin_logged_in()) 
+                            // //     {
+                            // //         // ===========================================================
+                            // //         // redireciona para a página inicial do backoffice
+                            // //             Store::redirect('home_page', true);
+                            // //             return;
+                            // //         // ===========================================================
+                            // //     }
+                            // // // ===========================================================
 
-                            // ===========================================================
-                            // apresenta a pag. de login
-                                Store::admin_layout([
-                                    'admin/layouts/html_header',
-                                    'admin/layouts/header',
-                                    'admin/login_form',
-                                    'admin/layouts/footer',
-                                    'admin/layouts/html_footer',
-                                ]);
-                            // ===========================================================
+                            // // // ===========================================================
+                            // // // apresenta a pag. de login
+                            // //     Store::admin_layout([
+                            // //         'admin/layouts/html_header',
+                            // //         'admin/layouts/header',
+                            // //         'admin/login_form',
+                            // //         'admin/layouts/footer',
+                            // //         'admin/layouts/html_footer',
+                            // //     ]);
+                            // // // ===========================================================
 
                         }
                     // ===========================================================

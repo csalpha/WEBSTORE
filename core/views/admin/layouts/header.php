@@ -15,21 +15,17 @@
                 </div>-->
             </form>
 
-            <!-- Navbar-->
-            <ul class="navbar-nav ml-auto ml-md-0">
+            <div class="navbar-nav ml-auto ml-md-0">
                 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i> <span><?php echo $_SESSION['nome']; ?></span></a>
-                   
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                <!--        <a class="dropdown-item" href="#">Settings</a><a class="dropdown-item" href="#">Activity Log</a> 
-                        <div class="dropdown-divider"></div> -->
+              
+                    <a onclick="apresentarModalProfileAdmin()" class="nav-link dropdown" id="userDropdown"><i class="fas fa-user fa-fw"></i> <span><?php echo $_SESSION['admin_full_name']; ?></span></a>
+                   <a href="?a=admin_logout" class="nav-link dropdown" ><i class="fas fa-sign-out-alt me-2"></i></a>
+                
+            </div>
 
-                        <a class="dropdown-item" href="index.php">
-                        Logout</a>
-                    </div>
-                </li>
-            </ul>
+
+                
+                
         </nav>
 
         <div id="layoutSidenav">
@@ -53,11 +49,11 @@
                                 <a type="button" class="nav-link" onclick="admins_list()"
                                 ><div class="sb-nav-link-icon"><i class="fas fa-medkit"></i></div>
                                 Admins</a>
-                                <a type="button" class="nav-link" href="agenda.php" 
+                                <a type="button" class="nav-link" onclick="agendar_encomenda()" 
                                 ><div class="sb-nav-link-icon"><i class="far fa-calendar-alt"></i></div>
                                 Agendar Encomendas</a>
                                 <div class="sb-sidenav-menu-heading">Estatísticas</div>
-                            <a type="button" class="nav-link" href="charts.php"
+                            <a type="button" class="nav-link" href=""
                                 ><div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                                 Gráficos</a
                             >
@@ -69,7 +65,7 @@
                     <div class="sb-sidenav-footer">
                         <div class="small">Logado  como:</div>
                     <?php
-                        echo $_SESSION['nome'];
+                        echo $_SESSION['admin_full_name'];
                     ?>
                     </div>
                 </nav>
@@ -721,6 +717,130 @@
                     });
                 }
             // =====================================================================================================
+
+            // admins list
+            // =====================================================================================================
+                function agendar_encomenda()
+                {
+                // alert('admins_list');
+
+                        $.ajax(
+                        {
+                                method: 'post',
+                                url: '?a=agendar_encomenda',
+
+                                success:function(data)
+                                {
+                                    alert("aqui");
+                                    
+                                    // // const obj = JSON.parse(data);
+                                    // // document.getElementById("home_admin").innerHTML = obj;
+                                    
+                                    // // let el = document.getElementById("grafico2");
+
+                                    // // let options = {
+                                    // //     chart: {
+                                    // //         type: 'bar',
+                                    // //         height: 500,
+                                    // //         width: 600
+
+                                    // //     },
+
+                                    // //     series:[
+                                    // //         {
+                                    // //             name: 'Gender',
+                                    // //             data: [ document.getElementById("tot_masc").value  , document.getElementById("tot_femi").value ]
+                                    // //         }
+                                    // //     ],
+
+                                    // //     xaxis: {
+                                    // //         categories: ['M', 'F']
+                                    // //     },
+
+                                    // //     title: {
+                                    // //         text: "Gender"
+                                    // //     }
+                                    // // };
+
+                                    // // let chart = new ApexCharts(el, options);
+                                    // // chart.render();
+
+
+                                    $(document).ready(function() {
+                                        
+                                    // // $('#tabela-admins').DataTable({
+                                    // //     // "processing":true,
+                                    // //     // "serverSide":true,
+                                    // //     // "order":[],
+                                    // //     "ajax":{
+                                    // //         url:"?a=criar_tabela_admin",
+                                    // //         type:"POST",
+                                    // //     },
+
+                                    // //     language: {
+                                    // //         "decimal": "",
+                                    // //         "emptyTable": "No data available in table",
+                                    // //         "info": "Mostrando página _PAGE_ de um total de _PAGES_",
+                                    // //         "infoEmpty": "Não existme admins disponiveis",
+                                    // //         "infoFiltered": "(Filtrado de um total de _MAX_ admins)",
+                                    // //         "infoPostFix": "",
+                                    // //         "thousands": ",",
+                                    // //         "lengthMenu": "Apresenta _MENU_ admins por página",
+                                    // //         "loadingRecords": "Carregando...",
+                                    // //         "processing": "Processando...",
+                                    // //         "search": "Procurar:",
+                                    // //         "zeroRecords": "Não existem admins disponiveis",
+                                    // //         "paginate": {
+                                    // //             "first": "Primeira",
+                                    // //             "last": "Última",
+                                    // //             "next": "Seguinte",
+                                    // //             "previous": "Anterior"
+                                    // //         },
+                                    // //         "aria": {
+                                    // //             "sortAscending": ": ativar para ordenar a coluna de forma ascendente",
+                                    // //             "sortDescending": ": ativar para ordenar a coluna de forma descendente"
+                                    // //         }
+                                    // //     }
+                                    // //     });
+
+
+                                        
+
+                                        
+                                    });
+
+                                    //alert(dataTable);
+
+                                    
+
+                                    function definir_filtro() 
+                                    {
+                                        var filtro = document.getElementById("combo-status").value;
+
+                                        console.log(filtro);
+                                        // reload da página com determinado filtro
+                                        window.location.href = window.location.pathname + "?" + $.param({
+                                        'a': 'admins_list',
+                                        'f': filtro
+                                    }
+
+                                    
+                        
+                        );   
+                        
+                        
+                        }
+
+                                    
+                                    
+                                },
+                                error:function(data)
+                                {
+                                    alert('error');
+                                }
+                            });
+                }
+            // =====================================================================================================            
                 
 </script>
 
@@ -2547,6 +2667,23 @@
                     });
 
             }
+
+            // // function admin_logout()
+            // // {
+            // //     $.ajax({
+            // //             url:"?a=admin_logout",
+            // //             method:"POST",
+            // //             data:{},
+            // //             success:function(data)
+            // //             {
+        
+            // //             },
+            // //             error:function(data)
+            // //             {
+            // //             alert('Error');
+            // //             }
+            // //         }); 
+            // // }
 
 
    

@@ -326,6 +326,8 @@
                         unset($_SESSION['customer']);
                         unset($_SESSION['user']);
                         unset($_SESSION['nome_customer']);
+                        unset($_SESSION['id_user']);
+                        unset($_SESSION['nome']);
                     // ===========================================================
                 }
             // ===========================================================   

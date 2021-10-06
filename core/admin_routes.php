@@ -112,6 +112,7 @@
                         'create_modal_update_order' => 'admin@create_modal_update_order',
                         'order_history_details_modal' => 'admin@order_history_details_modal',
                         'update_order' => 'admin@update_order',
+                        'agendar_encomenda' => 'admin@agendar_encomenda',
                         
                         
                     // ============================================================

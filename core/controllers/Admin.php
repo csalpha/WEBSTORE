@@ -93,7 +93,7 @@
                                 $msg = '';
 
                                 $msg .= '<div class="col-md-10">
-                                <h4>Orders pendentes</h4>';
+                                <h4 class="mt-4">Orders pendentes</h1>';
                                 if($total_orders_pending == 0): 
                                     $msg .= '<p class="text-a1a1a1">Não existem encomendas pendentes.</p>';
                                 else:              
@@ -104,7 +104,7 @@
                                 endif; 
 
                                 $msg .= '<hr>
-                                <h4>Orders em processamento</h4>';
+                                <h4 class="mt-4">Orders em processamento</h1>';
                                     if($total_orders_in_processing == 0): 
 
                                         $msg .= '<p class="text-a1a1a1">Não existem encomendas em processamento.</p>';
@@ -245,10 +245,10 @@
 
 
                             $msg .= '
-                                <h3>Lista de Clientes';
+                                <h1 class="mt-4">Lista de Clientes';
                                 // //  $msg .= $filtro != " " ? ($filtro  == 1 ? 'Activos' : 'Inactivos') : " ";
                                 ////onclick="apresentarModalAdd()"
-                                $msg .= '</h3>
+                                $msg .= '</h1>
                                 <hr>                      
                                 <div class="row">
                                         <div class="col">
@@ -824,7 +824,7 @@
 
 
                                 $msg = '';
-                                $msg .='<h3>Lista de admins</h3>
+                                $msg .='<h1 class="mt-4">Lista de admins</h1>
                                 <hr>';
                                    // <div class="row">
                                    $msg .=' <div class="col">
@@ -1485,7 +1485,7 @@
 
                             $msg = '';
 
-                            $msg .= '<h3>Lista de products</h3>
+                            $msg .= '<h1 class="mt-4">Lista de products</h1>
                             <hr> 
                             <div class="row">
                                     <div class="col">
@@ -1976,10 +1976,10 @@
                                 ];                        
 
                             $msg .= '
-                            <h3>Lista de orders '; 
+                            <h1 class="mt-4">Lista de orders '; 
                             $msg .= $filtro != " " ? $filtro : " ";
                             
-                            $msg .= '</h3>
+                            $msg .= '</h1>
                             <hr>
                                 <div class="row">
                                     <div class="col">
@@ -2563,6 +2563,23 @@
                 
             // ===========================================================
 
+            
+
+            // ===============================================================
+            // AGENDAR ENCOMENDA
+                // ===========================================================
+                    public function agendar_encomenda()
+                    {
+
+                        echo json_decode('Agendar Encomenda');
+                    }
+
+                // ===============================================================
+
+
+
+            // ===============================================================
+
             // ===============================================================
             // CRUD PROFILE ADMIN
 
@@ -2663,9 +2680,9 @@
                             // apresenta a pag. de login
                                 Store::admin_layout([
                                     'admin/layouts/html_header',
-                                    'admin/layouts/header',
+                                    // // 'admin/layouts/header',
                                     'admin/login_form',
-                                    'admin/layouts/footer',
+                                    // // 'admin/layouts/footer',
                                     'admin/layouts/html_footer',
                                 ]);
                             // ===========================================================
@@ -2762,12 +2779,14 @@
                             // faz o logout do admin da sessão
                                 unset($_SESSION['admin']);
                                 unset($_SESSION['admin_user']);
+                                unset($_SESSION['admin_full_name']);
                             // ===========================================================
 
                             // ===========================================================
-                            // redireciona para a página inicial do backoffice
-                                Store::redirect('home_page', true);
-                            // ===========================================================
+                            // apresenta a pag. de login
+                            Store::redirect('admin_login', true);
+                            return;
+                        // ===========================================================
                         }
                     // ===========================================================
                 // ===========================================================
