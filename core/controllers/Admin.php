@@ -2570,8 +2570,11 @@
                 // ===========================================================
                     public function agendar_encomenda()
                     {
+                        $msg = '';
 
-                        echo json_decode('Agendar Encomenda');
+                        $msg.= '<div id="calendar">Calendário</div>';
+
+                       echo json_encode($msg);
                     }
 
                 // ===============================================================
